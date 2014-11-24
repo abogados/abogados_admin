@@ -10,7 +10,7 @@
 
 @section('contenido')
 
-    <div>
+    <div class="contenedor_inicio_sesion">
     
         @section('mensajes_error')
              @if(isset($errors))
@@ -20,7 +20,7 @@
             @endif
         @stop
 
-        <p>Inicio de Sesi&oacute;n</p>
+        <h3>Inicio de Sesi&oacute;n</h3>
      
         {{ Form::open(array('url' => '/login', 'method' => 'POST', 'class' => 'form-horizontal', 'role' => 'form')) }}
 

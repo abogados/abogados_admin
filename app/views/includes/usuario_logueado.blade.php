@@ -3,7 +3,7 @@
       <b>Bienvenido</b> {{ Auth::user()->user; }} <b>Perfil:</b> {{ Auth::user()->perfil; }}
     </h5>
     @if($_SERVER['REQUEST_URI'] != '/dashboard')
-    {{ Form::button('Ir al Home', array('class'=>'btn btn-default btn-xs', 
+    {{ Form::button('Home', array('class'=>'btn btn-default btn-xs', 
           'onClick' => "location.href='/dashboard'")) }}
     @endif
 

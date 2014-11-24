@@ -6,7 +6,7 @@
 
  /* INI Redifiniciones a partir de Bootstrap 3.2 */
   .form-control {
-    width: 30%;
+    width: 98%;
     height: 30px;
   }
     .texto_largo {
@@ -21,8 +21,16 @@
     width: 26.666667%;
   }
 
+  .col-sm-2-10 {
+    width: 10.666667%;
+  }
+
   .col-sm-10-1 {
     width: 73.333333%;
+  }
+
+  .col-sm-10-30 { /*30*/
+    width: 30.333333%;
   }
 
   /* FIN Redifiniciones a partir de Bootstrap 3.2 */
@@ -42,7 +50,7 @@
 
   .contenedor_azul {
     background-color: #045FB4;
-    width: 960px;
+    width: 98%;
     padding: 10px;
     margin-left: 10px;
     margin-top: 10px;
@@ -52,9 +60,32 @@
     border-radius: 10px;
   }
 
+    .control_form_label {
+      padding-top: 7px;
+      margin-bottom: 0;
+      text-align: right;
+    }
+
+  .contenedor_azul_centro {
+    background-color: #045FB4;
+    width: 98%;
+    padding: 10px 0px 0px 120px;
+    margin-left: 10px;
+    margin-top: 10px;
+    color:#FFFFFF;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 10px;
+    height: 450px;
+  }
+
+  .contenedor_inicio_sesion {
+    height: 400px;
+    padding: 90px 0px 0px 400px;
+  }
 
     .titulo_home_index{
-      width: 960px;
+      width: 98%;
       margin-left: 10px; 
       text-align: center;
       font-size: 18px;
@@ -78,7 +109,7 @@
 
   .contenedor_separador {
     background-color: #FFFFFF;
-    width: 960px;
+    width: 98%;
     height: 5px;
     padding-left: 50px;
     /*padding-top: 5px;*/
@@ -89,11 +120,16 @@
     /*text-align: center;*/
   }
 
+  .navbar_estilos {
+    height: 400px;
+    padding: 50px 0px 0px 0px;
+  }
+
   .dashboard_menu{
     height: 300px;
     padding-top: 70px;
     padding-left: 10px;
-    width: 960px;
+    width: 98%;
   }
 
   #menu1 {
@@ -106,7 +142,7 @@
   }
 
   .botones_form {
-    width: 960px;
+    /*width: 98%;*/
     text-align: right;
     padding-right: 20px;
   }
@@ -138,7 +174,7 @@
   }
 
   .footer{
-    width: 960px;
+    width: 98%;
     margin-left: 10px;
     margin-top: 10px; 
     text-align: center;
@@ -256,7 +292,7 @@
 
   .buscador_contenedor {
     background-color: #FFFFFF;
-    width: 920px;
+    width: 1280px;
     padding: 10px 10px 1px 10px;
     margin-left: 10px;
     margin-top: 10px;

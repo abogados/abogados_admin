@@ -8,6 +8,8 @@
 @stop
 
 @section('contenido')
+
+  <div class="contenedor_inicio_sesion">
     
     @section('mensajes_error')
        @if(isset($errors))
@@ -17,7 +19,7 @@
       @endif
     @stop
 
-    <h5><b>Ingrese su e-mail y presione Enviar para recibir una nueva contraseña en su casilla de correo:</b></h5>
+    <h4><b>Ingrese su e-mail y presione Enviar para recibir <br /> una nueva contraseña en su casilla de correo:</b></h4>
 
     {{ Form::open(array('route' => 'password.remind.post', 'class' => 'form-horizontal', 'role' => 'form')) }}
 
@@ -37,5 +39,7 @@
       </div>
      
     {{ Form::close() }}
+
+  </div>
 
 @stop

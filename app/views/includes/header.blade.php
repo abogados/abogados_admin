@@ -1,4 +1,4 @@
-<nav class="navbar navbar-default" role="navigation">
+<nav class="navbar navbar-default navbar_estilos" role="navigation">
     <div class="dashboard_menu">
          
         <div id="menu1">
