@@ -25,7 +25,7 @@
 
       <div class="form-group">
           {{ Form::label('email', 'E-mail', array('class' => 'col-sm-2  control-label')) }}
-          <div class="col-sm-10">
+          <div class="col-sm-10 col-sm-10-30">
               {{ Form::text('email', null, array('class' => 'form-control')) }}
           </div>
       </div>

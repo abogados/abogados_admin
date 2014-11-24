@@ -15,12 +15,12 @@
     {{ Form::open(array('url' => 'usuarios/crear', 'class' => 'form-horizontal', 'role' => 'form')) }}
     
     <div class="form-group">
-        {{ Form::label('nombre', 'Nombre', array('class' => 'col-sm-2 col-sm-2-10 col-sm-2-10 control_form_label')) }}
+        {{ Form::label('nombre', 'Nombre', array('class' => 'col-sm-2 col-sm-2-10 control_form_label')) }}
         <div class="col-sm-10 col-sm-10-30">
             {{ Form::text('nombre', Input::old('nombre'), array('class' => 'form-control', 'size' => '70')) }}
         </div>
 
-        {{ Form::label('apellido', 'Apellido', array('class' => 'col-sm-2 col-sm-2-10 col-sm-2-10 control_form_label')) }}
+        {{ Form::label('apellido', 'Apellido', array('class' => 'col-sm-2 col-sm-2-10 control_form_label')) }}
         <div class="col-sm-10 col-sm-10-30">
             {{ Form::text('apellido', Input::old('apellido'), array('class' => 'form-control', 'size' => '70')) }}
         </div>
@@ -87,7 +87,7 @@
     </div>
 
     <div class="form-group">
-        <div class="col-sm-offset-2 col-sm-2-10">
+        <div class="col-sm-offset-2">
             {{ Form::submit('Confirmar', array('class' => 'btn btn-default')) }}
             {{ Form::button('Cancelar', array('class'=>'btn btn-default', 
                 'onClick' => "location.href='/usuarios/index'")) }}

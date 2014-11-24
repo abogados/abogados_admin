@@ -21,21 +21,21 @@
 
   <div class="form-group">
       {{ Form::label('old_password', 'Contrase&ntilde;a anterior', array('class' => 'col-sm-2 col-sm-2-1  control-label')) }}
-      <div class="col-sm-10 col-sm-10-1">
+      <div class="col-sm-10 col-sm-10-30">
           {{ Form::password('old_password', array('class' => 'form-control')) }}
       </div>
   </div>
 
   <div class="form-group">
       {{ Form::label('password', 'Contrase&ntilde;a nueva', array('class' => 'col-sm-2 col-sm-2-1 control-label')) }}
-      <div class="col-sm-10 col-sm-10-1">
+      <div class="col-sm-10 col-sm-10-30">
           {{ Form::password('password', array('class' => 'form-control')) }}
       </div>
   </div>
 
   <div class="form-group">
       {{ Form::label('password_repeat', 'Repetir Contrase&ntilde;a nueva', array('class' => 'col-sm-2 col-sm-2-1 control-label')) }}
-      <div class="col-sm-10 col-sm-10-1">
+      <div class="col-sm-10 col-sm-10-30">
           {{ Form::password('password_repeat', array('class' => 'form-control')) }}
       </div>
   </div>

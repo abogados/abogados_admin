@@ -46,7 +46,7 @@
                 <td> {{ $dato->tipo_proceso }} </td>
                 <td> {{ $dato->creado_at }} </td>
                 <td> 
-                  {{ Form::button('Mod.', array('class'=>'btn btn-default btn-xs btn-default-azul', 
+                  {{ Form::button('Modif.', array('class'=>'btn btn-default btn-xs btn-default-azul', 
                     'onClick' => "location.href='/modelos/modificar/$dato->id'")) }}
                 </td>
                 <td>

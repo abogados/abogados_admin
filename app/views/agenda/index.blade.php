@@ -48,7 +48,7 @@
               <td> {{ $dato->fecha }} </td>
               <td> {{ $dato->estado }} </td>
               <td> 
-                {{ Form::button('Mod.', array('class'=>'btn btn-default btn-xs btn-default-azul', 
+                {{ Form::button('Modif.', array('class'=>'btn btn-default btn-xs btn-default-azul', 
                   'onClick' => "location.href='/agendas/modificar/$dato->id'")) }}
               </td>
               <td>
