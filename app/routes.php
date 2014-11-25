@@ -1,12 +1,4 @@
 <?php
-Route::group(array('before'=>'guest'),function(){
-  
-  Route::get('/', array(
-    'as' => 'index',
-    'uses' => 'HomeController@index'
-  ));
-
-});
 
 ///////////////////////// Login
 //Procesa el formulario e identifica al usuario
@@ -16,9 +8,9 @@ Route::filter('auth', function() {
     if (Auth::guest()) return Redirect::guest('index')->with('msg', 'Debes identificarte primero.');
 });
 
+
 //Página oculta donde sólo puede ingresar un usuario identificado
 Route::group(array('before'=>'auth'),function(){
-  
 
   /*
   * Ingresar al Panel Principal
@@ -57,6 +49,14 @@ Route::group(array('before'=>'auth'),function(){
   
 });
 
+Route::group(array('before'=>'guest'),function(){
+  
+  Route::get('/', array(
+    'as' => 'index',
+    'uses' => 'HomeController@index'
+  ));
+
+});
 
 ///////////////////////// Password Reminder
 
