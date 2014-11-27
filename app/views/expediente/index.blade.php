@@ -39,9 +39,7 @@
               <td> <b>Juzgado</b> </td>
               <td> <b>Car&aacute;tula</b> </td>
               <td> <b>Estado</b> </td>
-              <td> <b>Escritos</b> </td>
-              <td> <b>Pagos</b> </td>
-              <td colspan="2"> <b>Operaci&oacute;n</b> </td>
+              <td colspan="4"> <b>Operaci&oacute;n</b> </td>
             </tr>
             @foreach($datos as $dato)
             <tr>
@@ -50,11 +48,11 @@
               <td> {{ $dato->caratula }} </td>
               <td> {{ $dato->estado }} </td>
               <td> 
-                {{ Form::button('Esc.', array('class'=>'btn btn-default btn-xs btn-default-azul', 
+                {{ Form::button('Escritos', array('class'=>'btn btn-default btn-xs btn-default-azul', 
                   'onClick' => "")) }}
               </td>
               <td> 
-                {{ Form::button('Pag.', array('class'=>'btn btn-default btn-xs btn-default-azul', 
+                {{ Form::button('Pagos', array('class'=>'btn btn-default btn-xs btn-default-azul', 
                   'onClick' => "")) }}
               </td>            
               <td> 

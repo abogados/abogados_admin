@@ -17,50 +17,44 @@
     {{ Form::open(array('url' => 'clientes/crear', 'class' => 'form-horizontal', 'role' => 'form')) }}
 
     <div class="form-group">
-        {{ Form::label('nombre', 'Nombre', array('class' => 'col-sm-2 control-label')) }}
-        <div class="col-sm-10">
+        {{ Form::label('nombre', 'Nombre', array('class' => 'col-sm-2 col-sm-2-10 control_form_label')) }}
+        <div class="col-sm-10 col-sm-10-30">
             {{ Form::text('nombre', Input::old('nombre'), array('class' => 'form-control', 'size' => '70')) }}
         </div>
-    </div>
-
-    <div class="form-group">
-        {{ Form::label('apellido', 'Apellido', array('class' => 'col-sm-2 control-label')) }}
-        <div class="col-sm-10">
+    
+        {{ Form::label('apellido', 'Apellido', array('class' => 'col-sm-2 col-sm-2-10 control_form_label')) }}
+        <div class="col-sm-10 col-sm-10-30">
             {{ Form::text('apellido', Input::old('apellido'), array('class' => 'form-control', 'size' => '70')) }}
         </div>
     </div>
 
     <div class="form-group">
-        {{ Form::label('dni', 'DNI', array('class' => 'col-sm-2 control-label')) }}
-        <div class="col-sm-10">
+        {{ Form::label('dni', 'DNI', array('class' => 'col-sm-2 col-sm-2-10 control_form_label')) }}
+        <div class="col-sm-10 col-sm-10-30">
             {{ Form::text('dni', Input::old('dni'), array('class' => 'form-control', 'maxlength' => '8')) }}
         </div>
-    </div>
-
-    <div class="form-group">
-        {{ Form::label('domicilio', 'Domicilio', array('class' => 'col-sm-2 control-label')) }}
-        <div class="col-sm-10">
+    
+        {{ Form::label('domicilio', 'Domicilio', array('class' => 'col-sm-2 col-sm-2-10 control_form_label')) }}
+        <div class="col-sm-10 col-sm-10-30">
             {{ Form::text('domicilio', Input::old('domicilio'), array('class' => 'form-control', 'size' => '70')) }}
         </div>
     </div>
 
     <div class="form-group">
-        {{ Form::label('email', 'E-mail', array('class' => 'col-sm-2 control-label')) }}
-        <div class="col-sm-10">
+        {{ Form::label('email', 'E-mail', array('class' => 'col-sm-2 col-sm-2-10 control_form_label')) }}
+        <div class="col-sm-10 col-sm-10-30">
             {{ Form::text('email', Input::old('email'), array('class' => 'form-control', 'size' => '70')) }}
         </div>
-    </div>
-
-    <div class="form-group">
-        {{ Form::label('localidad', 'Localidad', array('class' => 'col-sm-2 control-label')) }}
-        <div class="col-sm-10">
+    
+        {{ Form::label('localidad', 'Localidad', array('class' => 'col-sm-2 col-sm-2-10 control_form_label')) }}
+        <div class="col-sm-10 col-sm-10-30">
             {{ Form::text('localidad', Input::old('localidad'), array('class' => 'form-control', 'size' => '70')) }}
         </div>
     </div>
 
     <div class="form-group">
-        {{ Form::label('provincia', 'Provincia', array('class' => 'col-sm-2 control-label')) }}
-        <div class="col-sm-10">
+        {{ Form::label('provincia', 'Provincia', array('class' => 'col-sm-2 col-sm-2-10 control_form_label')) }}
+        <div class="col-sm-10 col-sm-10-30">
             {{ Form::select('provincia',
                 array(''=>'Seleccione...',
                 'Buenos Aires'  =>'Buenos Aires',
@@ -88,25 +82,21 @@
                 'Tucuman'       =>'Tucuman'
             ), null, array('class' => 'form-control')) }}
         </div>
-    </div>
-
-    <div class="form-group">
-        {{ Form::label('telefono', 'Telefono', array('class' => 'col-sm-2 control-label')) }}
-        <div class="col-sm-10">
+    
+        {{ Form::label('telefono', 'Telefono Fijo', array('class' => 'col-sm-2 col-sm-2-10 control_form_label')) }}
+        <div class="col-sm-10 col-sm-10-30">
             {{ Form::text('telefono', Input::old('telefono'), array('class' => 'form-control')) }}
         </div>
     </div>
 
     <div class="form-group">
-        {{ Form::label('celular', 'Celular', array('class' => 'col-sm-2 control-label')) }}
-        <div class="col-sm-10">
+        {{ Form::label('celular', 'Celular', array('class' => 'col-sm-2 col-sm-2-10 control_form_label')) }}
+        <div class="col-sm-10 col-sm-10-30">
             {{ Form::text('celular', Input::old('celular'), array('class' => 'form-control')) }}
         </div>
-    </div>
-
-    <div class="form-group">
-        {{ Form::label('estado', 'Estado', array('class' => 'col-sm-2 control-label')) }}
-        <div class="col-sm-10">
+    
+        {{ Form::label('estado', 'Estado', array('class' => 'col-sm-2 col-sm-2-10 control_form_label')) }}
+        <div class="col-sm-10 col-sm-10-30">
             {{ Form::select('estado',
                 array(''=>'Seleccione...',
                 'Activo'    => 'Activo',
@@ -115,7 +105,7 @@
     </div>
 
     <div class="form-group">
-        <div class="col-sm-offset-2 col-sm-10">
+        <div class="col-sm-offset-2">
             {{ Form::submit('Confirmar', array('class' => 'btn btn-default')) }}
             {{ Form::button('Cancelar', array('class'=>'btn btn-default', 
                 'onClick' => "location.href='/clientes/index'")) }}
