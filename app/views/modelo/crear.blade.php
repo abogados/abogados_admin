@@ -17,15 +17,13 @@
     {{ Form::open(array('url' => 'modelos/crear', 'class' => 'form-horizontal', 'role' => 'form')) }}
 
     <div class="form-group">
-        {{ Form::label('nombre', 'Nombre', array('class' => 'col-sm-2 control-label')) }}
-        <div class="col-sm-10">
+        {{ Form::label('nombre', 'Nombre', array('class' => 'col-sm-2 col-sm-2-10 control_form_label')) }}
+        <div class="col-sm-10 col-sm-10-30">
             {{ Form::text('nombre', Input::old('nombre'), array('class' => 'form-control texto_largo')) }}
         </div>
-    </div>
-
-    <div class="form-group">
-        {{ Form::label('tipo_proceso','Tipo de Proceso',array('id'=>'','class'=>'col-sm-2 control-label')) }}
-        <div class="col-sm-10">
+    
+        {{ Form::label('tipo_proceso','Tipo de Proceso',array('id'=>'','class'=>'col-sm-2 col-sm-2-10 control_form_label')) }}
+        <div class="col-sm-10 col-sm-10-30">
             {{ Form::select('tipo_proceso',
                 array(''=>'Seleccione...',
                     'Tipo 1'      => 'Tipo 1',
@@ -36,19 +34,8 @@
     </div>
 
     <div class="form-group">
-        {{ Form::label('texto', 'Texto', array('class' => 'col-sm-2 control-label')) }}
-        <div class="col-sm-10">
-            {{ Form::textarea('texto', Input::old('texto'), 
-                array('class' => 'form-control texto_largo', 'id' => 'texto', 'cols'=>'100','rows'=>'8')) }}
-            <script type="text/javascript">
-                CKEDITOR.replace( 'texto' );
-            </script>
-        </div>
-    </div>
-
-    <div class="form-group">
-        {{ Form::label('estado','Estado',array('id'=>'','class'=>'col-sm-2 control-label')) }}
-        <div class="col-sm-10">
+        {{ Form::label('estado','Estado',array('id'=>'','class'=>'col-sm-2 col-sm-2-10 control_form_label')) }}
+        <div class="col-sm-10 col-sm-10-30">
             {{ Form::select('estado',
                 array(''=>'Seleccione...',
                     'Activo'    => 'Activo',
@@ -58,7 +45,19 @@
     </div>
 
     <div class="form-group">
-        <div class="col-sm-offset-2 col-sm-10">
+        {{ Form::label('texto', 'Texto', array('class' => 'col-sm-2 col-sm-2-10 control_form_label')) }}
+        <div class="col-sm-10  col-sm-10-85">
+            {{ Form::textarea('texto', Input::old('texto'), 
+                array('class' => 'form-control texto_largo', 'id' => 'texto', 'cols'=>'100','rows'=>'8')) }}
+            <script type="text/javascript">
+                CKEDITOR.replace( 'texto' );
+            </script>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10-30">
             {{ Form::submit('Confirmar', array('class' => 'btn btn-default')) }}
             {{ Form::button('Cancelar', array('class'=>'btn btn-default', 
                 'onClick' => "location.href='/modelos/index'")) }}

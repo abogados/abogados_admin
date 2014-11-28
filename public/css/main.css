@@ -10,11 +10,15 @@
     height: 30px;
   }
     .texto_largo {
-      width: 50%;
+      width: 100%;
     }
 
     .texto_corto {
       width: 12%;
+    }
+
+    .texto_corto_20 {
+      width: 20%;
     }
 
   .col-sm-2-1 {
@@ -33,12 +37,22 @@
     width: 73.333333%;
   }
 
-  .col-sm-10-30 { /*30*/
+  .col-sm-10-30 {
     width: 30.333333%;
   }
 
-  .col-sm-10-85 { /*30*/
+  .col-sm-10-50 {
+    width: 50.333333%;
+  }
+
+
+  .col-sm-10-85 {
     width: 85.333333%;
+  }
+
+  .col-sm-10-85-center {
+    width: 85.333333%;
+    text-align: center;
   }
 
   .col-sm-offset-2-10 {

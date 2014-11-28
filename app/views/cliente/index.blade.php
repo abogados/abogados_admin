@@ -1,7 +1,7 @@
 @extends('layout.base_formularios')
 
 @section('titulo')
-  <h5>Clientes</h5>
+  <h4><b>Clientes</b></h4>
 @stop
 
 @section('botones_form')

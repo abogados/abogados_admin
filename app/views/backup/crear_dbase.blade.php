@@ -17,14 +17,14 @@
     {{ Form::open(array('url' => 'backups/crear_dbase', 'class' => 'form-horizontal', 'role' => 'form')) }}
   
     <div class="form-group">
-        {{ Form::label('nombre', 'Nombre', array('class' => 'col-sm-2 control-label')) }}
-        <div class="col-sm-10">
+        {{ Form::label('nombre', 'Nombre', array('class' => 'col-sm-2 col-sm-2-10 control_form_label')) }}
+        <div class="col-sm-10 col-sm-10-30">
             {{ Form::text('nombre', Input::old('nombre') ? Input::old('nombre') : $nombre_dbase, array('class' => 'form-control texto_largo')) }}
         </div>
     </div>
 
     <div class="form-group">
-        <div class="col-sm-offset-2 col-sm-10">
+        <div class="col-sm-offset-2">
             {{ Form::submit('Confirmar', array('class' => 'btn btn-default')) }}
             {{ Form::button('Cancelar', array('class'=>'btn btn-default', 
                 'onClick' => "location.href='/backups/index'")) }}

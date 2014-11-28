@@ -1,11 +1,13 @@
 {{ Form::open(array('url' => 'listados/exportar', 'class' => 'form-horizontal', 'role' => 'form')) }}
 
-<div style="text-align:center;">
-  <b>Clientes</p>
-  {{ Form::submit('Exportar', array('class' => 'btn btn-default btn-default-azul')) }}
-  
-  {{ Form::hidden('tipo_modulo', $datos->tipo_modulo, array('id' => 'tipo_modulo', 'class' => 'form-control')) }}
+<div class="col-sm-10 col-sm-10-85-center">
+  <b>Clientes</b>
 </div>
+<div>
+  {{ Form::submit('Exportar', array('class' => 'btn btn-default btn-default-azul')) }}
+</div>
+
+{{ Form::hidden('tipo_modulo', $datos->tipo_modulo, array('id' => 'tipo_modulo', 'class' => 'form-control')) }}
 
 {{ Form::close() }}
 

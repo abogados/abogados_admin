@@ -15,7 +15,6 @@
             <span id="boton_dashboard_menu"><a href="{{ URL::route('agendas.index') }}">Agenda</a></span>
             <span id="boton_dashboard_menu"><a href="{{ URL::route('listados.index') }}">Listados</a></span>
             <span id="boton_dashboard_menu"><a href="{{ URL::route('pagos.index') }}">Pagos</a></span>
-            <span id="boton_dashboard_menu"><a href="">Liquidaci&oacute;n</a></span>
             <span id="boton_dashboard_menu"><a href="{{ URL::route('backups.index') }}">Backups</a></span>
         </div>
 
