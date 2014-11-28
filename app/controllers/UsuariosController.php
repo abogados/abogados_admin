@@ -139,7 +139,7 @@ class UsuariosController extends BaseController {
           $usuario->email       = Input::get("email");
           $usuario->perfil      = Input::get("perfil");
           $usuario->user        = Input::get("user");
-          $usuario->password    = Input::get("password");
+          $usuario->password    = Hash::make(Input::get("password"));
           $usuario->estado      = Input::get("estado");
           $usuario->parentesco  = Input::get("parentesco");
 
