@@ -98,7 +98,7 @@ return array(
 	*/
 
 	// 'password' => null,
-	'password' => 'estudio123',
+	'password' => 'abogados2014',
 
 	/*
 	|--------------------------------------------------------------------------

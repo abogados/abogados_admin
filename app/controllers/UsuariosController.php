@@ -90,6 +90,8 @@ class UsuariosController extends BaseController {
       if($this->validateForms($inputs,true) === true) {
         $usuario = new Usuario($inputs);
 
+        $usuario->password = Hash::make(Input::get("password"));
+
         if($usuario->save()){
           return Redirect::to('usuarios/index')->with(array('mensaje' => 'El Empleado ha sido creado correctamente.'));
         }

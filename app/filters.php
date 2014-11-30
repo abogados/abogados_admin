@@ -50,7 +50,7 @@ App::after(function($request, $response)
 
 Route::filter('auth', function()
 {
-    if (Auth::guest()) return Redirect::guest('/')->with('msg', 'Debes identificarte primero.');;
+    if (Auth::guest()) return Redirect::guest('index')->with('msg', 'Debes identificarte primero.');;
 });
 
 
@@ -72,7 +72,7 @@ Route::filter('auth.basic', function()
 
 Route::filter('guest', function()
 {
-	if (Auth::check()) return Redirect::to('/');
+	if (Auth::check()) return Redirect::to('dashboard');
 });
 
 /*

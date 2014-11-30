@@ -3,7 +3,7 @@
 class RemindersController extends Controller {
 
 	/**
-	 * Display the password reminder view.
+	 * Muestra form recuperar contraseña
 	 *
 	 * @return Response
 	 */
@@ -13,7 +13,7 @@ class RemindersController extends Controller {
 	}
 
 	/**
-	 * Handle a POST request to remind a user of their password.
+	 * Realiza el envío de una nueva contraseña (form olvidé mi contraseña)
 	 *
 	 * @return Response
 	 */
@@ -38,8 +38,8 @@ class RemindersController extends Controller {
 				$codigo 	= str_random(60);
 				$password = str_random(10);
 
-				$user->codigo 				= $codigo;
-				$user->password_temp 	= $password;
+				$user->codigo 			= $codigo;
+				$user->password_temp 	= Hash::make($password);
 
 				if($user->save()){
 					Mail::send('emails.auth.forgot', array('link' => URL::route('password.recover', $codigo), 'username' => $user->nombre, 'password' => $password), function($message) use ($user){
@@ -61,24 +61,52 @@ class RemindersController extends Controller {
 	}
 
 	/**
+	 * Reestablece la constraseña del usuario con una nueva contraseña temporal (form olvidé mi contraeseña)
+	 *
+	 * @return Response
+	 */
+	public function getRecover($codigo)
+	{
+		$user = Usuario::where('codigo','=',$codigo)
+			->where('password_temp','!=','');
+
+		if($user->count()){
+			$user = $user->first();
+
+			$user->password 		= $user->password_temp;
+			$user->password_temp	= '';
+			$user->codigo			= '';
+
+			if($user->save()){
+
+				return Redirect::route('index')
+					->withErrors(array('message' => 'Su contraseña ha sido modificada y puede ingresar con su nueva contraseña.'));
+			}
+
+			return Redirect::route('index')
+				->with(array('message' => 'No se pudo recuperar su contraseña.'));
+		}		
+	}
+
+	/**
 	 * Display the password reset view for the given token.
 	 *
 	 * @param  string  $token
 	 * @return Response
 	 */
-	public function getReset($token = null)
+	/*public function getReset($token = null)
 	{
 		if (is_null($token)) App::abort(404);
 
 		return View::make('password.reset')->with('token', $token);
-	}
+	}*/
 
 	/**
 	 * Handle a POST request to reset a user's password.
 	 *
 	 * @return Response
 	 */
-	public function postReset()
+	/*public function postReset()
 	{
 		$credentials = Input::only(
 			'email', 'password', 'password_confirmation', 'token'
@@ -99,36 +127,25 @@ class RemindersController extends Controller {
 				return Redirect::back()->with('error', Lang::get($response));
 
 			case Password::PASSWORD_RESET:
-				return Redirect::to('/');
+				return Redirect::to('index');
 		}
-	}
-	public function getRecover($codigo)
-	{
-		$user = Usuario::where('codigo','=',$codigo)
-			->where('password_temp','!=','');
+	}*/
 
-		if($user->count()){
-			$user = $user->first();
-
-			$user->password 		= $user->password_temp;
-			$user->password_temp	= '';
-			$user->codigo			= '';
-
-			if($user->save()){
-				return Redirect::route('/')
-					->with('message', 'Su contraseña ha sido modificada y puede ingresar con su nueva contraseña.');
-			}
-
-			return Redirect::route('/')
-				->with('message', 'No se pudo recuperar su contraseña.');
-		}		
-	}
-
+	/**
+	 * form Cambiar mi contraseña de un usuario logueado
+	 *
+	 * @return Response
+	 */
 	public function getChangePassword()
 	{
 		return View::make('password.password');
 	}
 
+	/**
+	 * genera el cambio de contraseña de un usuario logueado
+	 *
+	 * @return Response
+	 */
 	public function postChangePassword()
 	{
 
