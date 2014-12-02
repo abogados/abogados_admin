@@ -40,13 +40,6 @@
                 array('type' => 'text', 'maxlength' => '10', 
                     'class' => 'form-control datepicker',
                     'placeholder' => 'Click aquí para seleccionar fecha.')) }}
-            <script type="text/javascript">
-                $(function(){
-                   $('.datepicker').datepicker({
-                      format: 'dd-mm-yyyy'
-                    });
-                });
-            </script>
         </div>
 
         {{ Form::label('fecha_alarma', 'Fecha Alarma', array('class' => 'col-sm-2 col-sm-2-10 control_form_label')) }}
@@ -55,13 +48,6 @@
                 array('type' => 'text', 'maxlength' => '10', 
                     'class' => 'form-control datepicker',
                     'placeholder' => 'Click aquí para seleccionar fecha.')) }}
-            <script type="text/javascript">
-                $(function(){
-                   $('.datepicker').datepicker({
-                      format: 'dd-mm-yyyy'
-                    });
-                });
-            </script>
         </div>
     </div>
     
@@ -102,3 +88,8 @@
 </div>
 
 @stop
+
+<script type="text/javascript">
+    validar_campos_form();
+    mostrar_datepicker();
+</script>

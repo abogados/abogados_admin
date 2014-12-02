@@ -33,20 +33,24 @@
         <p>No se encontraron resultados.</p>
       @else
       <div class="CSSTableGenerator" >
-        <table >
+        <table>
             <tr>
-              <td> <b>Nombre y Apellido</b> </td>
+              <td> <b>Apellido</b> </td>
+              <td> <b>Nombre</b> </td>
               <td> <b>Perfil</b> </td>
               <td> <b>Estado</b> </td>
               <td> <b>Fecha Alta</b> </td>
+              <td> <b>Grupo Familiar</b> </td>
               <td colspan="2"> <b>Operaci&oacute;n</b> </td>
             </tr>
             @foreach($datos as $dato)
             <tr>
-              <td> {{ $dato->nombre }} {{ $dato->apellido }} </td>
+              <td> {{ $dato->apellido }} </td>
+              <td> {{ $dato->nombre }} </td>
               <td> {{ $dato->perfil }} </td>
               <td> {{ $dato->estado }} </td>
               <td> {{ $dato->creado_at }} </td>
+              <td> {{ $dato->total_grupo_familiar }} </td>
               <td> 
                 {{ Form::button('Modif.', array('class'=>'btn btn-default btn-xs btn-default-azul', 
                   'onClick' => "location.href='/usuarios/solapas_mod/$dato->id'")) }}

@@ -53,13 +53,6 @@
                 array('type' => 'text', 'maxlength' => '10', 
                     'class' => 'form-control datepicker',
                     'placeholder' => 'Click aquí para seleccionar fecha.')) }}
-            <script type="text/javascript">
-                $(function(){
-                   $('.datepicker').datepicker({
-                      format: 'dd-mm-yyyy'
-                    });
-                });
-            </script>
         </div>
 
         {{ Form::label('fecha_presentacion', 'Fecha de Presentaci&oacute;n', array('class' => 'col-sm-2 col-sm-2-15 control_form_label')) }}
@@ -68,13 +61,6 @@
                 array('type' => 'text', 'maxlength' => '10', 
                     'class' => 'form-control datepicker',
                     'placeholder' => 'Click aquí para seleccionar fecha.')) }}
-            <script type="text/javascript">
-                $(function(){
-                   $('.datepicker').datepicker({
-                      format: 'dd-mm-yyyy'
-                    });
-                });
-            </script>
         </div>
     </div>
 
@@ -85,13 +71,6 @@
                 array('type' => 'text', 'maxlength' => '10', 
                     'class' => 'form-control datepicker',
                     'placeholder' => 'Click aquí para seleccionar fecha.')) }}
-            <script type="text/javascript">
-                $(function(){
-                   $('.datepicker').datepicker({
-                      format: 'dd-mm-yyyy'
-                    });
-                });
-            </script>
         </div>
 
         {{ Form::label('tipo_proceso', 'Tipo de Proceso', array('class' => 'col-sm-2 col-sm-2-15 control_form_label')) }}
@@ -123,3 +102,8 @@
 </div>    
 
 @stop
+
+<script type="text/javascript">
+    validar_campos_form();
+    mostrar_datepicker();
+</script>

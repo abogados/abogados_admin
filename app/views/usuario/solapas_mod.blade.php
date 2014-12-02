@@ -6,6 +6,12 @@
 
 @section('contenido')
 
+@if(isset($errors))
+  @foreach ($errors->all() as $error)
+      <div class="show_error">{{ $error }}</div>
+  @endforeach
+@endif
+
 <div>
     {{ Form::hidden('usuario_id', $usuario->id, array('id' => 'usuario_id', 'class' => 'form-control')) }} 
 

@@ -10,12 +10,15 @@ class UsuariosController extends BaseController {
   public function index()
   {
     if(Auth::user()){
-      $usuarios = Usuario::where('parentesco','=','Titular')->orderBy('created_at','desc')->get();
+      $usuarios = Usuario::where('parentesco','=','Titular')->orderBy('apellido','desc','nombre','desc')->get();
 
       foreach($usuarios->all() as $dato) {
+        $dato->total_grupo_familiar = Usuario::where('titular_id', '=', $dato->id)
+        ->count();
+
         $dato->creado_at = $this->convertir_fecha_es($dato->created_at);
       }
-      
+
       return View::make('usuario.index', array("datos" => $usuarios));
     }
     else{
@@ -88,20 +91,28 @@ class UsuariosController extends BaseController {
     if(Input::get()) {
       $inputs = $this->getInputs(Input::all());
       if($this->validateForms($inputs,true) === true) {
-        $usuario = new Usuario($inputs);
 
-        $usuario->password = Hash::make(Input::get("password"));
+        if(trim(Input::get("password")) === trim(Input::get("password_repeat"))) {
+          $usuario = new Usuario($inputs);
 
-        if($usuario->save()){
-          return Redirect::to('usuarios/index')->with(array('mensaje' => 'El Empleado ha sido creado correctamente.'));
+          $usuario->password          = Hash::make(Input::get("password"));
+          $usuario->fecha_nacimiento  = $this->convertir_fecha_us($usuario->fecha_nacimiento);
+          $usuario->fecha_ingreso     = $this->convertir_fecha_us($usuario->fecha_ingreso);
+
+          if($usuario->save()){
+            return Redirect::to('usuarios/index')->withErrors(array('mensaje' => 'El Empleado ha sido creado correctamente.'));
+          }
+        }
+        else{
+          return Redirect::to('usuarios/solapas')->withErrors(array('error' => 'Contraseña y Repetir Contraseña deben coincidir. Ingrese correctamente por favor.'))->withInput();
         }
       }
       else {
-        return Redirect::to('usuarios/crear')->withErrors($this->validateForms($inputs, true))->withInput();
+        return Redirect::to('usuarios/solapas')->withErrors($this->validateForms($inputs, true))->withInput();
       }
     }
     else{
-      return View::make("usuario.crear");
+      return View::make("usuario.solapas");
     }
   }
 
@@ -134,31 +145,38 @@ class UsuariosController extends BaseController {
 
         if($this->validateForms($inputs,false) === true) {
          
-          $usuario->nombre      = Input::get("nombre");
-          $usuario->apellido    = Input::get("apellido");
-          $usuario->dni         = Input::get("dni");
-          $usuario->domicilio   = Input::get("domicilio");
-          $usuario->email       = Input::get("email");
-          $usuario->perfil      = Input::get("perfil");
-          $usuario->user        = Input::get("user");
-          $usuario->password    = Hash::make(Input::get("password"));
-          $usuario->estado      = Input::get("estado");
-          $usuario->parentesco  = Input::get("parentesco");
-
+          $usuario->nombre            = Input::get("nombre");
+          $usuario->apellido          = Input::get("apellido");
+          $usuario->dni               = Input::get("dni");
+          $usuario->domicilio         = Input::get("domicilio");
+          $usuario->email             = Input::get("email");
+          $usuario->perfil            = Input::get("perfil");
+          $usuario->user              = Input::get("user");
+          $usuario->password          = Hash::make(Input::get("password"));
+          $usuario->estado            = Input::get("estado");
+          $usuario->parentesco        = Input::get("parentesco");
+          $usuario->estado_civil      = Input::get("estado_civil");
+          $usuario->localidad         = Input::get("localidad");
+          $usuario->telefono          = Input::get("telefono");
+          $usuario->celular           = Input::get("celular");
+          $usuario->legajo            = Input::get("legajo");
+          $usuario->fecha_nacimiento  = $this->convertir_fecha_us($usuario->fecha_nacimiento);
+          $usuario->fecha_ingreso     = $this->convertir_fecha_us($usuario->fecha_ingreso);
+          
           if($usuario->save()){
-            return Redirect::to('usuarios/index')->with(array('mensaje' => 'El Empleado se ha actualizado correctamente.'));
+            return Redirect::to('usuarios/index')->withErrors(array('mensaje' => 'El Empleado se ha actualizado correctamente.'));
           }
         }
         else {
-          return Redirect::to("usuarios/modificar/$id")->withErrors($this->validateForms($inputs, false))->withInput();
+          return Redirect::to("usuarios/solapas_mod/$id")->withErrors($this->validateForms($inputs, false))->withInput();
         }
       }
       else {
-          return Redirect::to('usuarios/index')->with(array('mensaje' => 'El Empleado no existe.'));          
+          return Redirect::to('usuarios/index')->withErrors(array('mensaje' => 'El Empleado no existe.'));          
       }
     }
     else {
-      return View::make("usuario.modificar", array("usuario" => $usuario));  
+      return View::make("usuario.modificar", array('usuario' => $usuario));
     }
   }
 
@@ -185,24 +203,26 @@ class UsuariosController extends BaseController {
         foreach($inputs as $arrays) {
           foreach($arrays as $datos) {
 
-            if($this->validateForms_gf($datos) === true) {
+            if($datos['nombre'] != "" && $datos['apellido'] != "" && $datos['parentesco'] != "" && $datos['dni'] != "") {
 
-              $usuario = new Usuario($inputs);
+              if($this->validateForms_gf($datos) === true) {
 
-              foreach($datos as $indice => $valor) {
-                $usuario->$indice = $valor;         
+                $usuario = new Usuario($inputs);
+              
+                foreach($datos as $indice => $valor) {
+                  $usuario->$indice = $valor;         
+                }
+
+                $usuario->titular_id  = $id;
+                $usuario->estado      = 'Activo';
+
+                if(!$usuario->save()){
+                  return Redirect::to("usuarios/solapas_mod/$id")->withErrors(array('mensaje' => 'Ocurrió un error al intentar modificar el Grupo Familiar del Empleado.'));
+                }
               }
-
-              $usuario->titular_id  = $id;
-              $usuario->estado      = 'Activo';
-
-              if(!$usuario->save()){
-                return Redirect::to("usuarios/modificar_gf/$id")->withErrors(array('mensaje' => 'Ocurrió un error al intentar modificar el Grupo Familiar del Empleado.'));
+              else {
+                return Redirect::to("usuarios/solapas_mod/$id")->withErrors($this->validateForms_gf($inputs))->withInput();
               }
-
-            }
-            else {
-              return Redirect::to("usuarios/modificar_gf/$id")->withErrors($this->validateForms_gf($inputs))->withInput();
             }
           }
 
@@ -210,7 +230,7 @@ class UsuariosController extends BaseController {
           $usuario_titular->titular_id = $id;
 
           if(!$usuario_titular->save()) {
-            return Redirect::to("usuarios/modificar_gf/$id")->withErrors(array('mensaje' => 'Ocurrió un error al intentar actualizar el Titular del Grupo Familiar.'));
+            return Redirect::to("usuarios/solapas_mod/$id")->withErrors(array('mensaje' => 'Ocurrió un error al intentar actualizar el Titular del Grupo Familiar.'));
           }
         }
 
@@ -248,14 +268,18 @@ class UsuariosController extends BaseController {
     
     if($is_insert){
       $rules = array(
-        'nombre'      => 'required|min:2|max:100',
-        'apellido'    => 'required|min:2|max:100',
-        'email'       => 'required|min:2|max:100|unique:usuarios|email',
-        'dni'         => 'required|min:8|max:8|unique:usuarios',
-        'perfil'      => 'required',
-        'user'        => 'required|min:2|max:100|unique:usuarios',
-        'estado'      => 'required',
-        'parentesco'  => 'required'
+        'nombre'            => 'required|min:2|max:100',
+        'apellido'          => 'required|min:2|max:100',
+        'email'             => 'required|min:2|max:100|unique:usuarios|email',
+        'dni'               => 'required|min:8|max:8|unique:usuarios',
+        'perfil'            => 'required',
+        'user'              => 'required|min:2|max:100|unique:usuarios',
+        'estado'            => 'required',
+        'parentesco'        => 'required',
+        'estado_civil'      => 'required',
+        'sexo'              => 'required',
+        'fecha_nacimiento'  => 'required',
+        'legajo'            => 'required'
       );
     }
     else{
@@ -263,14 +287,18 @@ class UsuariosController extends BaseController {
       /* Hacer verificación de Email, DNI y User contra el resto de usuarios... */
 
       $rules = array(
-        'nombre'      => 'required|min:2|max:100',
-        'apellido'    => 'required|min:2|max:100',
-        'email'       => 'required|min:2|max:100',
-        'dni'         => 'required|min:8|max:8',
-        'perfil'      => 'required',
-        'user'        => 'required|min:2|max:100',
-        'estado'      => 'required',
-        'parentesco'  => 'required'
+        'nombre'            => 'required|min:2|max:100',
+        'apellido'          => 'required|min:2|max:100',
+        'email'             => 'required|min:2|max:100',
+        'dni'               => 'required|min:8|max:8',
+        'perfil'            => 'required',
+        'user'              => 'required|min:2|max:100',
+        'estado'            => 'required',
+        'parentesco'        => 'required',
+        'estado_civil'      => 'required',
+        'sexo'              => 'required',
+        'fecha_nacimiento'  => 'required',
+        'legajo'            => 'required'
       ); 
     }
         
@@ -410,6 +438,17 @@ class UsuariosController extends BaseController {
     // print $gf[0]['nombre'];
     // print "</pre>";
     // exit;
+
+    //$usuarios_gf = Usuario::where('titular_id','=',$usuario->id)->orderBy('apellido','desc', 'nombre','desc')->get();
+
+/*    $queries = DB::getQueryLog();
+    $last_query = end($queries);
+    print "<pre>";
+    print_r($last_query);
+    print "</pre>";
+    exit; */
+
+    //$usuario['datos_gf'] = $usuarios_gf;
 
     return View::make('usuario.solapas_mod', array('usuario' => $usuario));
   }

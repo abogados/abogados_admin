@@ -122,7 +122,7 @@
 
     <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
-            {{ Form::submit('Modificar', array('class' => 'btn btn-default')) }}
+            {{ Form::submit('Confirmar', array('class' => 'btn btn-default')) }}
             {{ Form::button('Cancelar', array('class'=>'btn btn-default', 
                 'onClick' => "location.href='/usuarios/index'")) }}
         </div>

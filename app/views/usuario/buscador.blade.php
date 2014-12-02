@@ -12,13 +12,6 @@
 		        array('type' => 'text', 'maxlength' => '10', 
 		            'class' => 'buscador_control datepicker',
 		            'placeholder' => 'Click aquí para seleccionar fecha.')) }}
-		    <script type="text/javascript">
-		        $(function(){
-		           $('.datepicker').datepicker({
-		              format: 'dd-mm-yyyy'
-		            });
-		        });
-		    </script>
 		</div>
   	</div>
     <div class="buscador_form_group">
@@ -28,13 +21,6 @@
             array('type' => 'text', 'maxlength' => '10', 
                 'class' => 'buscador_control datepicker',
                 'placeholder' => 'Click aquí para seleccionar fecha.')) }}
-	        <script type="text/javascript">
-	            $(function(){
-	               $('.datepicker').datepicker({
-	                  format: 'dd-mm-yyyy'
-	                });
-	            });
-	        </script>
 	    </div>
 	</div>
 
@@ -74,3 +60,8 @@
 	    </div>
   	</div>
 </div>
+
+<script type="text/javascript">
+    validar_campos_form();
+    mostrar_datepicker();
+</script>
