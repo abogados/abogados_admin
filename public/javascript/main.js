@@ -47,16 +47,21 @@ function validar_campos_form(){
     if($('#apellido'))  $('#apellido').validCampoFranz(' abcdefghijklmnñopqrstuvwxyzáéiou');
     if($('#profesion')) $('#profesion').validCampoFranz(' abcdefghijklmnñopqrstuvwxyzáéiou');
     if($('#localidad')) $('#localidad').validCampoFranz(' abcdefghijklmnñopqrstuvwxyzáéiou');
+    if($('#caratula'))  $('#caratula').validCampoFranz(' abcdefghijklmnñopqrstuvwxyzáéiou');
    
     //Para escribir solo numeros    
-    if($('#dni'))       $('#dni').validCampoFranz('0123456789');    
-    if($('#celular'))   $('#celular').validCampoFranz('0123456789');    
-    if($('#telefono'))  $('#telefono').validCampoFranz('0123456789');    
-    if($('#legajo'))    $('#legajo').validCampoFranz('0123456789');    
+    if($('#dni'))       $('#dni').validCampoFranz('0123456789');
+    if($('#celular'))   $('#celular').validCampoFranz('0123456789');
+    if($('#telefono'))  $('#telefono').validCampoFranz('0123456789');
+    if($('#legajo'))    $('#legajo').validCampoFranz('0123456789');
+    if($('#numero'))    $('#numero').validCampoFranz('0123456789'); // se refiere a Nro Expediente
 
     //No permitir ningun tipo de caracter
-    if($('#fecha_ingreso'))     $('#fecha_ingreso').validCampoFranz('');
-    if($('#fecha_nacimiento'))  $('#fecha_nacimiento').validCampoFranz('');
+    if($('#fecha_ingreso'))         $('#fecha_ingreso').validCampoFranz('');
+    if($('#fecha_nacimiento'))      $('#fecha_nacimiento').validCampoFranz('');
+    if($('#fecha_inicio'))          $('#fecha_inicio').validCampoFranz('');
+    if($('#fecha_presentacion'))    $('#fecha_inicio').validCampoFranz('');
+    if($('#fecha_finalizacion'))    $('#fecha_finalizacion').validCampoFranz('');
 }
 
 function validar_contraseña() {

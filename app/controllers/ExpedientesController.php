@@ -11,6 +11,7 @@ class ExpedientesController extends BaseController {
   {
     if(Auth::user()){
       $expedientes  = Expediente::join('clientes', 'expedientes.cliente_id', '=', 'clientes.id')
+        ->select('expedientes.*')
         ->where('clientes.estado', 'Activo')
         ->orderBy('expedientes.created_at','desc')->get();
 
@@ -192,14 +193,9 @@ class ExpedientesController extends BaseController {
     if($is_insert) {
       $rules = array(
         'cliente_id'  => 'required',
-        'numero'      => 'required|unique:expedientes',
         'caratula'    => 'required|unique:expedientes',
-        'juzgado'     => 'required',
         'estado'      => 'required',
-        'fecha_inicio'        => 'required',
-        'fecha_presentacion'  => 'required',
-        'fecha_finalizacion'  => 'required',
-        'tipo_proceso'        => 'required'
+        'tipo_proceso' => 'required'
       );
     }
     else {
@@ -208,13 +204,8 @@ class ExpedientesController extends BaseController {
 
       $rules = array(
         'cliente_id'  => 'required',
-        'numero'      => 'required',
         'caratula'    => 'required',
-        'juzgado'     => 'required',
         'estado'      => 'required',
-        'fecha_inicio'        => 'required',
-        'fecha_presentacion'  => 'required',
-        'fecha_finalizacion'  => 'required',
         'tipo_proceso'        => 'required'
       );
     }

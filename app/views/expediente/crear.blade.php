@@ -17,14 +17,14 @@
     {{ Form::open(array('url' => 'expedientes/crear', 'class' => 'form-horizontal', 'role' => 'form')) }}
 
     <div class="form-group">
-        {{ Form::label('numero', 'Nro. Expediente', array('class' => 'col-sm-2 col-sm-2-15 control_form_label')) }}
-        <div class="col-sm-10 col-sm-10-30">
-            {{ Form::text('numero', Input::old('numero'), array('class' => 'form-control texto_largo', 'size' => '70')) }}
-        </div>
-
         {{ Form::label('caratula', 'Car&aacute;tula', array('class' => 'col-sm-2 col-sm-2-15 control_form_label')) }}
         <div class="col-sm-10 col-sm-10-30">
             {{ Form::text('caratula', Input::old('caratula'), array('class' => 'form-control', 'size' => '70')) }}
+        </div>
+
+        {{ Form::label('numero', 'Nro. Expediente', array('class' => 'col-sm-2 col-sm-2-15 control_form_label')) }}
+        <div class="col-sm-10 col-sm-10-30">
+            {{ Form::text('numero', Input::old('numero'), array('class' => 'form-control texto_largo', 'size' => '70')) }}
         </div>
     </div>
 
@@ -101,9 +101,9 @@
 
 </div>    
 
-@stop
-
 <script type="text/javascript">
     validar_campos_form();
     mostrar_datepicker();
 </script>
+
+@stop

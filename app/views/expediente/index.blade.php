@@ -49,11 +49,11 @@
               <td> {{ $dato->estado }} </td>
               <td> 
                 {{ Form::button('Escritos', array('class'=>'btn btn-default btn-xs btn-default-azul', 
-                  'onClick' => "")) }}
+                  'onClick' => "location.href='/escritos/index'")) }}
               </td>
               <td> 
                 {{ Form::button('Pagos', array('class'=>'btn btn-default btn-xs btn-default-azul', 
-                  'onClick' => "")) }}
+                  'onClick' => "location.href='/pagos/index'")) }}
               </td>            
               <td> 
                 {{ Form::button('Modif.', array('class'=>'btn btn-default btn-xs btn-default-azul', 
