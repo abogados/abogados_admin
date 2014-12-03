@@ -142,6 +142,11 @@ Route::group(array('before'=>'auth'), function(){
       'uses' => 'UsuariosController@eliminar'
     ));
 
+  Route::get('usuarios/eliminar_gf/{gf_id}/{id}', array(
+      'as' => 'usuarios.eliminar_gf',
+      'uses' => 'UsuariosController@eliminar_gf'
+    ));
+
   //grupo de rutas que aceptan peticiones post, protegemos de ataques csrf
   Route::group(array('before'=>'csrf'),function()
   {
@@ -391,11 +396,16 @@ Route::group(array('before'=>'auth'), function(){
       'uses' => 'BackupsController@crear_dbase'
     ));
 
+  Route::get('backups/crear_dbase', array(
+      'as' => 'backups.crear_dbase',
+      'uses' => 'BackupsController@crear_dbase'
+    ));
+
   Route::get('backups/{file}', 'BackupsController@getDownloadFile');
 
   Route::group(array('before'=>'csrf'),function()
   {
-    Route::post('backups/crear_dbase', 'BackupsController@crear_dbase');
+    Route::post('backups/crear_dbase_windows', 'BackupsController@crear_dbase_windows');
   });
 
   ///////////////////////// Listados

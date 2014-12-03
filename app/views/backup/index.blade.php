@@ -47,7 +47,7 @@
               <td>  {{ $dato->creado_at }} </td>
               <td> 
                 {{ Form::button('Descargar', array('class'=>'btn btn-default btn-xs btn-default-azul', 
-                  'onClick' => "location.href='/backups/$dato->nombre'")) }}
+                  'onClick' => "location.href='\backups\\$dato->nombre'")) }}
               </td>
             </tr>
             @endforeach

@@ -14,7 +14,7 @@
       @endforeach
     @endif
 
-    {{ Form::open(array('url' => 'backups/crear_dbase', 'class' => 'form-horizontal', 'role' => 'form')) }}
+    {{ Form::open(array('url' => 'backups/crear_dbase_windows', 'class' => 'form-horizontal', 'role' => 'form')) }}
   
     <div class="form-group">
         {{ Form::label('nombre', 'Nombre', array('class' => 'col-sm-2 col-sm-2-10 control_form_label')) }}

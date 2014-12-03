@@ -17,7 +17,7 @@
 
     <ul class="nav nav-tabs" role="tablist">
       <li class="active"><a href="#titular" role="tab" data-toggle="tab">Titular</a></li>
-      <li><a href="#grupo_familiar" role="tab" data-toggle="tab">Grupo Familiar</a></li>
+      <li><a href="#grupo_familiar" role="tab" data-toggle="tab">Agregar Grupo Familiar</a></li>
     </ul>
 
     <!-- Tab panes -->

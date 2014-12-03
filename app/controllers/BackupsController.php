@@ -86,6 +86,18 @@ class BackupsController extends BaseController {
    */
     public function crear_dbase() {
 
+      $database = Config::get('database.connections.mysql.database');
+
+      return View::make("backup.crear_dbase", array("nombre_dbase" => $database));
+    }
+
+  /**
+   * Show the form for creating a new resource.
+   *
+   * @return Response
+   */
+    public function crear_dbase_linux() {
+
         if(Input::get()) {
             $inputs = $this->getInputs(Input::all());
             if($this->validateForms($inputs, true) === true) {
@@ -100,7 +112,6 @@ class BackupsController extends BaseController {
                 $backupFullZipName = $nombre_archivo . "-" . date("Y-m-d-H-i-s") . '.zip';
 
                 $path = "/usr/bin/mysqldump";
-         
                 $command = $path . " --user=" . $username . " --password='" . $password . "' " . $database . " > " . $backupPath . $backupFileName;
                 system($command, $retval);
 
@@ -112,6 +123,77 @@ class BackupsController extends BaseController {
                   if($retvalZip === 0){
 
                     $command = "rm app/storage/backup/".$backupFileName;
+                    system($command, $retvalZip);
+
+                    $backup = new Backup($inputs);
+
+                    $backup->nombre = $backupFullZipName;
+                    $backup->tipo   = 'Database';
+
+                    if($backup->save()){
+                      return Redirect::to('backups/index')
+                        ->with(array('mensaje' => 'El Backup de la Base de Datos ha sido creada correctamente.'));
+                    }
+                    else{
+                      return Redirect::route('backups.crear_dbase')
+                        ->withErrors(array('error' => 'Ocurrió un error al intentar grabar el registro del Backup de la Base de Datos.'))->withInput();
+                    }
+                  }
+                  else{
+                    return Redirect::route('backups.crear_dbase')
+                      ->withErrors(array('error' => 'Ocurrió un error al intentar Comprimir del Backup de la Base de Datos.'))->withInput();
+                  }
+                }
+                else{
+                  return Redirect::route('backups.crear_dbase')
+                    ->withErrors(array('error' => 'Ocurrió un error al intentar generar el Backup de la Base de Datos.'))->withInput();
+                }
+            }
+            else {
+                return Redirect::route('backups.crear_dbase')
+                  ->withErrors($this->validateForms($inputs,true))->withInput();
+              }
+        }
+        else{
+            $database = Config::get('database.connections.mysql.database');
+
+            return View::make("backup.crear_dbase", array("nombre_dbase" => $database));
+        }
+    }
+
+    /**
+   * Show the form for creating a new resource.
+   *
+   * @return Response
+   */
+    public function crear_dbase_windows() {
+
+        if(Input::get()) {
+            $inputs = $this->getInputs(Input::all());
+            if($this->validateForms($inputs, true) === true) {
+                $nombre_archivo = Input::get("nombre");
+
+                $host = Config::get('database.connections.mysql.host');
+                $database = Config::get('database.connections.mysql.database');
+                $username = Config::get('database.connections.mysql.username');
+                $password = Config::get('database.connections.mysql.password');
+                $backupPath = app_path() . "\storage\backup\\";
+                $backupFileName = $nombre_archivo . "-" . date("Y-m-d-H-i-s") . '.sql';
+                $backupFullZipName = $nombre_archivo . "-" . date("Y-m-d-H-i-s") . '.zip';
+
+                $path = "C:\\xampp\mysql\bin\mysqldump";
+                $command = $path . " -u" . $username . " -p" . $password . " --databases " . $database . " --result-file=" . $backupPath . $backupFileName;
+                system($command, $retval);
+                
+                if($retval === 0){
+
+                  $zip = new ZipArchive();
+
+                  if($zip->open($backupPath . $backupFullZipName, ZIPARCHIVE::CREATE) === true) {
+                    $zip->addFile($backupPath . $backupFileName);
+                    $zip->close();
+
+                    $command = "del " . $backupPath . $backupFileName;
                     system($command, $retvalZip);
 
                     $backup = new Backup($inputs);
@@ -233,7 +315,7 @@ class BackupsController extends BaseController {
     }
 
   public function getDownloadFile($zip_file){
-    $ZipFilePath = app_path() . "/storage/backup/";
+    $ZipFilePath = app_path() . "\storage\backup\\";
     $file= $ZipFilePath . $zip_file;
 
     $headers = array(

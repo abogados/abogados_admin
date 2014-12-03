@@ -10,10 +10,11 @@ class UsuariosController extends BaseController {
   public function index()
   {
     if(Auth::user()){
-      $usuarios = Usuario::where('parentesco','=','Titular')->orderBy('apellido','desc','nombre','desc')->get();
+      $usuarios = Usuario::where('parentesco','=','Titular')
+        ->orderBy('apellido','desc','nombre','desc')->get();
 
       foreach($usuarios->all() as $dato) {
-        $dato->total_grupo_familiar = Usuario::where('titular_id', '=', $dato->id)
+        $dato->total_grupo_familiar = Usuario::where('titular_id', '=', $dato->id)->where('parentesco','!=','Titular')
         ->count();
 
         $dato->creado_at = $this->convertir_fecha_es($dato->created_at);
@@ -192,11 +193,11 @@ class UsuariosController extends BaseController {
     if(Input::get()) {
       if($usuario) {
         //traigo el grupo familiar completo existente para eliminarlo e insertarlos de nuevo
-        $usuario_gf = Usuario::where('titular_id','=',$id)  ->where('id','!=',$id);
+        /*$usuario_gf = Usuario::where('titular_id','=',$id)  ->where('id','!=',$id);
 
         if($usuario_gf->count() > 0) {
           $usuario_gf->delete();
-        }
+        }*/
 
         $inputs = $this->getInputs_gf(Input::all());
 
@@ -258,9 +259,29 @@ class UsuariosController extends BaseController {
 
     if($usuario){
       $usuario->delete();
-      return Redirect::to('usuarios/index')->with(array('mensaje' => 'El Usuario ha sido eliminado correctamente.'));
-    }else{
-      return Redirect::to('usuarios/index')->with(array('mensaje' => "El Usuario con id $id que intentas eliminar no existe."));
+      return Redirect::to('usuarios/index')->with(array('mensaje' => 'El Empleado ha sido eliminado correctamente.'));
+    }
+    else{
+      return Redirect::to('usuarios/index')->with(array('mensaje' => "El Empleado con id $id que intentas eliminar no existe."));
+    }
+  }
+
+  /**
+   * Remove the specified resource from storage.
+   *
+   * @param  int  $id
+   * @return Response
+   */
+  public function eliminar_gf($gf_id, $id)
+  {
+    $usuario_gf = Usuario::find($gf_id);
+
+    if($usuario_gf){
+      $usuario_gf->delete();
+      return Redirect::to('usuarios/solapas_mod/'.$id);
+    }
+    else{
+      return Redirect::to('usuarios/solapas_mod/'.$id)->with(array('mensaje' => "El Miembre del Grupo Familiar con id $gf_id que intentas eliminar no existe."));
     }
   }
   
@@ -408,48 +429,6 @@ class UsuariosController extends BaseController {
   {
     $usuario = Usuario::find($id);
 
-
-    // $usuario_gf = Usuario::where('titular_id','=',$id)
-    //   ->where('id','!=',$id)
-    //   ->select('nombre', 'apellido','dni','parentesco')
-    //   ->get();
-      
-    // print "<pre>";
-    // print_r($usuario_gf->all());
-    // print "</pre>";
-
-    // $queries = DB::getQueryLog();
-    // $last_query = end($queries);
-    // print "<pre>";
-    // print_r($last_query);
-    // print "</pre>";
-    // exit;
-    
-    // $i = 0;
-    // foreach($usuario_gf->all() as $dato) {
-    //   $gf[$i]['nombre'] = $dato->nombre;
-    //   $gf[$i]['apellido'] = $dato->apellido;
-    //   $gf[$i]['dni'] = $dato->dni;
-    //   $gf[$i]['parentesco'] = $dato->parentesco;
-    //   $i++;
-    // }
-    
-    // print "<pre>";
-    // print $gf[0]['nombre'];
-    // print "</pre>";
-    // exit;
-
-    //$usuarios_gf = Usuario::where('titular_id','=',$usuario->id)->orderBy('apellido','desc', 'nombre','desc')->get();
-
-/*    $queries = DB::getQueryLog();
-    $last_query = end($queries);
-    print "<pre>";
-    print_r($last_query);
-    print "</pre>";
-    exit; */
-
-    //$usuario['datos_gf'] = $usuarios_gf;
-
     return View::make('usuario.solapas_mod', array('usuario' => $usuario));
   }
 
@@ -460,11 +439,15 @@ class UsuariosController extends BaseController {
     if($id != '') { 
       $usuario = Usuario::find($id);
 
-      if ($tipo_solapa === 'titular') {      
-        return View::make("usuario.modificar", array("usuario" => $usuario));
+      if ($tipo_solapa === 'titular') {
+        $usuarios_gf = Usuario::where('titular_id','=', $usuario->id)
+          ->where('parentesco','!=','Titular')
+          ->orderBy('apellido','desc', 'nombre','desc')->get();
+
+        return View::make("usuario.modificar", array('usuario' => $usuario, 'grupo_familiar' => $usuarios_gf));
       } 
 
-      return View::make("usuario.modificar_gf", array("usuario" => $usuario));
+      return View::make("usuario.modificar_gf", array('usuario' => $usuario));
     }
     else {
       return View::make("usuario.crear");

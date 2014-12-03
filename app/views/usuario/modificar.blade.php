@@ -174,6 +174,36 @@
 
 </div>
 
+<div class="buscador_contenedor buscador_contenedor_grilla">
+  @if(count($grupo_familiar) == 0)
+    <p>El Empleado no tiene asignado un Grupo Familiar.</p>
+  @else
+  <div class="CSSTableGenerator" >
+    <table>
+        <tr>
+          <td> <b>Apellido</b> </td>
+          <td> <b>Nombre</b> </td>
+          <td> <b>DNI</b> </td>
+          <td> <b>Parentesco</b> </td>
+          <td colspan="2"> <b>Operaci&oacute;n</b> </td>
+        </tr>
+        @foreach($grupo_familiar as $dato)
+        <tr>
+          <td> {{ $dato->apellido }} </td>
+          <td> {{ $dato->nombre }} </td>
+          <td> {{ $dato->parentesco }} </td>
+          <td> {{ $dato->dni }} </td>
+          <td>
+            {{ Form::button('Elim.', array('class'=>'btn btn-default btn-xs btn-default-azul', 
+              'onClick' => "location.href='/usuarios/eliminar_gf/$dato->id/$usuario->id'")) }}
+          </td>
+        </tr>
+        @endforeach
+    </table>
+  </div>
+  @endif
+</div>
+
 @stop
 
 <script type="text/javascript">
