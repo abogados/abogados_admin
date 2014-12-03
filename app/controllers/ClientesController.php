@@ -138,10 +138,10 @@ class ClientesController extends BaseController {
            $cliente->email      = Input::get("email");
            $cliente->domicilio  = Input::get("domicilio");
            $cliente->localidad  = Input::get("localidad");
-           $cliente->provincia  = Input::get("provincia");
+//           $cliente->provincia  = Input::get("provincia");
            $cliente->telefono   = Input::get("telefono");
            $cliente->celular    = Input::get("celular");
-           $cliente->estado     = Input::get("estado");
+//           $cliente->estado     = Input::get("estado");
 
           if($cliente->save()){
             return Redirect::to('clientes/index')->with(array('mensaje' => 'El usuario se ha actualizado correctamente.'));
@@ -186,8 +186,8 @@ class ClientesController extends BaseController {
         'nombre'    => 'required|min:2|max:100',
         'apellido'  => 'required|min:2|max:100',
         'email'     => 'required|min:2|max:100|unique:clientes|email',
-        'dni'       => 'required|min:8|max:8|unique:clientes',
-        'estado'    => 'required'
+        'dni'       => 'required|min:8|max:8|unique:clientes'
+//        'estado'    => 'required'
       );
     }
     else {
@@ -198,8 +198,8 @@ class ClientesController extends BaseController {
         'nombre'    => 'required|min:2|max:100',
         'apellido'  => 'required|min:2|max:100',
         'email'     => 'required|min:2|max:100|email',
-        'dni'       => 'required|min:8|max:8',
-        'estado'    => 'required'
+        'dni'       => 'required|min:8|max:8'
+//        'estado'    => 'required'
       );
     }
 

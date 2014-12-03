@@ -72,6 +72,7 @@ class UsuariosController extends BaseController {
     }
 
     $usuarios  = Usuario::BuscarFiltros($param)
+      ->where('parentesco','=','Titular')
       ->orderBy('created_at','desc')->paginate(10);
 
     foreach($usuarios->all() as $dato) {
@@ -146,23 +147,28 @@ class UsuariosController extends BaseController {
 
         if($this->validateForms($inputs,false) === true) {
          
-          $usuario->nombre            = Input::get("nombre");
           $usuario->apellido          = Input::get("apellido");
-          $usuario->dni               = Input::get("dni");
-          $usuario->domicilio         = Input::get("domicilio");
-          $usuario->email             = Input::get("email");
-          $usuario->perfil            = Input::get("perfil");
-          $usuario->user              = Input::get("user");
-          $usuario->password          = Hash::make(Input::get("password"));
-          $usuario->estado            = Input::get("estado");
+          $usuario->nombre            = Input::get("nombre");
           $usuario->parentesco        = Input::get("parentesco");
+          $usuario->dni               = Input::get("dni");
           $usuario->estado_civil      = Input::get("estado_civil");
+          $usuario->sexo              = Input::get("sexo");
+          $usuario->domicilio         = Input::get("domicilio");
           $usuario->localidad         = Input::get("localidad");
           $usuario->telefono          = Input::get("telefono");
           $usuario->celular           = Input::get("celular");
+          $usuario->fecha_nacimiento  = $this->convertir_fecha_us(Input::get("fecha_nacimiento"));
+          $usuario->profesion         = Input::get("profesion");
+          $usuario->email             = Input::get("email");
+
+          $usuario->fecha_ingreso     = $this->convertir_fecha_us(Input::get("fecha_ingreso"));
           $usuario->legajo            = Input::get("legajo");
-          $usuario->fecha_nacimiento  = $this->convertir_fecha_us($usuario->fecha_nacimiento);
-          $usuario->fecha_ingreso     = $this->convertir_fecha_us($usuario->fecha_ingreso);
+          $usuario->perfil            = Input::get("perfil");
+          $usuario->user              = Input::get("user");
+          if(Input::get("password") != '') {
+            $usuario->password          = Hash::make(Input::get("password"));
+          }
+          $usuario->estado            = Input::get("estado");
           
           if($usuario->save()){
             return Redirect::to('usuarios/index')->withErrors(array('mensaje' => 'El Empleado se ha actualizado correctamente.'));
@@ -211,7 +217,12 @@ class UsuariosController extends BaseController {
                 $usuario = new Usuario($inputs);
               
                 foreach($datos as $indice => $valor) {
-                  $usuario->$indice = $valor;         
+                  if($indice == 'fecha_nacimiento') {
+                    $usuario->$indice  = $this->convertir_fecha_us($valor);
+                  }
+                  else{
+                    $usuario->$indice = $valor;
+                  }
                 }
 
                 $usuario->titular_id  = $id;
@@ -342,10 +353,11 @@ class UsuariosController extends BaseController {
   private function validateForms_gf($inputs = array()){
 
     $rules = array(
-      'nombre'      => 'required|min:2|max:100',
-      'apellido'    => 'required|min:2|max:100',
-      'dni'         => 'required|min:8|max:8',
-      'parentesco'  => 'required'
+      'nombre'            => 'required|min:2|max:100',
+      'apellido'          => 'required|min:2|max:100',
+      'dni'               => 'required|min:8|max:8',
+      'parentesco'        => 'required',
+      'fecha_nacimiento'  => 'required'
     ); 
         
     $messages = array(
@@ -410,6 +422,9 @@ class UsuariosController extends BaseController {
       if(strpos($fecha_en, ':') > 0){
         $hora = substr($fecha_en, 11, 8);
       }
+      else {
+        $hora = '';
+      }
 
       $fecha_es = $dia . "-" . $mes . "-" .$ano . " " . $hora; 
 
@@ -443,6 +458,12 @@ class UsuariosController extends BaseController {
         $usuarios_gf = Usuario::where('titular_id','=', $usuario->id)
           ->where('parentesco','!=','Titular')
           ->orderBy('apellido','desc', 'nombre','desc')->get();
+
+        foreach($usuarios_gf as $dato) {
+          if($dato->fecha_nacimiento != '') {
+            $dato->fecha_nacimiento = $this->convertir_fecha_es($dato->fecha_nacimiento);
+          }
+        }
 
         return View::make("usuario.modificar", array('usuario' => $usuario, 'grupo_familiar' => $usuarios_gf));
       } 

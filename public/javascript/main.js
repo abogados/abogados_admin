@@ -43,20 +43,20 @@ $(function() {
 
 function validar_campos_form(){
     //Para escribir solo letras
-    $('#nombre').validCampoFranz(' abcdefghijklmnñopqrstuvwxyzáéiou');
-    $('#apellido').validCampoFranz(' abcdefghijklmnñopqrstuvwxyzáéiou');
-    $('#profesion').validCampoFranz(' abcdefghijklmnñopqrstuvwxyzáéiou');
-    $('#localidad').validCampoFranz(' abcdefghijklmnñopqrstuvwxyzáéiou');
+    if($('#nombre'))    $('#nombre').validCampoFranz(' abcdefghijklmnñopqrstuvwxyzáéiou');
+    if($('#apellido'))  $('#apellido').validCampoFranz(' abcdefghijklmnñopqrstuvwxyzáéiou');
+    if($('#profesion')) $('#profesion').validCampoFranz(' abcdefghijklmnñopqrstuvwxyzáéiou');
+    if($('#localidad')) $('#localidad').validCampoFranz(' abcdefghijklmnñopqrstuvwxyzáéiou');
    
     //Para escribir solo numeros    
-    $('#dni').validCampoFranz('0123456789');    
-    $('#celular').validCampoFranz('0123456789');    
-    $('#telefono').validCampoFranz('0123456789');    
-    $('#legajo').validCampoFranz('0123456789');    
+    if($('#dni'))       $('#dni').validCampoFranz('0123456789');    
+    if($('#celular'))   $('#celular').validCampoFranz('0123456789');    
+    if($('#telefono'))  $('#telefono').validCampoFranz('0123456789');    
+    if($('#legajo'))    $('#legajo').validCampoFranz('0123456789');    
 
     //No permitir ningun tipo de caracter
-    $('#fecha_ingreso').validCampoFranz('');
-    $('#fecha_nacimiento').validCampoFranz('');
+    if($('#fecha_ingreso'))     $('#fecha_ingreso').validCampoFranz('');
+    if($('#fecha_nacimiento'))  $('#fecha_nacimiento').validCampoFranz('');
 }
 
 function validar_contraseña() {

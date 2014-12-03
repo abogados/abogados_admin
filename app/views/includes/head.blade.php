@@ -12,5 +12,5 @@
 {{ HTML::script('packages/jquery-ui/jquery-ui.min.js')}}
 {{ HTML::script('packages/bootstrap/dist/js/bootstrap.js')}}
 {{ HTML::script('packages/ckeditor/ckeditor.js')}}
-{{ HTML::script('javascript/main.js')}}
 {{ HTML::script('javascript/validCampoFranz.js')}}
+{{ HTML::script('javascript/main.js')}}

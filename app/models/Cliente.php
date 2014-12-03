@@ -36,6 +36,9 @@ class Cliente extends Eloquent implements UserInterface, RemindableInterface {
 	    		elseif($campo === 'dni'){
 					$query->where($campo, '=', $valor);
 	    		}
+	    		elseif($campo === 'legajo'){
+					$query->where($campo, '=', $valor);
+	    		}
 	    		else{
 					$query->where($campo, $operador, '%'.$valor.'%');
 				}

@@ -1,30 +1,10 @@
 <div class="buscador_contenedor">
 	<div class="buscador_form_group">
-	    {{ Form::label('apenom', 'Nombre', array('class' => 'col-sm-2 buscador_col_label control-label')) }}
+	    {{ Form::label('apenom', 'Apellido y Nombre', array('class' => 'col-sm-2 buscador_col_label control-label')) }}
 	    <div class="col-sm-10 buscador_col_input">
 	        {{ Form::text('apenom', Input::old('apenom'), array('class' => 'buscador_control', 'size' => '70')) }}
 	    </div>
 	</div>
-	<div class="buscador_form_group">
-		{{ Form::label('created_at_desde', 'Fecha Desde', array('class' => 'col-sm-2 buscador_col_label control-label')) }}
-		<div class="col-sm-10 buscador_col_input">
-		    {{ Form::text('created_at_desde', Input::old('created_at_desde'), 
-		        array('type' => 'text', 'maxlength' => '10', 
-		            'class' => 'buscador_control datepicker',
-		            'placeholder' => 'Click aquí para seleccionar fecha.')) }}
-		</div>
-  	</div>
-    <div class="buscador_form_group">
-    	{{ Form::label('created_at_hasta', 'Fecha Hasta', array('class' => 'col-sm-2 buscador_col_label control-label')) }}
-    	<div class="col-sm-10 buscador_col_input">
-        {{ Form::text('created_at_hasta', Input::old('created_at_hasta'), 
-            array('type' => 'text', 'maxlength' => '10', 
-                'class' => 'buscador_control datepicker',
-                'placeholder' => 'Click aquí para seleccionar fecha.')) }}
-	    </div>
-	</div>
-
-	<br style="clear:both;" />
 
     <div class="buscador_form_group">
         {{ Form::label('perfil', 'Perfil', array('class' => 'col-sm-2 buscador_col_label control-label')) }}
@@ -39,14 +19,27 @@
                 ), null, array('class' => 'buscador_control')) }}
         </div>
     </div>
+
     <div class="buscador_form_group">
-        {{ Form::label('estado', 'Estado', array('class' => 'col-sm-2 buscador_col_label control-label')) }}
+        {{ Form::label('profesion', 'Profesi&oacute;n', array('class' => 'col-sm-2 buscador_col_label control-label')) }}
         <div class="col-sm-10 buscador_col_input">
-            {{ Form::select('estado',
-                array(''=>'Todos',
-                'Activo'    => 'Activo',
-                'Inactivo'  => 'Inactivo'
-                ), null, array('class' => 'buscador_control')) }}
+            {{ Form::text('profesion', Input::old('profesion'), array('class' => 'buscador_control', 'size' => '70')) }}
+        </div>
+    </div>
+	
+	<br style="clear:both;" />
+
+    <div class="buscador_form_group">
+        {{ Form::label('dni', 'DNI', array('class' => 'col-sm-2 buscador_col_label control-label')) }}
+        <div class="col-sm-10 buscador_col_input">
+            {{ Form::text('dni', Input::old('dni'), array('class' => 'buscador_control', 'size' => '70')) }}
+        </div>
+    </div>
+
+    <div class="buscador_form_group">
+        {{ Form::label('legajo', 'Legajo', array('class' => 'col-sm-2 buscador_col_label control-label')) }}
+        <div class="col-sm-10 buscador_col_input">
+            {{ Form::text('legajo', Input::old('legajo'), array('class' => 'buscador_control', 'size' => '70')) }}
         </div>
     </div>
 

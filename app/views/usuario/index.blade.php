@@ -35,21 +35,21 @@
       <div class="CSSTableGenerator" >
         <table>
             <tr>
-              <td> <b>Apellido</b> </td>
-              <td> <b>Nombre</b> </td>
+              <td> <b>Legajo</b> </td>
+              <td> <b>Apellido y Nombre</b> </td>
+              <td> <b>DNI</b> </td>
+              <td> <b>Profesi&oacute;n</b> </td>
               <td> <b>Perfil</b> </td>
-              <td> <b>Estado</b> </td>
-              <td> <b>Fecha Alta</b> </td>
               <td> <b>Grupo Familiar</b> </td>
               <td colspan="2"> <b>Operaci&oacute;n</b> </td>
             </tr>
             @foreach($datos as $dato)
             <tr>
-              <td> {{ $dato->apellido }} </td>
-              <td> {{ $dato->nombre }} </td>
+              <td> {{ $dato->legajo }}</td>
+              <td> {{ $dato->apellido }} {{ $dato->nombre }} </td>
+              <td> {{ $dato->dni }} </td>
+              <td> {{ $dato->profesion }} </td>
               <td> {{ $dato->perfil }} </td>
-              <td> {{ $dato->estado }} </td>
-              <td> {{ $dato->creado_at }} </td>
               <td> {{ $dato->total_grupo_familiar }} </td>
               <td> 
                 {{ Form::button('Modif.', array('class'=>'btn btn-default btn-xs btn-default-azul', 

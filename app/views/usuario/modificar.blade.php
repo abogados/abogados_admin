@@ -142,7 +142,7 @@
     <div class="form-group">
         {{ Form::label('password', 'Contrase&ntilde;a', array('class' => 'col-sm-2 col-sm-2-15 control_form_label')) }}
         <div class="col-sm-10 col-sm-10-30">
-            {{ Form::password('password', array('class' => 'form-control', 'size' => '70')) }}
+            {{ Form::password('password', array('class' => 'form-control', 'size' => '70', 'onChange' => 'validar_contraseña()')) }}
         </div>
 
         {{ Form::label('password_repet', 'Repetir Contrase&ntilde;a', array('class' => 'col-sm-2 col-sm-2-15 control-label')) }}
@@ -185,14 +185,18 @@
           <td> <b>Nombre</b> </td>
           <td> <b>DNI</b> </td>
           <td> <b>Parentesco</b> </td>
+          <td> <b>Fecha de Nacimiento</b> </td>
+          <td> <b>Discapacidad</b> </td>
           <td colspan="2"> <b>Operaci&oacute;n</b> </td>
         </tr>
         @foreach($grupo_familiar as $dato)
         <tr>
           <td> {{ $dato->apellido }} </td>
           <td> {{ $dato->nombre }} </td>
-          <td> {{ $dato->parentesco }} </td>
           <td> {{ $dato->dni }} </td>
+          <td> {{ $dato->parentesco }} </td>
+          <td> {{ $dato->fecha_nacimiento }} </td>
+          <td> {{ $dato->discapacidad }} </td>
           <td>
             {{ Form::button('Elim.', array('class'=>'btn btn-default btn-xs btn-default-azul', 
               'onClick' => "location.href='/usuarios/eliminar_gf/$dato->id/$usuario->id'")) }}
@@ -204,13 +208,9 @@
   @endif
 </div>
 
-@stop
-
-<script type="text/javascript">
-    validar_campos_form();
-</script>
-
 <script type="text/javascript">
     validar_campos_form();
     mostrar_datepicker();
 </script>
+
+@stop

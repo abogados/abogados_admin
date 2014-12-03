@@ -13,6 +13,11 @@
       width: 100%;
     }
 
+    .texto_corto_4 {
+      width: 4%;
+      display: inline;
+    }
+
     .texto_corto {
       width: 12%;
     }

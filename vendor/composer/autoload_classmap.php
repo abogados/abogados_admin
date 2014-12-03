@@ -8,7 +8,7 @@ $baseDir = dirname($vendorDir);
 return array(
     'Agenda' => $baseDir . '/app/models/Agenda.php',
     'AgendasController' => $baseDir . '/app/controllers/AgendasController.php',
-    'AgregarEstCivilLegajoSexoTelCelProfIngresoToUsuarios' => $baseDir . '/app/database/migrations/2014_11_30_182545_agregar_est_civil_legajo_sexo_tel_cel_prof_ingreso_to_usuarios.php',
+    'AgregarDiscapacidadToUsuarios' => $baseDir . '/app/database/migrations/2014_12_03_064823_AgregarDiscapacidadToUsuarios.php',
     'AgregarEstCivilLocalidadLegajoSexoTelCelProfIngresoToUsuarios' => $baseDir . '/app/database/migrations/2014_11_30_183702_agregar_est_civil_localidad_legajo_sexo_tel_cel_prof_ingreso_to_usuarios.php',
     'AgregarParentescoToUsuarios' => $baseDir . '/app/database/migrations/2014_11_11_045824_agregar_parentesco_to_usuarios.php',
     'AgregarTitularIdToUsuarios' => $baseDir . '/app/database/migrations/2014_11_11_044253_agregar_titular_id_to_usuarios.php',

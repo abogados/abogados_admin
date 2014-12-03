@@ -35,18 +35,14 @@
       <div class="CSSTableGenerator" >
         <table >
             <tr>
-              <td> <b>Nombre y Apellido</b> </td>
+              <td> <b>Apellido y Nombre</b> </td>
               <td> <b>DNI</b> </td>
-              <td> <b>Estado</b> </td>
-              <td> <b>Fecha Alta</b> </td>
               <td colspan="2"> <b>Operaci&oacute;n</b> </td>
             </tr>
             @foreach($datos as $dato)
             <tr>
-              <td> {{ $dato->nombre }} {{ $dato->apellido }} </td>
+              <td> {{ $dato->apellido }} {{ $dato->nombre }}</td>
               <td> {{ $dato->dni }} </td>
-              <td> {{ $dato->estado }} </td>
-              <td> {{ $dato->creado_at }} </td>
               <td> 
                 {{ Form::button('Modif.', array('class'=>'btn btn-default btn-xs btn-default-azul', 
                   'onClick' => "location.href='/clientes/modificar/$dato->id'")) }}
