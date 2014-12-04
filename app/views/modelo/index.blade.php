@@ -1,7 +1,7 @@
 @extends('layout.base_formularios')
 
 @section('titulo')
-  <h5>Modelos</h5>
+  <h4><b>Modelos</b></h4>
 @stop
 
 @section('botones_form')
@@ -37,14 +37,12 @@
               <tr>
                 <td> <b>Nombre</b> </td>
                 <td> <b>Tipo Proceso</b> </td>
-                <td> <b>Fecha Creaci&oacute;n</b> </td>
                 <td colspan="2"> <b>Operaci&oacute;n</b> </td>
               </tr>
               @foreach($datos as $dato)
               <tr>
                 <td> {{ $dato->nombre }} </td>
                 <td> {{ $dato->tipo_proceso }} </td>
-                <td> {{ $dato->creado_at }} </td>
                 <td> 
                   {{ Form::button('Modif.', array('class'=>'btn btn-default btn-xs btn-default-azul', 
                     'onClick' => "location.href='/modelos/modificar/$dato->id'")) }}
