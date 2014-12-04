@@ -42,7 +42,7 @@ class RemindersController extends Controller {
 				$user->password_temp 	= Hash::make($password);
 
 				if($user->save()){
-					Mail::send('emails.auth.forgot', array('link' => URL::route('password.recover', $codigo), 'username' => $user->nombre, 'password' => $password), function($message) use ($user){
+					Mail::send('emails.auth.forgot', array('link' => URL::route('password.recover', $codigo), 'username' => $user->nombre, 'password' => $password, 'user' => $user->user), function($message) use ($user){
 						$message->to($user->email, $user->nombre)->subject('Tu nueva contraseña.');
 					});
 

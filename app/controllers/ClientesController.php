@@ -88,6 +88,7 @@ class ClientesController extends BaseController {
       if($this->validateForms($inputs, true) === true) {
         
         $cliente = new Cliente($inputs);
+        $cliente->estado  = 'Activo';
 
         if($cliente->save()){
           return Redirect::to('clientes/index')->with(array('mensaje' => 'El Cliente ha sido creado correctamente.'));

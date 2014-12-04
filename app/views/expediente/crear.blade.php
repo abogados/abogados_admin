@@ -38,11 +38,15 @@
         <div class="col-sm-10 col-sm-10-30">
             {{ Form::select('estado',
                 array(''=>'Seleccione...',
-                    'Iniciado'      => 'Iniciado',
-                    'En Proceso'    => 'En Proceso',
-                    'Finalizado'    => 'Finalizado',
-                    'Anulado'       => 'Anulado'
-                    ), null, array('class' => 'form-control')) }}
+                    'Iniciado'              => 'Iniciado',
+                    'Archivado'             => 'Archivado',
+                    'Letra'                 => 'Letra',
+                    'Para la Firma'         => 'Para la Firma',
+                    'Con Sentencia Firme'   => 'Con Sentencia Firme',
+                    'Elevado a Cámara'      => 'Elevado a Cámara',
+                    'En 1ra Instancia'      => 'En 1ra Instancia',
+                    'En 2da Instancia'      => 'En 2da Instancia'
+                    ), null, array('class'  => 'form-control')) }}
         </div>
     </div>
 
@@ -76,9 +80,16 @@
         {{ Form::label('tipo_proceso', 'Tipo de Proceso', array('class' => 'col-sm-2 col-sm-2-15 control_form_label')) }}
         <div class="col-sm-10 col-sm-10-30">
             {{ Form::select('tipo_proceso',
-                array(''    => 'Seleccione...',
-                'Tipo 1'    => 'Tipo 1',
-                'Tipo 2'    => 'Tipo 2'), null, array('class' => 'form-control')) }}
+                array(''            => 'Seleccione...',
+                'Civil Común'       => 'Civil Común',
+                'Comercial Común'   => 'Comercial Común',
+                'Sucesiones'        => 'Sucesiones',
+                'Familia'           => 'Familia',
+                'Penal'             => 'Penal',
+                'Laboral'           => 'Laboral',
+                'Documento y Locaciones'    => 'Documento y Locaciones',
+                'Cobro y Apremio'           => 'Cobro y Apremio'
+                ), null, array('class'      => 'form-control')) }}
         </div>
     </div>
 

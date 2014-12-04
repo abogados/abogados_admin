@@ -175,6 +175,7 @@
 </div>
 
 <div class="buscador_contenedor buscador_contenedor_grilla">
+  <h5><b>Grupo Familiar del Empleado</b></h5>
   @if(count($grupo_familiar) == 0)
     <p>El Empleado no tiene asignado un Grupo Familiar.</p>
   @else

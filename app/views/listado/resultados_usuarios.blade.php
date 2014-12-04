@@ -6,6 +6,7 @@
 <div>
   {{ Form::submit('Exportar', array('class' => 'btn btn-default btn-default-azul')) }}
 </div>
+<br />
 
 {{ Form::hidden('tipo_modulo', $datos->tipo_modulo, array('id' => 'tipo_modulo', 'class' => 'form-control')) }}
 
@@ -14,17 +15,20 @@
 <div class="CSSTableGenerator" >
   <table >
       <tr>
-        <td> <b>Nombre y Apellido</b> </td>
+        <td> <b>Legajo</b> </td>
+        <td> <b>Apellido</b> </td>
+        <td> <b>Nombre</b> </td>
+        <td> <b>DNI</b> </td>
+        <td> <b>Profesi&oacute;n</b> </td>
         <td> <b>Perfil</b> </td>
-        <td> <b>Estado</b> </td>
-        <td> <b>Fecha Alta</b> </td>
       </tr>
       @foreach($datos as $dato)
       <tr>
-        <td> {{ $dato->nombre }} {{ $dato->apellido }} </td>
+        <td> {{ $dato->legajo }}</td>
+        <td> {{ $dato->apellido }} {{ $dato->nombre }} </td>
+        <td> {{ $dato->dni }} </td>
+        <td> {{ $dato->profesion }} </td>
         <td> {{ $dato->perfil }} </td>
-        <td> {{ $dato->estado }} </td>
-        <td> {{ $dato->creado_at }} </td>
       </tr>
       @endforeach
   </table>

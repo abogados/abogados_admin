@@ -47,7 +47,8 @@ function validar_campos_form(){
     if($('#apellido'))  $('#apellido').validCampoFranz(' abcdefghijklmnñopqrstuvwxyzáéiou');
     if($('#profesion')) $('#profesion').validCampoFranz(' abcdefghijklmnñopqrstuvwxyzáéiou');
     if($('#localidad')) $('#localidad').validCampoFranz(' abcdefghijklmnñopqrstuvwxyzáéiou');
-    if($('#caratula'))  $('#caratula').validCampoFranz(' abcdefghijklmnñopqrstuvwxyzáéiou');
+    if($('#caratula'))  $('#caratula').validCampoFranz(' abcdefghijklmnñopqrstuvwxyzáéiou-,.');
+    if($('#apenom'))    $('#apenom').validCampoFranz(' abcdefghijklmnñopqrstuvwxyzáéiou');
    
     //Para escribir solo numeros    
     if($('#dni'))       $('#dni').validCampoFranz('0123456789');

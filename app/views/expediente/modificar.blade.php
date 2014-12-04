@@ -41,10 +41,14 @@
         <div class="col-sm-10 col-sm-10-30">
             {{ Form::select('estado',
                 array(''=>'Seleccione...',
-                    'Iniciado'      => 'Iniciado',
-                    'En Proceso'    => 'En Proceso',
-                    'Finalizado'    => 'Finalizado',
-                    'Anulado'       => 'Anulado'
+                    'Iniciado'              => 'Iniciado',
+                    'Archivado'             => 'Archivado',
+                    'Letra'                 => 'Letra',
+                    'Para la Firma'         => 'Para la Firma',
+                    'Con Sentencia Firme'   => 'Con Sentencia Firme',
+                    'Elevado a Cámara'      => 'Elevado a Cámara',
+                    'En 1ra Instancia'      => 'En 1ra Instancia',
+                    'En 2da Instancia'      => 'En 2da Instancia'
                     ), $expediente->estado, array('class' => 'form-control')) }}
         </div>
     </div>
@@ -80,8 +84,15 @@
         <div class="col-sm-10 col-sm-10-30">
             {{ Form::select('tipo_proceso',
                 array(''    => 'Seleccione...',
-                'Tipo 1'    => 'Tipo 1',
-                'Tipo 2'    => 'Tipo 2'), $expediente->tipo_proceso, array('class' => 'form-control')) }}
+                'Civil Común'       => 'Civil Común',
+                'Comercial Común'   => 'Comercial Común',
+                'Sucesiones'        => 'Sucesiones',
+                'Familia'           => 'Familia',
+                'Penal'             => 'Penal',
+                'Laboral'           => 'Laboral',
+                'Documento y Locaciones'    => 'Documento y Locaciones',
+                'Cobro y Apremio'           => 'Cobro y Apremio'
+                ), $expediente->tipo_proceso, array('class' => 'form-control')) }}
         </div>
     </div>
 

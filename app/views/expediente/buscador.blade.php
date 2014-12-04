@@ -25,10 +25,14 @@
       <div class="col-sm-10 buscador_col_input">
           {{ Form::select('estado',
               array(''=>'Todos',
-              'Iniciado'      => 'Iniciado',
-              'En Proceso'    => 'En Proceso',
-              'Finalizado'    => 'Finalizado',
-              'Anulado'       => 'Anulado'
+              'Iniciado'              => 'Iniciado',
+              'Archivado'             => 'Archivado',
+              'Letra'                 => 'Letra',
+              'Para la Firma'         => 'Para la Firma',
+              'Con Sentencia Firme'   => 'Con Sentencia Firme',
+              'Elevado a Cámara'      => 'Elevado a Cámara',
+              'En 1ra Instancia'      => 'En 1ra Instancia',
+              'En 2da Instancia'      => 'En 2da Instancia'
               ), null, array('class' => 'buscador_control')) }}
       </div>
   </div>

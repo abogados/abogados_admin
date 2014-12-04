@@ -65,6 +65,7 @@ class ListadosController extends BaseController {
     // EXPEDIENTES
     if($inputs['tipo_modulo'] === 'Expedientes') {
       $datos = Expediente::join('clientes', 'expedientes.cliente_id', '=', 'clientes.id')
+        ->select('expedientes.*')
         ->where('clientes.estado', 'Activo')
         ->orderBy('expedientes.created_at','desc')->get();
 
@@ -132,28 +133,33 @@ class ListadosController extends BaseController {
 
     // EMPLEADOS
     if($inputs['tipo_modulo'] === 'Empleados') {
-      $datos = Usuario::where('parentesco','=','Titular')->orderBy('created_at','desc')->get();
+      $datos = Usuario::where('parentesco','=','Titular')
+        ->select('legajo AS LEGAJO', 'apellido AS APELLIDO', 'nombre AS NOMBRE', 'dni AS DNI', 'profesion AS PROFESION', 'perfil AS PERFIL')
+        ->orderBy('apellido','desc', 'nombre', 'desc')->get();
 
       $nombre_archivo = 'listado_usuarios';
-      $nombre_sheet = 'Lista de Usuarios';
+      $nombre_sheet = 'Listado de Usuarios';
     }
 
     // CLIENTES
     if($inputs['tipo_modulo'] === 'Clientes') {
-      $datos = Cliente::orderBy('created_at','desc')->get();
+      $datos = Cliente::select('apellido AS APELLIDO', 'nombre AS NOMBRE', 'dni AS DNI', 'domicilio AS LOCALIDAD', 
+        'localidad AS LOCALIDAD', 'telefono AS TELEFONO', 'celular AS CELULAR', 'email AS E-MAIL')
+      ->orderBy('created_at','desc')->get();
 
       $nombre_archivo = 'listado_clientes';
-      $nombre_sheet = 'Lista de Clientes';
+      $nombre_sheet = 'Listado de Clientes';
     }
 
     // EXPEDIENTES
     if($inputs['tipo_modulo'] === 'Expedientes') {
       $datos = Expediente::join('clientes', 'expedientes.cliente_id', '=', 'clientes.id')
+        ->select('caratula AS CARATULA','numero AS EXPEDIENTE', 'juzgado AS JUZGADO', 'expedientes.estado AS ESTADO')
         ->where('clientes.estado', 'Activo')
         ->orderBy('expedientes.created_at','desc')->get();
 
       $nombre_archivo = 'listado_expedientes';
-      $nombre_sheet = 'Lista de Expedientes';
+      $nombre_sheet = 'Listado de Expedientes';
     }
 
     $headers = $this->getColumnNames($datos);

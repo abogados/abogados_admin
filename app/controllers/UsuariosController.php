@@ -302,15 +302,12 @@ class UsuariosController extends BaseController {
       $rules = array(
         'nombre'            => 'required|min:2|max:100',
         'apellido'          => 'required|min:2|max:100',
-        'email'             => 'required|min:2|max:100|unique:usuarios|email',
+        'email'             => 'min:2|max:100|unique:usuarios|email',
         'dni'               => 'required|min:8|max:8|unique:usuarios',
         'perfil'            => 'required',
         'user'              => 'required|min:2|max:100|unique:usuarios',
         'estado'            => 'required',
         'parentesco'        => 'required',
-        'estado_civil'      => 'required',
-        'sexo'              => 'required',
-        'fecha_nacimiento'  => 'required',
         'legajo'            => 'required'
       );
     }
@@ -321,15 +318,12 @@ class UsuariosController extends BaseController {
       $rules = array(
         'nombre'            => 'required|min:2|max:100',
         'apellido'          => 'required|min:2|max:100',
-        'email'             => 'required|min:2|max:100',
+        'email'             => 'min:2|max:100',
         'dni'               => 'required|min:8|max:8',
         'perfil'            => 'required',
         'user'              => 'required|min:2|max:100',
         'estado'            => 'required',
         'parentesco'        => 'required',
-        'estado_civil'      => 'required',
-        'sexo'              => 'required',
-        'fecha_nacimiento'  => 'required',
         'legajo'            => 'required'
       ); 
     }
