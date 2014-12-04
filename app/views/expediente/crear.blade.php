@@ -1,7 +1,7 @@
 @extends('layout.base_formularios')
 
 @section('titulo')
-    <h5>Agregar Nuevo Expediente</h5>
+    <h4><b>Agregar Nuevo Expediente</b></h4>
 @stop
 
 @section('contenido')
