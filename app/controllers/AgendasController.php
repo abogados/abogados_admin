@@ -92,6 +92,7 @@ class AgendasController extends BaseController {
 
         $agenda->fecha        = $this->convertir_fecha_us($agenda->fecha);
         $agenda->fecha_alarma = $this->convertir_fecha_us($agenda->fecha_alarma);
+        $agenda->estado       = 'Activo';
 
         if($agenda->save()){
           return Redirect::route('agendas.index')
@@ -106,20 +107,6 @@ class AgendasController extends BaseController {
     else{
       return View::make("agenda.crear");
     }
-  }
-
-  /**
-   * Display the specified resource.
-   *
-   * @param  int  $id
-   * @return Response
-   */
-  public function mostrar($id)
-  {
-    $usuario = Usuario::find($id);
-
-    #return 'Nombre y apellido: '.$usuario->nombre.' '.$usuario->apellido;
-    return View::make('usuario.mostrar',array('datos' => $usuario));
   }
 
 
@@ -144,7 +131,6 @@ class AgendasController extends BaseController {
            $agenda->fecha_alarma  = Input::get("fecha_alarma");
            $agenda->hora_alarma   = Input::get("hora_alarma");
            $agenda->observaciones = Input::get("observaciones");
-           $agenda->estado        = Input::get("estado");
 
           if($agenda->save()){
             return Redirect::route('agendas.index')
@@ -162,6 +148,9 @@ class AgendasController extends BaseController {
       }
     }
     else {
+      $agenda->fecha = $this->convertir_fecha_es($agenda->fecha);
+      $agenda->fecha_alarma = $this->convertir_fecha_es($agenda->fecha_alarma);
+
       return View::make("agenda.modificar", array("agenda" => $agenda));  
     }
   }
@@ -191,8 +180,8 @@ class AgendasController extends BaseController {
     $rules = array(
       'descripcion' => 'required|min:2|max:100',
       'tipo_evento' => 'required',
-      'fecha'       => 'required|min:10|max:10',
-      'estado'      => 'required',
+      'fecha'       => 'required|min:10|max:10'
+//      'estado'      => 'required',
     );
         
     $messages = array(

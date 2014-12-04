@@ -1,7 +1,7 @@
 @extends('layout.base_formularios')
 
 @section('titulo')
-    <h5>Modificar Tarea/Recordatorio</h5>
+    <h4><b>Modificar Tarea/Recordatorio</b></h4>
 @stop
 
 @section('contenido')
@@ -87,9 +87,9 @@
 
 </div>
 
-@stop
-
 <script type="text/javascript">
     validar_campos_form();
     mostrar_datepicker();
 </script>
+
+@stop

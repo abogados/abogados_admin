@@ -51,11 +51,12 @@ function validar_campos_form(){
     if($('#apenom'))    $('#apenom').validCampoFranz(' abcdefghijklmnñopqrstuvwxyzáéiou');
    
     //Para escribir solo numeros    
-    if($('#dni'))       $('#dni').validCampoFranz('0123456789');
-    if($('#celular'))   $('#celular').validCampoFranz('0123456789');
-    if($('#telefono'))  $('#telefono').validCampoFranz('0123456789');
-    if($('#legajo'))    $('#legajo').validCampoFranz('0123456789');
-    if($('#numero'))    $('#numero').validCampoFranz('0123456789'); // se refiere a Nro Expediente
+    if($('#dni'))           $('#dni').validCampoFranz('0123456789');
+    if($('#celular'))       $('#celular').validCampoFranz('0123456789');
+    if($('#telefono'))      $('#telefono').validCampoFranz('0123456789');
+    if($('#legajo'))        $('#legajo').validCampoFranz('0123456789');
+    if($('#numero'))        $('#numero').validCampoFranz('0123456789'); // se refiere a Nro Expediente
+    if($('#hora_alarma'))   $('#hora_alarma').validCampoFranz('0123456789:'); // se refiere a Nro Expediente
 
     //No permitir ningun tipo de caracter
     if($('#fecha_ingreso'))         $('#fecha_ingreso').validCampoFranz('');

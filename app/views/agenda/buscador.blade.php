@@ -15,16 +15,6 @@
               ), null, array('class' => 'buscador_control')) }}
       </div>
   </div>
-  <div class="buscador_form_group">
-      {{ Form::label('estado', 'Estado', array('class' => 'col-sm-2 buscador_col_label control-label')) }}
-      <div class="col-sm-10 buscador_col_input">
-          {{ Form::select('estado',
-                array(''=>'Todos',
-                'Activo'    => 'Activo',
-                'Inactivo'  => 'Inactivo'
-                ), null, array('class' => 'buscador_control')) }}
-      </div>
-  </div>
 
   <br style="clear:both;" />
 
@@ -38,7 +28,7 @@
     </div>
   </div>
   <div class="buscador_form_group">
-    {{ Form::label('escritos__fecha_hasta', 'Fecha Hasta', array('class' => 'col-sm-2 buscador_col_label control-label')) }}
+    {{ Form::label('fecha_hasta', 'Fecha Hasta', array('class' => 'col-sm-2 buscador_col_label control-label')) }}
     <div class="col-sm-10 buscador_col_input">
         {{ Form::text('fecha_hasta', Input::old('fecha_hasta'), 
             array('type' => 'text', 'maxlength' => '10', 

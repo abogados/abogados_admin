@@ -1,7 +1,7 @@
 @extends('layout.base_formularios')
 
 @section('titulo')
-  <h5>Agenda</h5>
+  <h4><b>Agenda</b></h4>
 @stop
 
 @section('botones_form')
@@ -38,7 +38,6 @@
               <td> <b>Descripci&oacute;n</b> </td>
               <td> <b>Tipo</b> </td>
               <td> <b>Fecha</b> </td>
-              <td> <b>Estado</b> </td>
               <td colspan="2"> <b>Operaci&oacute;n</b> </td>
             </tr>
             @foreach($datos as $dato)
@@ -46,7 +45,6 @@
               <td> {{ $dato->descripcion }} </td>
               <td> {{ $dato->tipo_evento }} </td>
               <td> {{ $dato->fecha }} </td>
-              <td> {{ $dato->estado }} </td>
               <td> 
                 {{ Form::button('Modif.', array('class'=>'btn btn-default btn-xs btn-default-azul', 
                   'onClick' => "location.href='/agendas/modificar/$dato->id'")) }}
