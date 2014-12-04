@@ -34,6 +34,12 @@ class Pago extends Eloquent implements UserInterface, RemindableInterface {
 	    		elseif(substr($campo, -6) === 'estado'){
 					$query->where($campo, '=', $valor);
 	    		}
+	    		if($campo === 'monto_desde'){
+					$query->where(str_replace('_desde', '', $campo), '>=', $valor);
+	    		}
+	    		elseif($campo === 'monto_hasta'){
+					$query->where(str_replace('_hasta', '', $campo), '<=', $valor);
+	    		}
 	    		else{
 					$query->where($campo, $operador, '%'.$valor.'%');
 				}

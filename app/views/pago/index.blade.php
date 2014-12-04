@@ -1,7 +1,7 @@
 @extends('layout.base_formularios')
 
 @section('titulo')
-  <h5>Pagos</h5>
+  <h4><b>Pagos</b></h4>
 @stop
 
 @section('botones_form')
@@ -43,7 +43,7 @@
             </tr>
             @foreach($datos as $dato)
             <tr>
-              <td>  {{ $dato->numero }} </td>
+              <td>  {{ $dato->caratula }} </td>
               <td>  {{ $dato->tipo_pago }} </td>
               <td>  {{ $dato->tipo_operacion }} </td>
               <td> ${{ $dato->monto }} </td>

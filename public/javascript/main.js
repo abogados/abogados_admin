@@ -57,6 +57,9 @@ function validar_campos_form(){
     if($('#legajo'))        $('#legajo').validCampoFranz('0123456789');
     if($('#numero'))        $('#numero').validCampoFranz('0123456789'); // se refiere a Nro Expediente
     if($('#hora_alarma'))   $('#hora_alarma').validCampoFranz('0123456789:'); // se refiere a Nro Expediente
+    if($('#monto'))         $('#monto').validCampoFranz('0123456789.');
+    if($('#monto_desde'))   $('#monto_desde').validCampoFranz('0123456789.');
+    if($('#monto_hasta'))   $('#monto_hasta').validCampoFranz('0123456789.');
 
     //No permitir ningun tipo de caracter
     if($('#fecha_ingreso'))         $('#fecha_ingreso').validCampoFranz('');
@@ -64,6 +67,8 @@ function validar_campos_form(){
     if($('#fecha_inicio'))          $('#fecha_inicio').validCampoFranz('');
     if($('#fecha_presentacion'))    $('#fecha_inicio').validCampoFranz('');
     if($('#fecha_finalizacion'))    $('#fecha_finalizacion').validCampoFranz('');
+    if($('#fecha_desde'))           $('#fecha_desde').validCampoFranz('');
+    if($('#fecha_hasta'))           $('#fecha_hasta').validCampoFranz('');
 }
 
 function validar_contraseña() {

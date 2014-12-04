@@ -12,8 +12,8 @@ class PagosController extends BaseController {
     $datos = array('' => 'Todos');
 
     if(Auth::user()){
-      $pagos  = Pago::join('expedientes', 'pagos.expediente_id', '=', 'expedientes.id')
-      ->select('pagos.*', 'expedientes.numero')
+      $pagos  = Pago::leftjoin('expedientes', 'pagos.expediente_id', '=', 'expedientes.id')
+      ->select('pagos.*', 'expedientes.caratula')
         ->orderBy('created_at','desc')->get();
 
       foreach($pagos->all() as $dato) {
@@ -23,7 +23,7 @@ class PagosController extends BaseController {
       $expedientes  = Expediente::where('estado','!=','Finalizado')->orderBy('numero')->get();
 
       foreach($expedientes->all() as $dato) {
-        $datos[$dato->id] = $dato->numero;
+        $datos[$dato->id] = $dato->caratula;
       }
 
       return View::make('pago.index', array("datos" => $pagos, "expedientes" => $datos));
@@ -77,19 +77,30 @@ class PagosController extends BaseController {
       }
     }
 
-    $pagos  = Pago::join('expedientes', 'pagos.expediente_id', '=', 'expedientes.id')
+    $pagos  = Pago::leftjoin('expedientes', 'pagos.expediente_id', '=', 'expedientes.id')
       ->select('pagos.*', 'expedientes.numero')
       ->BuscarFiltros($param)
-      ->orderBy('created_at','desc')->paginate(10);
+      ->orderBy('created_at','desc')->get();
 
-    foreach($pagos->all() as $dato) {
+/*    $queries = DB::getQueryLog();
+    $last_query = end($queries);
+    print "<pre>";
+    print_r($last_query);
+    print "</pre>";
+    exit;*/
+
+    /*print "<pre>";
+    print_r($pagos);
+    print "</pre>";*/
+
+    foreach($pagos as $dato) {
       $dato->creado_at = $this->convertir_fecha_es($dato->created_at);
     }
 
     $expedientes  = Expediente::where('estado','!=','Finalizado')->orderBy('numero')->get();
 
-    foreach($expedientes->all() as $dato) {
-      $datos_exp[$dato->id] = $dato->numero;
+    foreach($expedientes as $dato) {
+      $datos_exp[$dato->id] = $dato->caratula;
     }
 
     return View::make('pago.index', array("datos" => $pagos, "expedientes" => $datos_exp));
@@ -102,19 +113,20 @@ class PagosController extends BaseController {
    */
   public function crear()
   {
-    $datos = array('' => 'Seleccione...');
-    $expedientes  = Expediente::where('estado','!=','Finalizado')->orderBy('numero')->get();
-
-    foreach($expedientes->all() as $dato) {
-      $datos[$dato->id] = $dato->numero;
-    }
-
     if(Input::get()) {
       $inputs = $this->getInputs(Input::all());
+
       if($this->validateForms($inputs, true) === true) {
+
+        if($inputs["tipo_operacion_egr"] && isset($inputs['expediente_id'])) {
+          unset($inputs['expediente_id']);
+        }
 
         $pago = new Pago($inputs);
 
+        if(Input::get("tipo_operacion_ing"))  $pago->tipo_operacion   = Input::get("tipo_operacion_ing");
+        if(Input::get("tipo_operacion_egr"))  $pago->tipo_operacion   = Input::get("tipo_operacion_egr");
+        
         if($pago->save()){
           return Redirect::to('pagos/index')
             ->with(array('mensaje' => 'El pago ha sido creado correctamente.'));
@@ -126,6 +138,15 @@ class PagosController extends BaseController {
       }
     }
     else{
+      $datos = array('' => 'Seleccione...');
+      $expedientes  = Expediente::where('estado','!=','Finalizado')
+                        ->orderBy('numero')->get();
+
+      foreach($expedientes->all() as $dato) {
+        //$datos[$dato->id] = $dato->numero;
+        $datos[$dato->id] = $dato->caratula;
+      }
+
       return View::make("pago.crear", array("expedientes" => $datos));
     }
   }
@@ -134,9 +155,7 @@ class PagosController extends BaseController {
 
     if($is_insert) {
       $rules = array(
-        'expediente_id'   => 'required',
         'tipo_pago'       => 'required',
-        'tipo_operacion'  => 'required',
         'monto'           => 'required'
       );
     }
