@@ -1,7 +1,7 @@
 @extends('layout.base_formularios')
 
 @section('titulo')
-    <h5>Modificar Modelo</h5>
+    <h4><b>Modificar Modelo</b></h4>
 @stop
 
 @section('contenido')
@@ -26,21 +26,15 @@
         <div class="col-sm-10 col-sm-10-30">
             {{ Form::select('tipo_proceso',
                 array(''=>'Seleccione...',
-                    'Tipo 1'      => 'Tipo 1',
-                    'Tipo 2'      => 'Tipo 2',
-                    'Tipo 3'      => 'Tipo 3'
+                    'Civil Común'       => 'Civil Común',
+                    'Comercial Común'   => 'Comercial Común',
+                    'Sucesiones'        => 'Sucesiones',
+                    'Familia'           => 'Familia',
+                    'Penal'             => 'Penal',
+                    'Laboral'           => 'Laboral',
+                    'Documento y Locaciones'    => 'Documento y Locaciones',
+                    'Cobro y Apremio'           => 'Cobro y Apremio'
                     ), $modelo->tipo_proceso, array('class' => 'form-control')) }}
-        </div>
-    </div>
-
-    <div class="form-group">
-        {{ Form::label('estado','Estado',array('id'=>'','class'=>'col-sm-2 col-sm-2-10 control_form_label')) }}
-        <div class="col-sm-10 col-sm-10-30">
-            {{ Form::select('estado',
-                array(''=>'Seleccione...',
-                    'Activo'    => 'Activo',
-                    'Inactivo'  => 'Inactivo'
-                    ), $modelo->estado, array('class' => 'form-control')) }}
         </div>
     </div>
 

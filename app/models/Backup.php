@@ -31,9 +31,6 @@ class Backup extends Eloquent implements UserInterface, RemindableInterface {
 	    		elseif($campo === 'created_at_hasta'){
 					$query->where(str_replace('_hasta', '', $campo), '<=', $valor);
 	    		}
-	    		elseif(substr($campo, -6) === 'estado'){
-					$query->where($campo, '=', $valor);
-	    		}
 	    		else{
 					$query->where($campo, $operador, '%'.$valor.'%');
 				}

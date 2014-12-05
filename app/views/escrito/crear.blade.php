@@ -1,7 +1,7 @@
 @extends('layout.base_formularios')
 
 @section('titulo')
-    <h5>Agregar Nuevo Escrito</h5>
+    <h4><b>Agregar Nuevo Escrito</b></h4>
 @stop
 
 @section('contenido')
@@ -14,52 +14,26 @@
       @endforeach
     @endif
 
+    @if(Session::has('expediente_id'))
+
+    <div>
+        <h5><b>Expediente:</b></h5>
+        <h5>Car&aacute;tula: <b>{{ $expediente_datos->caratula }}</b></h5>
+        <h5>Tipo de Proceso: <b>{{ $expediente_datos->tipo_proceso }}</b></h5>
+        <h5>N&uacute;mero: <b>{{ $expediente_datos->numero==''?'-':$expediente_datos->numero }}</b></h5>
+        <h5>Juzgado: <b>{{ $expediente_datos->juzgado==''?'-':$expediente_datos->juzgado }}</b></h5>
+    </div>
+
+    @endif
+
     {{ Form::open(array('url' => 'escritos/crear', 'class' => 'form-horizontal', 'role' => 'form')) }}
+
+    {{ Form::hidden('expediente_id', Session::get('expediente_id'), array('id' => 'expediente_id', 'class' => 'form-control')) }}
 
     <div class="form-group">
         {{ Form::label('titulo', 'T&iacute;tulo', array('class' => 'col-sm-2 col-sm-2-10 control_form_label')) }}
         <div class="col-sm-10 col-sm-10-30">
             {{ Form::text('titulo', Input::old('titulo'), array('class' => 'form-control texto_largo')) }}
-        </div>
-
-        {{ Form::label('expediente_id', 'Expediente', array('class' => 'col-sm-2 col-sm-2-10 control_form_label')) }}
-        <div class="col-sm-10 col-sm-10-30">
-            {{ Form::select('expediente_id',$expedientes, null, array('class' => 'form-control')) }}
-        </div>
-    </div>
-
-    <div class="form-group">
-        {{ Form::label('caratula', 'Car&aacute;tula', array('class' => 'col-sm-2 col-sm-2-10 control_form_label')) }}
-        <div class="col-sm-10 col-sm-10-30">
-            {{ Form::text('caratula', Input::old('caratula'), array('class' => 'form-control', 'readonly' => 'readonly')) }}
-        </div>
-
-        {{ Form::label('juzgado', 'Juzgado', array('class' => 'col-sm-2 col-sm-2-10 control_form_label')) }}
-        <div class="col-sm-10 col-sm-10-30">
-            {{ Form::text('juzgado', Input::old('juzgado'), array('class' => 'form-control', 'readonly' => 'readonly')) }}
-        </div>
-    </div>
-
-    <div class="form-group">
-        {{ Form::label('tipo_proceso', 'Tipo de Proceso', array('class' => 'col-sm-2 col-sm-2-10 control_form_label')) }}
-        <div class="col-sm-10 col-sm-10-30">
-            {{ Form::text('tipo_proceso', Input::old('tipo_proceso'), array('class' => 'form-control', 'readonly' => 'readonly')) }}
-        </div>
-
-        {{ Form::label('descripcion', 'Descripci&oacute;n', array('class' => 'col-sm-2 col-sm-2-10 control_form_label')) }}
-        <div class="col-sm-10 col-sm-10-30">
-            {{ Form::text('descripcion', Input::old('descripcion'), array('class' => 'form-control', 'size' => '70')) }}
-        </div>
-    </div>
-
-    <div class="form-group">
-        {{ Form::label('estado','Estado',array('id'=>'','class'=>'col-sm-2 col-sm-2-10 control_form_label')) }}
-        <div class="col-sm-10 col-sm-10-30">
-            {{ Form::select('estado',
-                array(''=>'Seleccione...',
-                    'Activo'    => 'Activo',
-                    'Inactivo'  => 'Inactivo'
-                    ), null, array('class' => 'form-control')) }}
         </div>
     </div>
 
@@ -78,7 +52,7 @@
         <div class="col-sm-offset-2">
             {{ Form::submit('Confirmar', array('class' => 'btn btn-default')) }}
             {{ Form::button('Cancelar', array('class'=>'btn btn-default', 
-                'onClick' => "location.href='/escritos/index'")) }}
+                'onClick' => "location.href='/escritos/index/$exped_id'")) }}
         </div>
     </div>
 

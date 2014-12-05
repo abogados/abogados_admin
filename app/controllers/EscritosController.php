@@ -7,18 +7,40 @@ class EscritosController extends BaseController {
    *
    * @return Response
    */
-  public function index()
+  public function index($expediente_id = NULL)
   {
     if(Auth::user()){
-      $escritos  = Escrito::join('expedientes', 'escritos.expediente_id', '=', 'expedientes.id')
-        ->select('escritos.*','expedientes.numero', 'expedientes.tipo_proceso')
-        ->orderBy('escritos.created_at','desc')->get();
+
+      if($expediente_id > 0) {
+        Session::put('expediente_id', $expediente_id);
+
+        $escritos  = Escrito::join('expedientes', 'escritos.expediente_id', '=', 'expedientes.id')
+          ->where('escritos.expediente_id',$expediente_id)
+          ->select('escritos.*','expedientes.caratula', 'expedientes.tipo_proceso')
+          ->orderBy('escritos.created_at','desc')->get();
+      }
+      else{
+        if(Session::has('expediente_id')) {
+          Session::forget('expediente_id');
+        }
+
+        $escritos  = Escrito::join('expedientes', 'escritos.expediente_id', '=', 'expedientes.id')
+          ->select('escritos.*','expedientes.numero', 'expedientes.tipo_proceso')
+          ->orderBy('escritos.created_at','desc')->get();
+      }
 
       foreach($escritos->all() as $dato) {
         $dato->creado_at = $this->convertir_fecha_es($dato->created_at);
       }
 
-      return View::make('escrito.index', array("datos" => $escritos));
+      if(Session::has('expediente_id')) {
+        $expediente  = Expediente::where('id',Session::get('expediente_id'))->first();
+      }
+      else {
+        $expediente  = array();
+      }
+
+      return View::make('escrito.index', array("datos" => $escritos, "exped_id" => Session::get('expediente_id'), 'expediente_datos' => $expediente));
     }
     else{
       return Redirect::route('index')
@@ -87,20 +109,10 @@ class EscritosController extends BaseController {
    */
   public function crear()
   {
-
-    $datos = array('' => 'Seleccione...');
-    $expedientes  = Expediente::where('estado','!=','Finalizado')->orderBy('numero')->get();
-
-    foreach($expedientes->all() as $dato) {
-      $datos[$dato->id] = $dato->numero;
-    }
-
     if(Input::get()) {
 
       $inputs['titulo'] = Input::get("titulo");
       $inputs['expediente_id'] = Input::get("expediente_id");
-      $inputs['descripcion'] = Input::get("descripcion");
-      $inputs['estado'] = Input::get("estado");
       $inputs['cuerpo'] = Input::get("cuerpo");
 
       if($this->validateForms($inputs, true) === true) {
@@ -108,7 +120,7 @@ class EscritosController extends BaseController {
         $escrito = new Escrito($inputs);
 
         if($escrito->save()){
-          return Redirect::to('escritos/index')
+          return Redirect::to('escritos/index/'.Session::get('expediente_id'))
             ->with(array('mensaje' => 'El Escrito ha sido creado correctamente.'));
         }
       }
@@ -118,9 +130,70 @@ class EscritosController extends BaseController {
       }
     }
     else{
-      return View::make("escrito.crear", array("expedientes" => $datos));
+      $datos = array('' => 'Seleccione...');
+      $expedientes  = Expediente::orderBy('numero')->get();
+
+      foreach($expedientes->all() as $dato) {
+        $datos[$dato->id] = $dato->numero;
+      }
+
+      if(Session::has('expediente_id')) {
+        $expediente  = Expediente::where('id',Session::get('expediente_id'))->first();
+      }
+      else {
+        $expediente  = array();
+      }
+
+      return View::make("escrito.crear", array("expedientes" => $datos, "expediente_datos" => $expediente, "exped_id" => Session::get('expediente_id')));
     }
   }
+
+/**
+   * Show the form for creating a new resource.
+   *
+   * @return Response
+   */
+  public function crear_desde_modelo()
+  {
+    if(Input::get()) {
+
+      $inputs['titulo'] = Input::get("titulo");
+      $inputs['expediente_id'] = Input::get("expediente_id");
+      $inputs['cuerpo'] = Input::get("cuerpo");
+
+      if($this->validateForms($inputs, true) === true) {
+
+        $escrito = new Escrito($inputs);
+
+        if($escrito->save()){
+          return Redirect::to('escritos/index/'.Session::get('expediente_id'))
+            ->with(array('mensaje' => 'El Escrito ha sido creado correctamente.'));
+        }
+      }
+      else {
+        return Redirect::route('escritos.crear_desde_modelo')
+          ->withErrors($this->validateForms($inputs,true))->withInput();
+      }
+    }
+    else{
+      $datos = array('' => 'Seleccione...');
+      $expedientes  = Expediente::orderBy('numero')->get();
+
+      foreach($expedientes->all() as $dato) {
+        $datos[$dato->id] = $dato->numero;
+      }
+
+      if(Session::has('expediente_id')) {
+        $expediente  = Expediente::where('id',Session::get('expediente_id'))->first();
+      }
+      else {
+        $expediente  = array();
+      }
+
+      return View::make("escrito.crear_desde_modelo", array("expedientes" => $datos, "expediente_datos" => $expediente, "exped_id" => Session::get('expediente_id')));
+    }
+  }
+  
 
   /**
    * Show the form for editing the specified resource.
@@ -132,11 +205,6 @@ class EscritosController extends BaseController {
     $datos = array('' => 'Seleccione...');
     
     $escrito = Escrito::find($id);
-    $expedientes  = Expediente::where('estado','!=','Finalizado')->orderBy('numero')->get();
-
-    foreach($expedientes->all() as $dato) {
-      $datos[$dato->id] = $dato->numero;
-    }
     
     if(Input::get()) {
       if($escrito) {
@@ -146,12 +214,11 @@ class EscritosController extends BaseController {
 
           $escrito->titulo        = Input::get("titulo");
           $escrito->expediente_id = Input::get("expediente_id");
-          $escrito->descripcion   = Input::get("descripcion");
-          $escrito->estado        = Input::get("estado");
           $escrito->cuerpo        = Input::get("cuerpo");
 
           if($escrito->save()){
-            return Redirect::to('escritos/index')->with(array('mensaje' => 'El Escrito se ha actualizado correctamente.'));
+            return Redirect::to('escritos/index/'.Session::get('expediente_id'))
+              ->withErrors(array('mensaje' => 'El Escrito se ha actualizado correctamente.'));
           }
         }
         else {
@@ -160,11 +227,26 @@ class EscritosController extends BaseController {
         }
       }
       else {
-          return Redirect::to('escritos/index')->with(array('mensaje' => 'El Escrito no existe.'));          
+          return Redirect::to('escritos/index/'.Session::get('expediente_id'))
+            ->withErrors(array('mensaje' => 'El Escrito no existe.'));
       }
     }
     else {
-      return View::make("escrito.modificar", array('escrito' => $escrito, 'expedientes' => $datos));  
+
+      $expedientes  = Expediente::orderBy('numero')->get();
+      foreach($expedientes->all() as $dato) {
+        $datos[$dato->id] = $dato->numero;
+      }
+
+
+      if(Session::has('expediente_id')) {
+        $expediente  = Expediente::where('id',Session::get('expediente_id'))->first();
+      }
+      else {
+        $expediente  = array();
+      }
+
+      return View::make("escrito.modificar", array('escrito' => $escrito, 'expedientes' => $datos, "expediente_datos" => $expediente, "exped_id" => Session::get('expediente_id')));
     }
   }
 
@@ -180,11 +262,11 @@ class EscritosController extends BaseController {
 
     if($escrito){
       $escrito->delete();
-      return Redirect::to('escritos/index')->with(array('mensaje' => 'El Escrito ha sido eliminado correctamente.'));
+      return Redirect::to('escritos/index')->withErrors(array('mensaje' => 'El Escrito ha sido eliminado correctamente.'));
     }
     else{
-      return Redirect::route('escritos.index')
-        ->with(array('mensaje' => "El Escrito con id $id que intentas eliminar no existe."));
+      return Redirect::to('escritos/index/'.Session::get('expediente_id'))
+        ->withErrors(array('mensaje' => "El Escrito con id $id que intentas eliminar no existe."));
     }
   }
   
@@ -193,9 +275,7 @@ class EscritosController extends BaseController {
     if($is_insert) {
       $rules = array(
         'expediente_id' => 'required',
-        'titulo'        => 'required|unique:escritos',
-        'descripcion'   => 'required',
-        'estado'        => 'required',
+        'titulo'        => 'required',
         'cuerpo'        => 'required'
       );
     }
@@ -206,8 +286,6 @@ class EscritosController extends BaseController {
       $rules = array(
         'expediente_id' => 'required',
         'titulo'        => 'required',
-        'descripcion'   => 'required',
-        'estado'        => 'required',
         'cuerpo'        => 'required'
       );
     }
@@ -276,5 +354,44 @@ class EscritosController extends BaseController {
     else {
       return $fecha_en;
     }
+  }
+
+  public function buscar_modelos_listado(){
+    $tipo_proceso = Input::get('tipo_proceso');
+
+    $modelos  = Modelo::where('tipo_proceso',$tipo_proceso)->orderBy('nombre')->get();
+
+    $salida = "<label for='modelo_id' class='col-sm-2 col-sm-2-10 control_form_label'>Modelo</label>";
+    $salida .= "<div class='col-sm-10 col-sm-10-30'>";
+    $salida .= "<select class='form-control' id='modelo_id' name='modelo_id' onchange='modelo_id_onchange(this.value)'>";
+    $salida .= "<option value='' selected='selected'>Seleccione...</option>";
+    
+    foreach($modelos as $dato) {
+      $salida .= "<option value='".$dato->id."'>".$dato->nombre."</option>";
+    }
+
+    $salida .= "</select>";
+    $salida .= "</div>";
+
+    return Response::json($salida);
+  }
+
+  public function buscar_modelo_codigos(){
+
+    $modelo_id    = Input::get('modelo_id');
+
+    $modelo  = Modelo::where('id',$modelo_id)->first();
+    $codigos  = ModeloCodigoRelacionado::where('nombre_modelo',$modelo->nombre)->get();
+
+    $salida = "<div class='form-group'>";
+    foreach($codigos as $dato) {
+        $salida .= "<label for='".$dato->codigo."' class='col-sm-2 col-sm-2-50 control_form_label_left'>".$dato->descripcion."</label>";
+        $salida .= "<div class='col-sm-10 col-sm-10-80'>";
+        $salida .= "<input class='form-control' name='".$dato->codigo."' type='text' id='".$dato->codigo."'>";
+        $salida .= "</div>";
+    }
+    $salida .= "</div>";
+
+    return Response::json($salida);
   }
 }

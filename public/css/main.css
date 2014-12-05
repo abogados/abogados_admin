@@ -38,6 +38,10 @@
     width: 15.666667%;
   }
 
+  .col-sm-2-50 {
+    width: 50.666667%;
+  }
+
   .col-sm-10-1 {
     width: 73.333333%;
   }
@@ -94,6 +98,12 @@
       padding-top: 7px;
       margin-bottom: 0;
       text-align: right;
+    }
+
+    .control_form_label_left {
+      padding-top: 7px;
+      margin-bottom: 0;
+      padding-left: 70px;
     }
 
   .contenedor_azul_centro {

@@ -17,7 +17,7 @@ class Agenda extends Eloquent implements UserInterface, RemindableInterface {
 	protected $table = 'agendas';
 	protected $fillable = array('descripcion','tipo_evento','fecha',
       'hora_inicio','hora_fin','fecha_alarma',
-      'hora_alarma','observaciones','estado');
+      'hora_alarma','observaciones');
 
 	public static function scopeBuscarFiltros($query, $datos, $operador = 'LIKE')
     {
@@ -32,9 +32,6 @@ class Agenda extends Eloquent implements UserInterface, RemindableInterface {
 	    		}
 	    		elseif($campo === 'fecha_hasta'){
 					$query->where(str_replace('_hasta', '', $campo), '<=', $valor);
-	    		}
-	    		elseif(substr($campo, -6) === 'estado'){
-					$query->where($campo, '=', $valor);
 	    		}
 	    		else{
 					$query->where($campo, $operador, '%'.$valor.'%');

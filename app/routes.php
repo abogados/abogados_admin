@@ -272,7 +272,18 @@ Route::group(array('before'=>'auth'), function(){
 
   ///////////////////////// Escritos
 
-  Route::get('escritos/index', array(
+/*    Route::get('legajos/index', array(
+      'as' => 'legajos.index',
+      'uses' => 'LegajosController@index'
+    ));
+
+  Route::post('legajos/buscar', array(
+      'as' => 'legajos.buscar',
+      'uses' => 'LegajosController@buscar'
+    ));
+*/
+
+  Route::get('escritos/index/{id}', array(
       'as' => 'escritos.index',
       'uses' => 'EscritosController@index'
     ));
@@ -292,6 +303,11 @@ Route::group(array('before'=>'auth'), function(){
       'uses' => 'EscritosController@crear'
     ));
 
+  Route::get('escritos/crear_desde_modelo', array(
+      'as' => 'escritos.crear_desde_modelo',
+      'uses' => 'EscritosController@crear_desde_modelo'
+    ));
+
   Route::get('escritos/modificar/{id}', array(
       'as' => 'escritos.modificar',
       'uses' => 'EscritosController@modificar'
@@ -301,6 +317,18 @@ Route::group(array('before'=>'auth'), function(){
       'as' => 'escritos.eliminar',
       'uses' => 'EscritosController@eliminar'
     ));
+
+  /* BEGIN Rutas Ajax para la generación de Escrito desde Modelo */
+  Route::post('escritos/buscar_modelos_listado', array(
+      'as' => 'escritos.buscar_modelos_listado',
+      'uses' => 'EscritosController@buscar_modelos_listado'
+    ));
+
+  Route::post('escritos/buscar_modelo_codigos', array(
+      'as' => 'escritos.buscar_modelo_codigos',
+      'uses' => 'EscritosController@buscar_modelo_codigos'
+    ));
+  /* FIN Rutas Ajax para la generación de Escrito desde Modelo */
 
   Route::group(array('before'=>'csrf'),function()
   {
@@ -349,7 +377,7 @@ Route::group(array('before'=>'auth'), function(){
 
   ///////////////////////// Pagos
 
-  Route::get('pagos/index', array(
+  Route::get('pagos/index/{id}', array(
       'as' => 'pagos.index',
       'uses' => 'PagosController@index'
     ));

@@ -7,14 +7,30 @@ class PagosController extends BaseController {
    *
    * @return Response
    */
-  public function index()
+  public function index($expediente_id = NULL)
   {
     $datos = array('' => 'Todos');
 
     if(Auth::user()){
-      $pagos  = Pago::leftjoin('expedientes', 'pagos.expediente_id', '=', 'expedientes.id')
-      ->select('pagos.*', 'expedientes.caratula')
-        ->orderBy('created_at','desc')->get();
+
+      if($expediente_id > 0) {
+        Session::put('expediente_id', $expediente_id);
+
+        $pagos  = Pago::leftjoin('expedientes', 'pagos.expediente_id', '=', 'expedientes.id')
+        ->where('expediente_id',$expediente_id)
+        ->select('pagos.*', 'expedientes.caratula')
+          ->orderBy('created_at','desc')->get();
+      }
+      else{
+        if(Session::has('expediente_id')) {
+          Session::forget('expediente_id');
+        }
+
+        $pagos  = Pago::leftjoin('expedientes', 'pagos.expediente_id', '=', 'expedientes.id')
+        ->select('pagos.*', 'expedientes.caratula')
+          ->orderBy('created_at','desc')->get();
+      }
+
 
       foreach($pagos->all() as $dato) {
         $dato->creado_at = $this->convertir_fecha_es($dato->created_at);
@@ -26,7 +42,14 @@ class PagosController extends BaseController {
         $datos[$dato->id] = $dato->caratula;
       }
 
-      return View::make('pago.index', array("datos" => $pagos, "expedientes" => $datos));
+      if(Session::has('expediente_id')) {
+        $expediente  = Expediente::where('id',Session::get('expediente_id'))->first();
+      }
+      else {
+        $expediente  = array();
+      }
+
+      return View::make('pago.index', array("datos" => $pagos, "expedientes" => $datos, "exped_id" => Session::get('expediente_id'), 'expediente_datos' => $expediente));
     }
     else{
       return Redirect::route('index')
@@ -82,17 +105,6 @@ class PagosController extends BaseController {
       ->BuscarFiltros($param)
       ->orderBy('created_at','desc')->get();
 
-/*    $queries = DB::getQueryLog();
-    $last_query = end($queries);
-    print "<pre>";
-    print_r($last_query);
-    print "</pre>";
-    exit;*/
-
-    /*print "<pre>";
-    print_r($pagos);
-    print "</pre>";*/
-
     foreach($pagos as $dato) {
       $dato->creado_at = $this->convertir_fecha_es($dato->created_at);
     }
@@ -118,7 +130,7 @@ class PagosController extends BaseController {
 
       if($this->validateForms($inputs, true) === true) {
 
-        if($inputs["tipo_operacion_egr"] && isset($inputs['expediente_id'])) {
+        if(isset($inputs["tipo_operacion_egr"]) && isset($inputs['expediente_id'])) {
           unset($inputs['expediente_id']);
         }
 
@@ -128,8 +140,15 @@ class PagosController extends BaseController {
         if(Input::get("tipo_operacion_egr"))  $pago->tipo_operacion   = Input::get("tipo_operacion_egr");
         
         if($pago->save()){
-          return Redirect::to('pagos/index')
-            ->with(array('mensaje' => 'El pago ha sido creado correctamente.'));
+
+          if(Session::has('expediente_id')) {
+            return Redirect::to('pagos/index/'.Session::get('expediente_id'))
+              ->with(array('mensaje' => 'El pago ha sido creado correctamente.'));
+          }
+          else {
+            return Redirect::to('pagos/index/a')
+              ->with(array('mensaje' => 'El pago ha sido creado correctamente.'));
+          }
         }
       }
       else {
@@ -143,11 +162,18 @@ class PagosController extends BaseController {
                         ->orderBy('numero')->get();
 
       foreach($expedientes->all() as $dato) {
-        //$datos[$dato->id] = $dato->numero;
         $datos[$dato->id] = $dato->caratula;
       }
 
-      return View::make("pago.crear", array("expedientes" => $datos));
+      if(Session::has('expediente_id')) {
+        $expediente  = Expediente::where('id',Session::get('expediente_id'))->first();
+      }
+      else {
+        $expediente  = array();
+      }
+
+
+      return View::make("pago.crear", array("expedientes" => $datos, "expediente_datos" => $expediente, "exped_id" => Session::get('expediente_id')));
     }
   }
 

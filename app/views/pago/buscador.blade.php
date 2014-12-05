@@ -1,5 +1,8 @@
 <div class="buscador_contenedor">
   <div class="buscador_form_group">
+
+      @if(!Session::has('expediente_id'))
+
       {{ Form::label('tipo_pago','Tipo de Pago',array('id'=>'','class'=>'col-sm-2 buscador_col_label control-label')) }}
       <div class="col-sm-10 buscador_col_input">
           {{ Form::select('tipo_pago',
@@ -8,6 +11,9 @@
                   'Egreso'      => 'Egreso'
                   ), null, array('class' => 'buscador_control', 'onChange=mostrar_tipo_operacion(this.value)')) }}
       </div>
+
+      @endif
+
   </div>
   <div class="buscador_form_group">
       {{ Form::label('tipo_operacion','Tipo de Operaci&oacute;n',array('id'=>'','class'=>'col-sm-2 buscador_col_label control-label')) }}
@@ -28,6 +34,8 @@
                   ), null, array('class' => 'buscador_control', 'id' => 'tipo_operacion_ing')) }}
       </div>
 
+      @if(!Session::has('expediente_id'))
+
       <div class="col-sm-10 buscador_col_input" id="tipo_operacion_egreso">
           {{ Form::select('tipo_operacion_egr',
               array(''=>'Seleccione...',
@@ -38,13 +46,20 @@
                   'Otro'      => 'Otro'
                   ), null, array('class' => 'buscador_control', 'id' => 'tipo_operacion_egr')) }}
       </div>
+
+      @endif
   </div>
+
+  @if(!Session::has('expediente_id'))
+
   <div class="buscador_form_group" id="expediente_contenedor">
       {{ Form::label('expediente_id', 'Expediente', array('class' => 'col-sm-2 buscador_col_label control-label')) }}
       <div class="col-sm-10 buscador_col_input">
           {{ Form::select('expediente_id', $expedientes, null, array('class' => 'buscador_control')) }}
       </div>
   </div>
+
+  @endif
 
   <br style="clear:both;" />
 
@@ -88,33 +103,46 @@
   <div class="form-group">
     <div class="col-sm-offset-2 buscador_botones">
         {{ Form::submit('Buscar', array('class' => 'btn btn-default btn-default-azul')) }}
+
+        @if(Session::has('expediente_id'))
+
         {{ Form::button('Reiniciar', array('class'=>'btn btn-default btn-default-azul', 
-            'onClick' => "location.href='/pagos/index'")) }}
+            'onClick' => "location.href='/pagos/index/$exped_id' ")) }}
+
+        @else
+
+        {{ Form::button('Reiniciar', array('class'=>'btn btn-default btn-default-azul', 
+            'onClick' => "location.href='/pagos/index/a'")) }}
+
+        @endif
     </div>
   </div>
 </div>
 
 <script type="text/javascript">
   function mostrar_tipo_operacion(tipo_pago){
-    if(tipo_pago == '') {
-        $('#tipo_operacion_ingreso').show();
-        $('#tipo_operacion_ing').attr('disabled', true);
-        $('#expediente_contenedor').show();
-        $('#expediente_id').attr('disabled', true);
-        $('#tipo_operacion_egreso').hide();
-    }
-    else if(tipo_pago != '' && tipo_pago == 'Ingreso'){
-        $('#tipo_operacion_ingreso').show();
-        $('#tipo_operacion_ing').attr('disabled', false);
-        $('#expediente_contenedor').show();
-        $('#expediente_id').attr('disabled', false);
-        $('#tipo_operacion_egreso').hide();
-    }
-    else if(tipo_pago != '' && tipo_pago == 'Egreso'){
-        $('#tipo_operacion_ingreso').hide();
-        $('#expediente_contenedor').hide();
-        $('#tipo_operacion_egreso').show();
-        $('#tipo_operacion_egr').attr('disabled', false);
+
+    if($('#expediente_contenedor').length) {
+      if(tipo_pago == '') {
+          $('#tipo_operacion_ingreso').show();
+          $('#tipo_operacion_ing').attr('disabled', true);
+          $('#expediente_contenedor').show();
+          $('#expediente_id').attr('disabled', true);
+          $('#tipo_operacion_egreso').hide();
+      }
+      else if(tipo_pago != '' && tipo_pago == 'Ingreso'){
+          $('#tipo_operacion_ingreso').show();
+          $('#tipo_operacion_ing').attr('disabled', false);
+          $('#expediente_contenedor').show();
+          $('#expediente_id').attr('disabled', false);
+          $('#tipo_operacion_egreso').hide();
+      }
+      else if(tipo_pago != '' && tipo_pago == 'Egreso'){
+          $('#tipo_operacion_ingreso').hide();
+          $('#expediente_contenedor').hide();
+          $('#tipo_operacion_egreso').show();
+          $('#tipo_operacion_egr').attr('disabled', false);
+      }
     }
 
     return false;

@@ -15,7 +15,7 @@ class Cliente extends Eloquent implements UserInterface, RemindableInterface {
 	 * @var string
 	 */
 	protected $table = 'clientes';
-	protected $fillable = array('nombre','apellido','dni','email','domicilio','localidad','provincia','telefono','celular','estado');
+	protected $fillable = array('nombre','apellido','dni','email','domicilio','localidad','telefono','celular');
 
 	public static function scopeBuscarFiltros($query, $datos, $operador = 'LIKE')
     {

@@ -6,6 +6,21 @@
 
 @section('botones_form')
   <div class="botones_form">
+
+    @if(Session::has('expediente_id'))
+
+    <div style="float:left; text-align: left;">
+        <h5><b>Expediente:</b></h5>
+        Car&aacute;tula: <b>{{ $expediente_datos->caratula }}</b>
+        | N&uacute;mero: <b>{{ $expediente_datos->numero==''?'-':$expediente_datos->numero }}</b>
+        | Juzgado: <b>{{ $expediente_datos->juzgado==''?'-':$expediente_datos->juzgado }}</b></h5>
+    </div>
+
+    {{ Form::button('Volver a Expedientes', array('class'=>'btn btn-default', 
+            'onClick' => "location.href='/expedientes/index'")) }}
+
+    @endif
+
     {{ Form::button('Nuevo', array('class'=>'btn btn-default', 
             'onClick' => "location.href='/pagos/crear'")) }}
   </div>
@@ -35,7 +50,7 @@
       <div class="CSSTableGenerator" >
         <table >
             <tr>
-              <td> <b>Nro. Expediente</b> </td>
+              <td> <b>Expediente</b> </td>
               <td> <b>Tipo de Pago</b> </td>
               <td> <b>Tipo de Operaci&oacute;n</b> </td>
               <td> <b>Monto</b> </td>

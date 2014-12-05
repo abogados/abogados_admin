@@ -10,9 +10,14 @@
       <div class="col-sm-10 buscador_col_input">
           {{ Form::select('tipo_proceso',
               array(''=>'Todos',
-                  'Tipo 1'      => 'Tipo 1',
-                  'Tipo 2'      => 'Tipo 2',
-                  'Tipo 3'      => 'Tipo 3'
+                  'Civil Común'       => 'Civil Común',
+                  'Comercial Común'   => 'Comercial Común',
+                  'Sucesiones'        => 'Sucesiones',
+                  'Familia'           => 'Familia',
+                  'Penal'             => 'Penal',
+                  'Laboral'           => 'Laboral',
+                  'Documento y Locaciones'    => 'Documento y Locaciones',
+                  'Cobro y Apremio'           => 'Cobro y Apremio'
                   ), null, array('class' => 'buscador_control')) }}
       </div>
   </div>

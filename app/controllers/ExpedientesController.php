@@ -12,7 +12,6 @@ class ExpedientesController extends BaseController {
     if(Auth::user()){
       $expedientes  = Expediente::join('clientes', 'expedientes.cliente_id', '=', 'clientes.id')
         ->select('expedientes.*')
-        ->where('clientes.estado', 'Activo')
         ->orderBy('expedientes.created_at','desc')->get();
 
       // foreach($expedientes->all() as $dato) {
@@ -87,7 +86,7 @@ class ExpedientesController extends BaseController {
   {
 
     $datos = array('' => 'Seleccione...');
-    $clientes  = Cliente::where('estado','Activo')->orderBy('apellido')->orderBy('nombre')->get();
+    $clientes  = Cliente::orderBy('apellido')->orderBy('nombre')->get();
 
     foreach($clientes->all() as $dato) {
       $datos[$dato->id] = $dato->apellido." ".$dato->nombre;
@@ -128,7 +127,7 @@ class ExpedientesController extends BaseController {
     $datos = array('' => 'Seleccione...');
     
     $expediente = Expediente::find($id);
-    $clientes   = Cliente::where('estado','Activo')->orderBy('apellido')->orderBy('nombre')->get();
+    $clientes   = Cliente::orderBy('apellido')->orderBy('nombre')->get();
 
     foreach($clientes->all() as $dato) {
       $datos[$dato->id] = $dato->apellido." ".$dato->nombre;

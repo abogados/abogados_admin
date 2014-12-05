@@ -15,7 +15,7 @@ class Pago extends Eloquent implements UserInterface, RemindableInterface {
 	 * @var string
 	 */
 	protected $table = 'pagos';
-	protected $fillable = array('tipo_pago','tipo_operacion','monto','estado','expediente_id');
+	protected $fillable = array('tipo_pago','tipo_operacion','monto','expediente_id');
 
 	public function scopeBuscarFiltros($query, $datos, $operador = 'LIKE')
     {
@@ -31,14 +31,17 @@ class Pago extends Eloquent implements UserInterface, RemindableInterface {
 	    		elseif($campo === 'created_at_hasta'){
 					$query->where(str_replace('_hasta', '', $campo), '<=', $valor);
 	    		}
-	    		elseif(substr($campo, -6) === 'estado'){
-					$query->where($campo, '=', $valor);
-	    		}
 	    		if($campo === 'monto_desde'){
 					$query->where(str_replace('_desde', '', $campo), '>=', $valor);
 	    		}
 	    		elseif($campo === 'monto_hasta'){
 					$query->where(str_replace('_hasta', '', $campo), '<=', $valor);
+	    		}
+	    		elseif($campo === 'tipo_operacion_ing'){
+					$query->where(str_replace('_ing', '', $campo), $valor);
+	    		}
+	    		elseif($campo === 'tipo_operacion_egr'){
+					$query->where(str_replace('_egr', '', $campo), $valor);
 	    		}
 	    		else{
 					$query->where($campo, $operador, '%'.$valor.'%');

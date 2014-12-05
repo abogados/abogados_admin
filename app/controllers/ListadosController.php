@@ -66,7 +66,6 @@ class ListadosController extends BaseController {
     if($inputs['tipo_modulo'] === 'Expedientes') {
       $datos = Expediente::join('clientes', 'expedientes.cliente_id', '=', 'clientes.id')
         ->select('expedientes.*')
-        ->where('clientes.estado', 'Activo')
         ->orderBy('expedientes.created_at','desc')->get();
 
       foreach($datos->all() as $dato) {
@@ -155,7 +154,6 @@ class ListadosController extends BaseController {
     if($inputs['tipo_modulo'] === 'Expedientes') {
       $datos = Expediente::join('clientes', 'expedientes.cliente_id', '=', 'clientes.id')
         ->select('caratula AS CARATULA','numero AS EXPEDIENTE', 'juzgado AS JUZGADO', 'expedientes.estado AS ESTADO')
-        ->where('clientes.estado', 'Activo')
         ->orderBy('expedientes.created_at','desc')->get();
 
       $nombre_archivo = 'listado_expedientes';

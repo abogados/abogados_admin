@@ -6,6 +6,22 @@
 
 @section('botones_form')
   <div class="botones_form">
+
+    @if(Session::has('expediente_id'))
+
+    <div style="float:left; text-align: left;">
+        <h5><b>Expediente:</b></h5>
+        Car&aacute;tula: <b>{{ $expediente_datos->caratula }}</b>
+        | N&uacute;mero: <b>{{ $expediente_datos->numero==''?'-':$expediente_datos->numero }}</b>
+        | Juzgado: <b>{{ $expediente_datos->juzgado==''?'-':$expediente_datos->juzgado }}</b></h5>
+    </div>
+
+    @endif
+
+    {{ Form::button('Volver a Expedientes', array('class'=>'btn btn-default', 
+            'onClick' => "location.href='/expedientes/index'")) }}
+    {{ Form::button('Nuevo desde Modelo', array('class'=>'btn btn-default',
+            'onClick' => "location.href='/escritos/crear_desde_modelo'")) }}
     {{ Form::button('Nuevo', array('class'=>'btn btn-default',
             'onClick' => "location.href='/escritos/crear'")) }}
   </div>
@@ -36,19 +52,15 @@
         <table >
             <tr>
               <td> <b>T&iacute;tulo</b> </td>
-              <td> <b>Nro. Expediente</b> </td>
+              <td> <b>Expediente</b> </td>
               <td> <b>Tipo Proceso</b> </td>
-              <td> <b>Estado</b> </td>
-              <td> <b>Fecha Creaci&oacute;n</b> </td>
               <td colspan="2"> <b>Operaci&oacute;n</b> </td>
             </tr>
             @foreach($datos as $dato)
             <tr>
               <td> {{ $dato->titulo }} </td>
-              <td> {{ $dato->numero }} </td>
+              <td> {{ $dato->caratula }} </td>
               <td> {{ $dato->tipo_proceso }} </td>
-              <td> {{ $dato->estado }} </td>
-              <td> {{ $dato->creado_at }} </td>
               <td> 
                 {{ Form::button('Modif.', array('class'=>'btn btn-default btn-xs btn-default-azul', 
                   'onClick' => "location.href='/escritos/modificar/$dato->id'")) }}

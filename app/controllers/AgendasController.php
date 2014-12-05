@@ -92,7 +92,6 @@ class AgendasController extends BaseController {
 
         $agenda->fecha        = $this->convertir_fecha_us($agenda->fecha);
         $agenda->fecha_alarma = $this->convertir_fecha_us($agenda->fecha_alarma);
-        $agenda->estado       = 'Activo';
 
         if($agenda->save()){
           return Redirect::route('agendas.index')
@@ -181,7 +180,6 @@ class AgendasController extends BaseController {
       'descripcion' => 'required|min:2|max:100',
       'tipo_evento' => 'required',
       'fecha'       => 'required|min:10|max:10'
-//      'estado'      => 'required',
     );
         
     $messages = array(

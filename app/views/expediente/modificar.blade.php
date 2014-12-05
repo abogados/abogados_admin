@@ -115,9 +115,10 @@
 
 </div>
 
-@stop
-
 <script type="text/javascript">
     validar_campos_form();
     mostrar_datepicker();
 </script>
+
+@stop
+

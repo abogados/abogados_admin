@@ -15,7 +15,7 @@ class Escrito extends Eloquent implements UserInterface, RemindableInterface {
 	 * @var string
 	 */
 	protected $table = 'escritos';
-	protected $fillable = array('titulo','descripcion','expediente_id','cuerpo','estado');
+	protected $fillable = array('titulo','descripcion','expediente_id','cuerpo');
 
 	public function scopeBuscarFiltros($query, $datos, $operador = 'LIKE')
     {
@@ -30,9 +30,6 @@ class Escrito extends Eloquent implements UserInterface, RemindableInterface {
 	    		}
 	    		elseif($campo === 'created_at_hasta'){
 					$query->where(str_replace('_hasta', '', $campo), '<=', $valor.' 23:59:59');
-	    		}
-	    		elseif(substr($campo, -6) === 'estado'){
-					$query->where($campo, '=', $valor);
 	    		}
 	    		else{
 					$query->where($campo, $operador, '%'.$valor.'%');

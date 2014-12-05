@@ -15,7 +15,7 @@ class Modelo extends Eloquent implements UserInterface, RemindableInterface {
 	 * @var string
 	 */
 	protected $table = 'modelos';
-	protected $fillable = array('nombre','tipo_proceso','texto','estado');
+	protected $fillable = array('nombre','tipo_proceso','texto');
 
 	public static function scopeBuscarFiltros($query, $datos, $operador = 'LIKE')
     {       

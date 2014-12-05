@@ -91,8 +91,6 @@ class ModelosController extends BaseController {
 
         $modelo = new Modelo($inputs);
 
-        $modelo->estado = 'Activo';
-
         if($modelo->save()){
           return Redirect::to('modelos/index')
             ->with(array('mensaje' => 'El Modelo ha sido creado correctamente.'));
@@ -128,7 +126,6 @@ class ModelosController extends BaseController {
           $modelo->nombre         = Input::get("nombre");
           $modelo->tipo_proceso   = Input::get("tipo_proceso");
           $modelo->texto          = Input::get("texto");
-          $modelo->estado         = Input::get("estado");
 
           if($modelo->save()){
             return Redirect::to('modelos/index')->with(array('mensaje' => 'El Modelo se ha actualizado correctamente.'));
@@ -172,10 +169,9 @@ class ModelosController extends BaseController {
 
     if($is_insert) {
       $rules = array(
-        'nombre'        => 'required|unique:modelos',
+        'nombre'        => 'required',
         'tipo_proceso'  => 'required',
         'texto'         => 'required'
-        // 'estado'        => 'required'
       );
     }
     else {
@@ -186,7 +182,6 @@ class ModelosController extends BaseController {
         'nombre'        => 'required',
         'tipo_proceso'  => 'required',
         'texto'         => 'required'
-        // 'estado'        => 'required'
       );
     }
 
