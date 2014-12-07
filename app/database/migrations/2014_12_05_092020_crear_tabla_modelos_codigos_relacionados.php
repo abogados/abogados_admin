@@ -15,9 +15,14 @@ class CrearTablaModelosCodigosRelacionados extends Migration {
 		Schema::create('modelos_codigos_relacionados', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->string('codigo');
-			$table->string('descripcion');
-			$table->string('nombre_modelo');
+			$table->integer('modelos_codigo_id')->unsigned();
+			$table->integer('modelo_id')->unsigned();
+			$table->foreign('modelo_id')
+      			->references('id')->on('modelos')
+      			->onDelete('cascade');
+      		$table->foreign('modelos_codigo_id')
+      			->references('id')->on('modelos_codigos')
+      			->onDelete('cascade');
 			$table->timestamps();
 		});
 	}
