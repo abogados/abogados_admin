@@ -272,17 +272,6 @@ Route::group(array('before'=>'auth'), function(){
 
   ///////////////////////// Escritos
 
-/*    Route::get('legajos/index', array(
-      'as' => 'legajos.index',
-      'uses' => 'LegajosController@index'
-    ));
-
-  Route::post('legajos/buscar', array(
-      'as' => 'legajos.buscar',
-      'uses' => 'LegajosController@buscar'
-    ));
-*/
-
   Route::get('escritos/index/{id}', array(
       'as' => 'escritos.index',
       'uses' => 'EscritosController@index'
@@ -367,6 +356,21 @@ Route::group(array('before'=>'auth'), function(){
   Route::get('modelos/eliminar/{id}', array(
       'as' => 'modelos.eliminar',
       'uses' => 'ModelosController@eliminar'
+    ));
+
+  Route::get('modelos/vercodigos', array(
+      'as' => 'modelos.vercodigos',
+      'uses' => 'ModelosController@vercodigos'
+    ));
+
+  Route::post('modelos/buscarcodigos', array(
+      'as' => 'modelos.buscarcodigos',
+      'uses' => 'ModelosController@buscarcodigos'
+    ));
+
+  Route::get('modelos/resultadoscodigos/{datos}', array(
+      'as' => 'modelos.resultadoscodigos',
+      'uses' => 'ModelosController@resultadoscodigos'
     ));
 
   Route::group(array('before'=>'csrf'),function()

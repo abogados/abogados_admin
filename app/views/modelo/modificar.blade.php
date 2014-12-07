@@ -16,6 +16,9 @@
 
     {{ Form::open(array('url' => 'modelos/modificar/'.$modelo->id, 'class' => 'form-horizontal', 'role' => 'form')) }}
 
+    {{ Form::button('Ver C&oacute;digos', array('class'=>'btn btn-default', 'style' => 'float: right; margin-right: 55px;', 
+                'onClick' => "window.open('/modelos/vercodigos')")) }}
+
     <div class="form-group">
         {{ Form::label('nombre', 'Nombre', array('class' => 'col-sm-2 col-sm-2-10 control_form_label')) }}
         <div class="col-sm-10 col-sm-10-30">

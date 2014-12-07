@@ -76,6 +76,70 @@ class ModelosController extends BaseController {
     return View::make('modelo.index', array("datos" => $modelos));
   }
 
+  /**
+   * Display a listing of the resource.
+   *
+   * @return Response
+   */
+  public function vercodigos()
+  {
+    if(Auth::user()){
+      $modelos  = ModeloCodigo::orderBy('descripcion')->get();
+
+      return View::make('modelo.vercodigos', array("datos" => $modelos));
+    }
+    else{
+      return Redirect::route('index')
+            ->withErrors(array('error' => 'Debe loguearse para poder usar la aplicación.'));
+    }
+  }
+
+  public function buscarcodigos() 
+  {
+    $datos = false;
+    $ingreso_algun_dato = false;
+    $inputs = $this->getInputs(Input::all());
+
+    foreach($inputs as $indice=>$valor){
+      if($indice != '_token') {
+        if($valor != ''){
+          $datos .= $indice . "=" . $valor ."&";
+          $ingreso_algun_dato = true;
+        }
+      }
+    }
+
+    if(!$ingreso_algun_dato) {
+      return Redirect::route('modelos.vercodigos');
+    }
+
+    $datos = substr($datos, 0, -1);
+
+    return Redirect::route('modelos.resultadoscodigos', $datos);
+  }  
+
+  public function resultadoscodigos($datos) 
+  {
+    $datos_array = explode('&', $datos);
+    
+    foreach($datos_array as $valor) {
+      $subarray = explode('=', $valor);
+
+      if($subarray[0] === 'created_at_desde'){
+        $param[$subarray[0]] = $this->convertir_fecha_us($subarray[1]);
+      }
+      else if($subarray[0] === 'created_at_hasta'){
+        $param[$subarray[0]] = $this->convertir_fecha_us($subarray[1]);
+      }
+      else {
+        $param[$subarray[0]] = $subarray[1];
+      }
+    }
+
+    $modelos  = ModeloCodigo::BuscarFiltros($param)->orderBy('descripcion')->get();
+
+    return View::make('modelo.vercodigos', array("datos" => $modelos));
+  }
 
   /**
    * Show the form for creating a new resource.
