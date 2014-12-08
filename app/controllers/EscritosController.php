@@ -157,13 +157,19 @@ class EscritosController extends BaseController {
   {
     if(Input::get()) {
 
-      $inputs['titulo'] = Input::get("titulo");
       $inputs['expediente_id'] = Input::get("expediente_id");
       $inputs['cuerpo'] = Input::get("cuerpo");
+      $modelo_id = Input::get("modelo_id");
+
+      $modelo  = Modelo::where('id',$modelo_id)->first();
+      $inputs['titulo'] = $modelo->nombre;
 
       if($this->validateForms($inputs, true) === true) {
 
         $escrito = new Escrito($inputs);
+
+        $escrito->titulo    = $modelo->nombre;
+        $escrito->modelo_id = $modelo_id;
 
         if($escrito->save()){
           return Redirect::to('escritos/index/'.Session::get('expediente_id'))
@@ -356,10 +362,31 @@ class EscritosController extends BaseController {
     }
   }
 
-  public function buscar_modelos_listado(){
-    $tipo_proceso = Input::get('tipo_proceso');
+  public function buscar_tipos_procesos(){
+    $modelos  = ModeloTipoProceso::orderBy('nombre')->get();
 
-    $modelos  = Modelo::where('tipo_proceso',$tipo_proceso)->orderBy('nombre')->get();
+    $salida = "<label for='tipo_proceso_id' class='col-sm-2 col-sm-2-10 control_form_label'>Tipo de Proceso</label>";
+    $salida .= "<div class='col-sm-10 col-sm-10-30'>";
+    $salida .= "<select class='form-control' id='tipo_proceso_id' name='tipo_proceso_id' onchange='tipo_proceso_onchange(this.value)'>";
+    $salida .= "<option value='' selected='selected'>Seleccione...</option>";
+    
+    foreach($modelos as $dato) {
+      $salida .= "<option value='".$dato->id."'>".$dato->nombre."</option>";
+    }
+
+    $salida .= "</select>";
+    $salida .= "</div>";
+
+    return Response::json($salida);
+  }
+
+  public function buscar_modelos_listado(){
+    $tipo_proceso_id = Input::get('tipo_proceso_id');
+
+    $modelos = ModeloTipoProcesoRelacionado::join('modelos_procesos', 'modelos_procesos.id', '=', 'modelos_procesos_relacionados.modelos_proceso_id')
+      ->join('modelos', 'modelos_procesos_relacionados.modelo_id', '=', 'modelos.id')
+      ->select('modelos.id','modelos.nombre')
+      ->where('modelos_procesos_relacionados.modelos_proceso_id',$tipo_proceso_id)->orderBy('nombre')->get();
 
     $salida = "<label for='modelo_id' class='col-sm-2 col-sm-2-10 control_form_label'>Modelo</label>";
     $salida .= "<div class='col-sm-10 col-sm-10-30'>";
@@ -380,17 +407,71 @@ class EscritosController extends BaseController {
 
     $modelo_id    = Input::get('modelo_id');
 
-    $modelo  = Modelo::where('id',$modelo_id)->first();
-    $codigos  = ModeloCodigoRelacionado::where('nombre_modelo',$modelo->nombre)->get();
+    $codigos  = ModeloCodigoRelacionado::join('modelos', 'modelos_codigos_relacionados.modelo_id', '=', 'modelos.id')
+      ->join('modelos_codigos', 'modelos_codigos_relacionados.modelos_codigo_id', '=', 'modelos_codigos.id')
+      ->select('modelos_codigos.codigo','modelos_codigos.descripcion')
+      ->where('modelos_codigos_relacionados.modelo_id',$modelo_id)->get();
 
-    $salida = "<div class='form-group'>";
-    foreach($codigos as $dato) {
-        $salida .= "<label for='".$dato->codigo."' class='col-sm-2 col-sm-2-50 control_form_label_left'>".$dato->descripcion."</label>";
-        $salida .= "<div class='col-sm-10 col-sm-10-80'>";
-        $salida .= "<input class='form-control' name='".$dato->codigo."' type='text' id='".$dato->codigo."'>";
-        $salida .= "</div>";
+    if($codigos->count() > 0){
+      $salida = "<div class='form-group'>";
+      foreach($codigos as $dato) {
+          $salida .= "<label for='".$dato->codigo."' class='col-sm-2 col-sm-2-50 control_form_label_no_left'>".$dato->descripcion."</label>";
+          $salida .= "<div class='col-sm-10 col-sm-10-80'>";
+          $salida .= "<input class='form-control' name='".$dato->codigo."' type='text' id='".$dato->codigo."' value='AAAAA' />";
+          $salida .= "</div>";
+      }
+      $salida .= "</div>";
+
+      $salida .= "<div class='form-group'>
+              <div class='col-sm-offset-2 col-sm-offset-2-1'>
+                <input type='button' id='btnGenerar' name='btnGenerar' value='Generar Escrito' class='btn btn-default' onClick='generar_escrito_onclick()' />
+              </div>
+          </div>";
     }
-    $salida .= "</div>";
+    else{
+      $salida = "<div class='form-group'>No se encontraron atributos relacionados para cargar.</div>";
+    }
+
+    return Response::json($salida);
+  }
+
+  public function generar_escrito_reemplazo_codigos(){
+
+    $modelo_id    = Input::get('modelo_id');
+    $codigos_modelo = Input::get('codigos_modelo');
+
+    $codigos_modelo = substr($codigos_modelo, 0, -2);
+
+    $modelo  = Modelo::where('id',$modelo_id)->first();
+    $escrito = $modelo->texto;
+    
+    
+    $codigos_modelo_array = explode("||", $codigos_modelo);
+    
+    $escrito_generado = $escrito;
+    $cod = "";
+    foreach($codigos_modelo_array as $dato) {
+      $codigo = "";
+      $codigo = explode("=", $dato);
+
+      if($codigo[1] != '' && $codigo[0] != 'btnGenerar') {
+        if($codigo[1] == '-') {
+          $escrito_generado = str_replace(trim($codigo[0]), ' ', $escrito_generado);
+        }
+        else{
+          $escrito_generado = str_replace(trim($codigo[0]), trim($codigo[1]), $escrito_generado);
+        }
+      }
+    }
+
+    $salida = "<div class='form-group'>
+        <div class='col-sm-10 col-sm-10-85'>
+          <textarea name='cuerpo' id='cuerpo' 'class'='form-control texto_largo' 'cols'='300' 'rows'='8'>".$escrito_generado."</textarea>
+          <script type='text/javascript'>
+              CKEDITOR.replace( 'cuerpo' );
+          </script>
+        </div>
+    </div>";
 
     return Response::json($salida);
   }

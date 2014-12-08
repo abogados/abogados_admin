@@ -98,3 +98,34 @@ function mostrar_datepicker() {
       yearRange: "-85:+0"
     });
 }
+
+function encode_especiales(valor){
+    while(valor.indexOf("+")>-1){
+        valor=valor.replace("+", "%2B");
+    }
+    while(valor.indexOf("/")>-1){
+        valor=valor.replace("/", "%2F");
+    }
+    
+    return valor;
+}
+
+function obtener_post_recursivo_pipes(padre){
+    var datos="";
+    
+    try{
+        var objeto_rec = document.getElementById(padre);
+    }
+    catch(e){}
+    var campos=objeto_rec.getElementsByTagName("INPUT");
+    for (x=0;x<campos.length;x++){
+        datos += campos[x].id+"="+encode_especiales(escape(campos[x].value))+"||";
+    }
+    
+    var selectores=objeto_rec.getElementsByTagName("SELECT");
+    for (x=0;x<selectores.length;x++){
+        datos += selectores[x].id+"="+encode_especiales(escape(selectores[x].value))+"||";
+    }
+    
+    return datos;
+}

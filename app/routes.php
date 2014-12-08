@@ -308,6 +308,11 @@ Route::group(array('before'=>'auth'), function(){
     ));
 
   /* BEGIN Rutas Ajax para la generación de Escrito desde Modelo */
+  Route::post('escritos/buscar_tipos_procesos', array(
+      'as' => 'escritos.buscar_tipos_procesos',
+      'uses' => 'EscritosController@buscar_tipos_procesos'
+    ));
+
   Route::post('escritos/buscar_modelos_listado', array(
       'as' => 'escritos.buscar_modelos_listado',
       'uses' => 'EscritosController@buscar_modelos_listado'
@@ -317,12 +322,18 @@ Route::group(array('before'=>'auth'), function(){
       'as' => 'escritos.buscar_modelo_codigos',
       'uses' => 'EscritosController@buscar_modelo_codigos'
     ));
+
+  Route::post('escritos/generar_escrito_reemplazo_codigos', array(
+      'as' => 'escritos.generar_escrito_reemplazo_codigos',
+      'uses' => 'EscritosController@generar_escrito_reemplazo_codigos'
+    ));
   /* FIN Rutas Ajax para la generación de Escrito desde Modelo */
 
   Route::group(array('before'=>'csrf'),function()
   {
-    Route::post('escritos/crear',           'EscritosController@crear');
-    Route::post('escritos/modificar/{id}',  'EscritosController@modificar');
+    Route::post('escritos/crear',               'EscritosController@crear');
+    Route::post('escritos/modificar/{id}',      'EscritosController@modificar');
+    Route::post('escritos/crear_desde_modelo',  'EscritosController@crear_desde_modelo');
   });
 
   ///////////////////////// Modelos

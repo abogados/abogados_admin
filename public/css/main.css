@@ -68,6 +68,10 @@
     margin-left: 10.66666667%;
   }
 
+  .col-sm-offset-2-1 {
+    margin-left: 1%;
+  }
+
   /* FIN Redifiniciones a partir de Bootstrap 3.2 */
 
   .contenedor_blanco_chico {
@@ -104,6 +108,11 @@
       padding-top: 7px;
       margin-bottom: 0;
       padding-left: 70px;
+    }
+
+    .control_form_label_no_left {
+      padding-top: 7px;
+      margin-bottom: 0;
     }
 
   .contenedor_azul_centro {
@@ -346,6 +355,10 @@
     font-weight: bold;
     border-radius: 10px;
   }
+
+    .codigos_contenedor {
+      margin-left: 150px;
+    }
 
     .buscador_form_group {
       width: 100%;
