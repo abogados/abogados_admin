@@ -19,7 +19,6 @@
     <div>
         <h5><b>Expediente:</b></h5>
         <h5>Car&aacute;tula: <b>{{ $expediente_datos->caratula }}</b></h5>
-        <h5>Tipo de Proceso: <b>{{ $expediente_datos->tipo_proceso }}</b></h5>
         <h5>N&uacute;mero: <b>{{ $expediente_datos->numero==''?'-':$expediente_datos->numero }}</b></h5>
         <h5>Juzgado: <b>{{ $expediente_datos->juzgado==''?'-':$expediente_datos->juzgado }}</b></h5>
     </div>
@@ -29,13 +28,14 @@
     {{ Form::open(array('url' => 'escritos/crear_desde_modelo', 'class' => 'form-horizontal', 'role' => 'form')) }}
 
     {{ Form::hidden('expediente_id', Session::get('expediente_id'), array('id' => 'expediente_id', 'class' => 'form-control')) }}
+    {{ Form::hidden('expediente_tipo_proceso_id', $expediente_tipo_proceso->id, array('id' => 'expediente_tipo_proceso_id', 'class' => 'form-control')) }}
 
     <div class="form-group">
         <div id="tipos_procesos_contenedor">
-          {{ Form::label('tipo_proceso','Tipo de Proceso',array('id'=>'','class'=>'col-sm-2 col-sm-2-10 control_form_label')) }}
+          {{ Form::label('tipo_proceso_id','Tipo de Proceso',array('id'=>'','class'=>'col-sm-2 col-sm-2-10 control_form_label')) }}
           <div class="col-sm-10 col-sm-10-30">
-              {{ Form::select('tipo_proceso',
-                  array(''=>'Seleccione...'), null, array('class' => 'form-control', 'onchange' => 'tipo_proceso_onchange(this.value)')) }}
+              {{ Form::select('tipo_proceso_id', 
+                array(''=>'Seleccione...'), null, array('class' => 'form-control', 'onchange' => 'tipo_proceso_onchange(this.value)')) }}
           </div>
         </div>
 
@@ -70,6 +70,7 @@
 
 init();
 tipos_procesos_cargar();
+tipo_proceso_onchange('');
 
 </script>
 

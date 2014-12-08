@@ -191,12 +191,15 @@ class EscritosController extends BaseController {
 
       if(Session::has('expediente_id')) {
         $expediente  = Expediente::where('id',Session::get('expediente_id'))->first();
+
+        $expediente_tipo_proceso = ModeloTipoProceso::where('nombre',$expediente->tipo_proceso)->first();
       }
       else {
         $expediente  = array();
+        $expediente_tipo_proceso = array();
       }
 
-      return View::make("escrito.crear_desde_modelo", array("expedientes" => $datos, "expediente_datos" => $expediente, "exped_id" => Session::get('expediente_id')));
+      return View::make("escrito.crear_desde_modelo", array("expedientes" => $datos, "expediente_datos" => $expediente, "exped_id" => Session::get('expediente_id'), 'expediente_tipo_proceso' => $expediente_tipo_proceso));
     }
   }
   
@@ -363,12 +366,14 @@ class EscritosController extends BaseController {
   }
 
   public function buscar_tipos_procesos(){
-    $modelos  = ModeloTipoProceso::orderBy('nombre')->get();
+    $tipo_proceso_id = Input::get('tipo_proceso_id');
+
+    $modelos  = ModeloTipoProceso::where('id', $tipo_proceso_id)->orderBy('nombre')->get();
 
     $salida = "<label for='tipo_proceso_id' class='col-sm-2 col-sm-2-10 control_form_label'>Tipo de Proceso</label>";
     $salida .= "<div class='col-sm-10 col-sm-10-30'>";
     $salida .= "<select class='form-control' id='tipo_proceso_id' name='tipo_proceso_id' onchange='tipo_proceso_onchange(this.value)'>";
-    $salida .= "<option value='' selected='selected'>Seleccione...</option>";
+    //$salida .= "<option value='' selected='selected'>Seleccione...</option>";
     
     foreach($modelos as $dato) {
       $salida .= "<option value='".$dato->id."'>".$dato->nombre."</option>";

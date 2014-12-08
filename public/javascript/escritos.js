@@ -1,9 +1,12 @@
 // Select Tipo Proceso
 function tipos_procesos_cargar(){
+
+    var tipo_proceso_id_hidden = $("#expediente_tipo_proceso_id").val();
+
     $.ajax({
         url: '/escritos/buscar_tipos_procesos',
         type: 'POST',
-        data: {},
+        data: {tipo_proceso_id:tipo_proceso_id_hidden},
         dataType: 'JSON',
         beforeSend: function() {
            $("#tipos_procesos_contenedor").html('Buscando Tipos de Procesos...');
@@ -24,8 +27,15 @@ function tipos_procesos_cargar(){
 }
 
 // Select Tipo Proceso
-function tipo_proceso_onchange(tipo_proceso_id){
-    var tipo_proceso_id_input = tipo_proceso_id;
+function tipo_proceso_onchange(id){
+    var tipo_proceso_id_input = '';
+
+    if(id == ''){
+      tipo_proceso_id_input = $("#expediente_tipo_proceso_id").val();
+    }
+    else{
+      tipo_proceso_id_input = id;
+    }
 
     $.ajax({
         url: '/escritos/buscar_modelos_listado',
