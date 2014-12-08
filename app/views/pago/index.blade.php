@@ -55,6 +55,7 @@
               <td> <b>Tipo de Operaci&oacute;n</b> </td>
               <td> <b>Monto</b> </td>
               <td> <b>Fecha Creaci&oacute;n</b> </td>
+              <td> <b>Operaci&oacute;n</b> </td>
             </tr>
             @foreach($datos as $dato)
             <tr>
@@ -63,6 +64,8 @@
               <td>  {{ $dato->tipo_operacion }} </td>
               <td> ${{ $dato->monto }} </td>
               <td>  {{ $dato->creado_at }} </td>
+              <td>  {{ Form::button('Impr.', array('class'=>'btn btn-default btn-xs btn-default-azul',
+                  'onClick' => "window.open('/pagos/imprimir/$dato->id')")) }} </td>
             </tr>
             @endforeach
         </table>

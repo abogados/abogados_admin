@@ -130,7 +130,7 @@ class PagosController extends BaseController {
 
       if($this->validateForms($inputs, true) === true) {
 
-        if(isset($inputs["tipo_operacion_egr"]) && isset($inputs['expediente_id'])) {
+        if(isset($inputs["tipo_operacion_egr"]) && $inputs["tipo_operacion_egr"] != '' && isset($inputs['expediente_id'])) {
           unset($inputs['expediente_id']);
         }
 
@@ -138,7 +138,7 @@ class PagosController extends BaseController {
 
         if(Input::get("tipo_operacion_ing"))  $pago->tipo_operacion   = Input::get("tipo_operacion_ing");
         if(Input::get("tipo_operacion_egr"))  $pago->tipo_operacion   = Input::get("tipo_operacion_egr");
-        
+
         if($pago->save()){
 
           if(Session::has('expediente_id')) {
@@ -174,6 +174,38 @@ class PagosController extends BaseController {
 
 
       return View::make("pago.crear", array("expedientes" => $datos, "expediente_datos" => $expediente, "exped_id" => Session::get('expediente_id')));
+    }
+  }
+
+  /**
+   * Display a listing of the resource.
+   *
+   * @return Response
+   */
+  public function imprimir($id = NULL)
+  {
+    if(Auth::user()){
+      $expediente = array();
+
+      $pago = Pago::find($id);
+
+      if($pago->expediente_id != ""){
+        $expediente = Expediente::find($pago->expediente_id);
+
+        $expediente->caratula = "Carátula: ".$expediente->caratula;
+        $expediente->tipo_proceso = "Tipo de Proceso: ".$expediente->tipo_proceso;
+        $expediente->numero = $expediente->numero!='' ? "Nro: ". $expediente->numero : 'Nro: -';
+        $expediente->juzgado = $expediente->juzgado!='' ? "Juzgado: ". $expediente->juzgado : 'Juzgado: -';
+      }
+
+      $pago->creado_at = substr($this->convertir_fecha_es($pago->created_at),0,10);
+      $pago->monto = round($pago->monto,2);
+
+      return View::make('pago.imprimir', array("datos" => $pago, "expediente" => $expediente));
+    }
+    else{
+      return Redirect::route('index')
+            ->withErrors(array('error' => 'Debe loguearse para poder usar la aplicación.'));
     }
   }
 

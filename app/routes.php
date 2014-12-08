@@ -397,6 +397,12 @@ Route::group(array('before'=>'auth'), function(){
       'uses' => 'PagosController@index'
     ));
 
+  Route::get('pagos/imprimir/{id}', array(
+      'as' => 'pagos.imprimir',
+      'uses' => 'PagosController@imprimir'
+    ));
+
+
   Route::post('pagos/buscar', array(
       'as' => 'pagos.buscar',
       'uses' => 'PagosController@buscar'
