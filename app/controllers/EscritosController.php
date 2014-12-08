@@ -417,7 +417,7 @@ class EscritosController extends BaseController {
       foreach($codigos as $dato) {
           $salida .= "<label for='".$dato->codigo."' class='col-sm-2 col-sm-2-50 control_form_label_no_left'>".$dato->descripcion."</label>";
           $salida .= "<div class='col-sm-10 col-sm-10-80'>";
-          $salida .= "<input class='form-control' name='".$dato->codigo."' type='text' id='".$dato->codigo."' value='AAAAA' />";
+          $salida .= "<input class='form-control' name='".$dato->codigo."' type='text' id='".$dato->codigo."' />";
           $salida .= "</div>";
       }
       $salida .= "</div>";
