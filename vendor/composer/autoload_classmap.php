@@ -8,7 +8,6 @@ $baseDir = dirname($vendorDir);
 return array(
     'Agenda' => $baseDir . '/app/models/Agenda.php',
     'AgendasController' => $baseDir . '/app/controllers/AgendasController.php',
-    'AgregarColumnaModeloIdEnEscritos' => $baseDir . '/app/database/migrations/2014_12_08_081138_agregar_columna_modelo_id_en_escritos.php',
     'AgregarDiscapacidadToUsuarios' => $baseDir . '/app/database/migrations/2014_12_03_064823_AgregarDiscapacidadToUsuarios.php',
     'AgregarEstCivilLocalidadLegajoSexoTelCelProfIngresoToUsuarios' => $baseDir . '/app/database/migrations/2014_11_30_183702_agregar_est_civil_localidad_legajo_sexo_tel_cel_prof_ingreso_to_usuarios.php',
     'AgregarModeloIdEnEscritos' => $baseDir . '/app/database/migrations/2014_12_04_211319_agregar_modelo_id_en_escritos.php',
@@ -48,6 +47,7 @@ return array(
     'CrearTablaBackups' => $baseDir . '/app/database/migrations/2014_11_12_051000_crear_tabla_backups.php',
     'CrearTablaClientes' => $baseDir . '/app/database/migrations/2014_10_22_024314_crear_tabla_clientes.php',
     'CrearTablaEscritos' => $baseDir . '/app/database/migrations/2014_11_05_153335_crear_tabla_escritos.php',
+    'CrearTablaEscritosImportaciones' => $baseDir . '/app/database/migrations/2014_12_09_035440_crear_tabla_escritos_importaciones.php',
     'CrearTablaExpedientes' => $baseDir . '/app/database/migrations/2014_11_04_045754_crear_tabla_expedientes.php',
     'CrearTablaModelos' => $baseDir . '/app/database/migrations/2014_11_06_033415_crear_tabla_modelos.php',
     'CrearTablaModelosCodigos' => $baseDir . '/app/database/migrations/2014_12_05_010240_crear_tabla_modelos_codigos.php',

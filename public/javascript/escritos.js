@@ -148,7 +148,46 @@ function generar_escrito_onclick(){
      });
 
     return false;
+}
 
+//Capa Flotante
+$(document).ready(function(){
+    $("#btnImportar").click(function() {
+        $("#importaciones").dialog({
+            width: 590,
+            height: 350,
+            show: "scale",
+            hide: "scale",
+            resizable: "false",
+            position: "center",
+            modal: "true"
+        });
+    });
+});
+
+// Select Tipo Proceso
+function importacion_cargar(id){
+    $.ajax({
+        url: '/escritos/importar',
+        type: 'POST',
+        data: {escrito_id:id},
+        dataType: 'JSON',
+        beforeSend: function() {
+           $("#tipos_procesos_contenedor").html('Buscando Tipos de Procesos...');
+        },
+        error: function() {
+           $("#tipos_procesos_contenedor").html('<div> Ha surgido un error al intentar obtener los Tipos de Procesos. </div>');
+        },
+        success: function(respuesta) {
+           if (respuesta) {
+              $("#tipos_procesos_contenedor").html(respuesta);
+           } else {
+              $("#tipos_procesos_contenedor").html('<div> No hay ningún Tipo de Proceso. </div>');
+           }
+        }
+     });
+
+    return false;   
 }
 
 function init() {

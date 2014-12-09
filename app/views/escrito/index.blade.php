@@ -20,10 +20,13 @@
 
     {{ Form::button('Volver a Expedientes', array('class'=>'btn btn-default', 
             'onClick' => "location.href='/expedientes/index'")) }}
+    {{ Form::button('Importar Escrito', array('class'=>'btn btn-default',
+            'onClick' => 'importar_escrito();', 'id' => 'btnImportar')) }}
     {{ Form::button('Nuevo desde Modelo', array('class'=>'btn btn-default',
             'onClick' => "location.href='/escritos/crear_desde_modelo'")) }}
     {{ Form::button('Nuevo', array('class'=>'btn btn-default',
             'onClick' => "location.href='/escritos/crear'")) }}
+
   </div>
   <br />
 @stop
@@ -31,6 +34,10 @@
 @section('contenido')
 
   <div>
+
+    <div id="importaciones" class="ventana" title="Importar Escrito">
+      <p>En desarrollo...</p>
+    </div>
 
     {{ Form::open(array('url' => 'escritos/buscar', 'class' => 'form-horizontal', 'role' => 'form')) }}
 
@@ -80,4 +87,8 @@
     </div>
 
   </div>
+
+  {{ HTML::style('css/escritos.css')}}
+  {{ HTML::script('javascript/escritos.js')}}
+
 @stop
