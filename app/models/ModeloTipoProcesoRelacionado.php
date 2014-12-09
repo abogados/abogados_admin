@@ -15,4 +15,5 @@ class ModeloTipoProcesoRelacionado extends Eloquent implements UserInterface, Re
 	 * @var string
 	 */
 	protected $table = 'modelos_procesos_relacionados';
+	protected $fillable = array('modelo_id', 'modelos_proceso_id');
 }

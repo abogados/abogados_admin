@@ -15,11 +15,14 @@ class Modelo extends Eloquent implements UserInterface, RemindableInterface {
 	 * @var string
 	 */
 	protected $table = 'modelos';
-	protected $fillable = array('nombre','tipo_proceso','texto');
+	protected $fillable = array('nombre','texto');
 
 	public static function scopeBuscarFiltros($query, $datos, $operador = 'LIKE')
     {       
+
     	foreach($datos as $campo => $valor){
+
+    		$campo = str_replace('__', '.', $campo);
 
 	    	if (!empty($valor)) {
 	    		if($campo === 'created_at_desde'){

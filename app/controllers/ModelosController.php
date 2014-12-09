@@ -10,7 +10,10 @@ class ModelosController extends BaseController {
   public function index()
   {
     if(Auth::user()){
-      $modelos  = Modelo::orderBy('created_at','desc')->get();
+      $modelos  = Modelo::join('modelos_procesos_relacionados','modelos.id','=','modelos_procesos_relacionados.modelo_id')
+        ->join('modelos_procesos','modelos_procesos.id','=','modelos_procesos_relacionados.modelos_proceso_id')
+        ->select('modelos.nombre AS nombre_modelo','modelos_procesos.nombre AS nombre_tipo_proceso','modelos.id')
+        ->orderBy('modelos.created_at','desc')->get();
 
       foreach($modelos->all() as $dato) {
         $dato->creado_at = $this->convertir_fecha_es($dato->created_at);
@@ -66,8 +69,11 @@ class ModelosController extends BaseController {
       }
     }
 
-    $modelos  = Modelo::BuscarFiltros($param)
-      ->orderBy('created_at','desc')->paginate(10);
+    $modelos  = $modelos  = Modelo::BuscarFiltros($param)
+      ->join('modelos_procesos_relacionados','modelos.id','=','modelos_procesos_relacionados.modelo_id')
+      ->join('modelos_procesos','modelos_procesos.id','=','modelos_procesos_relacionados.modelos_proceso_id')
+      ->select('modelos.nombre AS nombre_modelo','modelos_procesos.nombre AS nombre_tipo_proceso','modelos.id')
+      ->orderBy('modelos.created_at','desc')->get();
 
     foreach($modelos->all() as $dato) {
       $dato->creado_at = $this->convertir_fecha_es($dato->created_at);
@@ -156,8 +162,18 @@ class ModelosController extends BaseController {
         $modelo = new Modelo($inputs);
 
         if($modelo->save()){
-          return Redirect::to('modelos/index')
-            ->with(array('mensaje' => 'El Modelo ha sido creado correctamente.'));
+          $tipo_proceso = Input::get("tipo_proceso");
+          $tipo_proceso = ModeloTipoProceso::where('nombre','=',$tipo_proceso)->first();
+          
+          $relacion = new ModeloTipoProcesoRelacionado;
+
+          $relacion->modelos_proceso_id = $tipo_proceso->id;
+          $relacion->modelo_id = $modelo->id;
+
+          if($relacion->save()){
+            return Redirect::to('modelos/index')
+              ->with(array('mensaje' => 'El Modelo ha sido creado correctamente.'));
+          }
         }
       }
       else {
@@ -178,21 +194,29 @@ class ModelosController extends BaseController {
    */
   public function modificar($id) {
     $datos = array('' => 'Seleccione...');
-    
-    $modelo = Modelo::find($id);
 
     if(Input::get()) {
-      if($modelo) {
+      $relacion = ModeloTipoProcesoRelacionado::find($id);
+
+      if($relacion) {
         $inputs = $this->getInputs(Input::all());
 
         if($this->validateForms($inputs, false) === true) {
-
-          $modelo->nombre         = Input::get("nombre");
-          $modelo->tipo_proceso   = Input::get("tipo_proceso");
-          $modelo->texto          = Input::get("texto");
+          $modelo_id = Input::get("modelo_id");          
+          $modelo = Modelo::find($modelo_id);
+          $modelo->nombre = Input::get("nombre");
+          $modelo->texto  = Input::get("texto");
 
           if($modelo->save()){
-            return Redirect::to('modelos/index')->with(array('mensaje' => 'El Modelo se ha actualizado correctamente.'));
+            $nombre_tipo_proceso = Input::get("tipo_proceso");
+            $tipo_proceso = ModeloTipoProceso::where('nombre',$nombre_tipo_proceso)->first();
+
+            $relacion->modelo_id          = Input::get("modelo_id");
+            $relacion->modelos_proceso_id = $tipo_proceso->id;
+
+            if($relacion->save()){
+              return Redirect::to('modelos/index')->with(array('mensaje' => 'El Modelo se ha actualizado correctamente.'));
+            }
           }
         }
         else {
@@ -205,6 +229,13 @@ class ModelosController extends BaseController {
       }
     }
     else {
+      $modelo  = Modelo::join('modelos_procesos_relacionados','modelos.id','=','modelos_procesos_relacionados.modelo_id')
+        ->join('modelos_procesos','modelos_procesos.id','=','modelos_procesos_relacionados.modelos_proceso_id')
+        ->select('modelos.nombre AS nombre_modelo','modelos.texto AS texto',
+            'modelos_procesos.nombre AS nombre_tipo_proceso','modelos.id AS modelo_id', 
+            'modelos_procesos_relacionados.id AS modelos_procesos_relacionado_id')
+        ->where('modelos.id',$id)->first();
+
       return View::make("modelo.modificar", array('modelo' => $modelo));  
     }
   }
@@ -220,8 +251,12 @@ class ModelosController extends BaseController {
     $modelo = Modelo::find($id);
 
     if($modelo){
+
+      $relacion = ModeloTipoProcesoRelacionado::where('modelo_id',$id);
+      $relacion->delete();
+
       $modelo->delete();
-      return Redirect::to('modelos/index')->with(array('mensaje' => 'El mModelo ha sido eliminado correctamente.'));
+      return Redirect::to('modelos/index')->with(array('mensaje' => 'El Modelo ha sido eliminado correctamente.'));
     }
     else{
       return Redirect::route('modelos.index')

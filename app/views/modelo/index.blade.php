@@ -41,8 +41,8 @@
               </tr>
               @foreach($datos as $dato)
               <tr>
-                <td> {{ $dato->nombre }} </td>
-                <td> {{ $dato->tipo_proceso }} </td>
+                <td> {{ $dato->nombre_modelo }} </td>
+                <td> {{ $dato->nombre_tipo_proceso }} </td>
                 <td> 
                   {{ Form::button('Modif.', array('class'=>'btn btn-default btn-xs btn-default-azul', 
                     'onClick' => "location.href='/modelos/modificar/$dato->id'")) }}

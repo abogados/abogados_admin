@@ -14,15 +14,18 @@
       @endforeach
     @endif
 
-    {{ Form::open(array('url' => 'modelos/modificar/'.$modelo->id, 'class' => 'form-horizontal', 'role' => 'form')) }}
+    {{ Form::open(array('url' => 'modelos/modificar/'.$modelo->modelos_procesos_relacionado_id, 'class' => 'form-horizontal', 'role' => 'form')) }}
 
     {{ Form::button('Ver C&oacute;digos', array('class'=>'btn btn-default', 'style' => 'float: right; margin-right: 55px;', 
                 'onClick' => "window.open('/modelos/vercodigos')")) }}
 
+    {{ Form::hidden('modelo_id', $modelo->modelo_id, 
+        array('id' => 'modelo_id', 'class' => 'form-control')) }}
+
     <div class="form-group">
         {{ Form::label('nombre', 'Nombre', array('class' => 'col-sm-2 col-sm-2-10 control_form_label')) }}
         <div class="col-sm-10 col-sm-10-30">
-            {{ Form::text('nombre', Input::old('nombre') ? Input::old('nombre') : $modelo->nombre, array('class' => 'form-control texto_largo')) }}
+            {{ Form::text('nombre', Input::old('nombre') ? Input::old('nombre') : $modelo->nombre_modelo, array('class' => 'form-control texto_largo')) }}
         </div>
     
         {{ Form::label('tipo_proceso','Tipo de Proceso',array('id'=>'','class'=>'col-sm-2 col-sm-2-10 control_form_label')) }}
@@ -37,7 +40,7 @@
                     'Laboral'           => 'Laboral',
                     'Documento y Locaciones'    => 'Documento y Locaciones',
                     'Cobro y Apremio'           => 'Cobro y Apremio'
-                    ), $modelo->tipo_proceso, array('class' => 'form-control')) }}
+                    ), $modelo->nombre_tipo_proceso, array('class' => 'form-control')) }}
         </div>
     </div>
 

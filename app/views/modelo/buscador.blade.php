@@ -2,13 +2,13 @@
   <div class="buscador_form_group">
       {{ Form::label('nombre', 'Nombre', array('class' => 'col-sm-2 buscador_col_label control-label')) }}
       <div class="col-sm-10 buscador_col_input">
-          {{ Form::text('nombre', Input::old('nombre'), array('class' => 'buscador_control')) }}
+          {{ Form::text('modelos__nombre', Input::old('modelos_procesos__nombre'), array('class' => 'buscador_control')) }}
       </div>
   </div>
   <div class="buscador_form_group">
-      {{ Form::label('tipo_proceso','Tipo de Proceso',array('id'=>'','class'=>'col-sm-2 buscador_col_label control-label')) }}
+      {{ Form::label('modelos_procesos__nombre','Tipo de Proceso',array('id'=>'','class'=>'col-sm-2 buscador_col_label control-label')) }}
       <div class="col-sm-10 buscador_col_input">
-          {{ Form::select('tipo_proceso',
+          {{ Form::select('modelos_procesos__nombre',
               array(''=>'Todos',
                   'Civil Común'       => 'Civil Común',
                   'Comercial Común'   => 'Comercial Común',
