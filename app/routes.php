@@ -239,6 +239,11 @@ Route::group(array('before'=>'auth'), function(){
       'uses' => 'ExpedientesController@index'
     ));
 
+  Route::get('expedientes/imprimir/{id}', array(
+      'as' => 'expedientes.imprimir',
+      'uses' => 'ExpedientesController@imprimir'
+    ));
+
   Route::post('expedientes/buscar', array(
       'as' => 'expedientes.buscar',
       'uses' => 'ExpedientesController@buscar'

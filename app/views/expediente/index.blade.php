@@ -39,7 +39,7 @@
               <td> <b>Juzgado</b> </td>
               <td> <b>Car&aacute;tula</b> </td>
               <td> <b>Estado</b> </td>
-              <td colspan="4"> <b>Operaci&oacute;n</b> </td>
+              <td colspan="5"> <b>Operaci&oacute;n</b> </td>
             </tr>
             @foreach($datos as $dato)
             <tr>
@@ -54,7 +54,10 @@
               <td> 
                 {{ Form::button('Pagos', array('class'=>'btn btn-default btn-xs btn-default-azul', 
                   'onClick' => "location.href='/pagos/index/$dato->id'")) }}
-              </td>            
+              </td>
+              <td>  {{ Form::button('Impr.', array('class'=>'btn btn-default btn-xs btn-default-azul',
+                  'onClick' => "window.open('/expedientes/imprimir/$dato->id')")) }} 
+              </td>
               <td> 
                 {{ Form::button('Modif.', array('class'=>'btn btn-default btn-xs btn-default-azul', 
                   'onClick' => "location.href='/expedientes/modificar/$dato->id'")) }}

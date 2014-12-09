@@ -186,6 +186,25 @@ class ExpedientesController extends BaseController {
       return Redirect::to('expedientes/index')->with(array('mensaje' => "El Expediente con id $id que intentas eliminar no existe."));
     }
   }
+
+  /**
+   * Display a listing of the resource.
+   *
+   * @return Response
+   */
+  public function imprimir($id = NULL)
+  {
+    if(Auth::user()){
+      $expediente = Expediente::find($id);
+      $cliente = Cliente::find($expediente->cliente_id);
+
+      return View::make('expediente.imprimir', array("datos" => $expediente, "cliente" => $cliente));
+    }
+    else{
+      return Redirect::route('index')
+            ->withErrors(array('error' => 'Debe loguearse para poder usar la aplicación.'));
+    }
+  }
   
   private function validateForms($inputs = array(), $is_insert = true){
 
