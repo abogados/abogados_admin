@@ -54,13 +54,16 @@
               <td> <b>T&iacute;tulo</b> </td>
               <td> <b>Expediente</b> </td>
               <td> <b>Tipo Proceso</b> </td>
-              <td colspan="2"> <b>Operaci&oacute;n</b> </td>
+              <td colspan="3"> <b>Operaci&oacute;n</b> </td>
             </tr>
             @foreach($datos as $dato)
             <tr>
               <td> {{ $dato->titulo }} </td>
               <td> {{ $dato->caratula }} </td>
               <td> {{ $dato->tipo_proceso }} </td>
+              <td> {{ Form::button('Impr.', array('class'=>'btn btn-default btn-xs btn-default-azul',
+                  'onClick' => "window.open('/escritos/imprimir/$dato->id')")) }} 
+              </td>
               <td> 
                 {{ Form::button('Modif.', array('class'=>'btn btn-default btn-xs btn-default-azul', 
                   'onClick' => "location.href='/escritos/modificar/$dato->id'")) }}

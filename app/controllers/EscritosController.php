@@ -317,6 +317,26 @@ class EscritosController extends BaseController {
     }
   }
 
+  /**
+   * Display a listing of the resource.
+   *
+   * @return Response
+   */
+  public function imprimir($id = NULL)
+  {
+    if(Auth::user()){
+      $escrito = Escrito::find($id);
+      $expediente = Expediente::find($escrito->expediente_id);
+      $cliente = Cliente::find($expediente->cliente_id);
+
+      return View::make('escrito.imprimir', array("datos" => $escrito, "expediente" => $expediente));
+    }
+    else{
+      return Redirect::route('index')
+            ->withErrors(array('error' => 'Debe loguearse para poder usar la aplicación.'));
+    }
+  }
+
   //método privado para obtener los inputs del formulario
   private function getInputs($inputs = array()){
     foreach($inputs as $key => $val){

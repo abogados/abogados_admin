@@ -66,7 +66,7 @@
                 {{ Form::button('Elim.', array('class'=>'btn btn-default btn-xs btn-default-azul',
                   'data-confirm' => '¿Está seguro que desea Eliminar el registro?', 
                   'onClick' => "location.href='/expedientes/eliminar/$dato->id'")) }}
-               </td>
+              </td>
             </tr>
             @endforeach
         </table>
