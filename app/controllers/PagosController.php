@@ -101,7 +101,7 @@ class PagosController extends BaseController {
     }
 
     $pagos  = Pago::leftjoin('expedientes', 'pagos.expediente_id', '=', 'expedientes.id')
-      ->select('pagos.*', 'expedientes.numero')
+      ->select('pagos.*', 'expedientes.numero', 'expedientes.caratula')
       ->BuscarFiltros($param)
       ->orderBy('created_at','desc')->get();
 
@@ -109,7 +109,7 @@ class PagosController extends BaseController {
       $dato->creado_at = $this->convertir_fecha_es($dato->created_at);
     }
 
-    $expedientes  = Expediente::where('estado','!=','Finalizado')->orderBy('numero')->get();
+    $expedientes  = Expediente::orderBy('numero')->get();
 
     foreach($expedientes as $dato) {
       $datos_exp[$dato->id] = $dato->caratula;
