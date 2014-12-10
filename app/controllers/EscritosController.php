@@ -469,8 +469,7 @@ class EscritosController extends BaseController {
 
     $modelo  = Modelo::where('id',$modelo_id)->first();
     $escrito = $modelo->texto;
-    
-    
+
     $codigos_modelo_array = explode("||", $codigos_modelo);
     
     $escrito_generado = $escrito;
@@ -484,7 +483,8 @@ class EscritosController extends BaseController {
           $escrito_generado = str_replace(trim($codigo[0]), ' ', $escrito_generado);
         }
         else{
-          $escrito_generado = str_replace(trim($codigo[0]), trim($codigo[1]), $escrito_generado);
+          $texto = $this->reemplazar_caracteres_especiales($codigo[1]);
+          $escrito_generado = str_replace(trim($codigo[0]), trim($texto), $escrito_generado);
         }
       }
     }
@@ -499,5 +499,45 @@ class EscritosController extends BaseController {
     </div>";
 
     return Response::json($salida);
+  }
+
+  public function reemplazar_caracteres_especiales($texto){
+
+    $salida = str_replace('%E1','á',$texto);
+    $salida = str_replace('%E9','é',$salida);
+    $salida = str_replace('%ED','í',$salida);
+    $salida = str_replace('%F3','ó',$salida);
+    $salida = str_replace('%FA','ú',$salida);
+    $salida = str_replace('%F1','ñ',$salida);
+    $salida = str_replace('%D1','Ñ',$salida);
+
+    $salida = str_replace('%20',' ',$salida);
+    $salida = str_replace('%21','!',$salida);
+    $salida = str_replace('%22','"',$salida);
+    $salida = str_replace('%23','#',$salida);
+    $salida = str_replace('%2F','/',$salida);
+    $salida = str_replace('%25','%',$salida);
+    $salida = str_replace('%24','$',$salida);
+    $salida = str_replace('%26','&',$salida);
+    $salida = str_replace('%27','\'',$salida);
+    $salida = str_replace('%28','(',$salida);
+    $salida = str_replace('%29',')',$salida);
+    $salida = str_replace('%2A','*',$salida);
+    $salida = str_replace('%2B','+',$salida);
+    $salida = str_replace('%2C',',',$salida);
+    $salida = str_replace('%3A',':',$salida);
+    $salida = str_replace('%3B',';',$salida);
+    $salida = str_replace('%3C','<',$salida);
+    $salida = str_replace('%3D','=',$salida);
+    $salida = str_replace('%3E','>',$salida);
+    $salida = str_replace('%3F','?',$salida);
+    $salida = str_replace('%BF','¿',$salida);
+    $salida = str_replace('%5F','_',$salida);
+    $salida = str_replace('%7B','{',$salida);
+    $salida = str_replace('%7C','|',$salida);
+    $salida = str_replace('%7D','}',$salida);
+    $salida = str_replace('%7E','~',$salida);
+
+    return $salida;
   }
 }
