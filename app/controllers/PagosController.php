@@ -89,10 +89,10 @@ class PagosController extends BaseController {
     foreach($datos_array as $valor) {
       $subarray = explode('=', $valor);
 
-      if($subarray[0] === 'created_at_desde'){
+      if($subarray[0] === 'pagos__created_at_desde'){
         $param[$subarray[0]] = $this->convertir_fecha_us($subarray[1]);
       }
-      else if($subarray[0] === 'created_at_hasta'){
+      else if($subarray[0] === 'pagos__created_at_hasta'){
         $param[$subarray[0]] = $this->convertir_fecha_us($subarray[1]);
       }
       else {
@@ -104,6 +104,13 @@ class PagosController extends BaseController {
       ->select('pagos.*', 'expedientes.numero', 'expedientes.caratula')
       ->BuscarFiltros($param)
       ->orderBy('created_at','desc')->get();
+
+    /*$queries = DB::getQueryLog();
+    $last_query = end($queries);
+    print "<pre>";
+    print_r($last_query);
+    print "</pre>";
+    exit;*/
 
     foreach($pagos as $dato) {
       $dato->creado_at = $this->convertir_fecha_es($dato->created_at);

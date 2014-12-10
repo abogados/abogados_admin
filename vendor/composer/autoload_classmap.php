@@ -491,6 +491,7 @@ return array(
     'ModeloTipoProceso' => $baseDir . '/app/models/ModeloTipoProceso.php',
     'ModeloTipoProcesoRelacionado' => $baseDir . '/app/models/ModeloTipoProcesoRelacionado.php',
     'ModelosController' => $baseDir . '/app/controllers/ModelosController.php',
+    'ModificarColumnaMontoEnPagos' => $baseDir . '/app/database/migrations/2014_12_10_045034_modificar_columna_monto_en_pagos.php',
     'ModificarCuerpoEliminarDescripcionEnEscritos' => $baseDir . '/app/database/migrations/2014_12_05_043420_modificar_cuerpo_eliminar_descripcion_en_escritos.php',
     'ModificarExpedienteIdEnPagos' => $baseDir . '/app/database/migrations/2014_12_04_151941_modificar_expediente_id_en_pagos.php',
     'Monolog\\ErrorHandler' => $vendorDir . '/monolog/monolog/src/Monolog/ErrorHandler.php',

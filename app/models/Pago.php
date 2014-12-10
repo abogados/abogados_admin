@@ -25,13 +25,13 @@ class Pago extends Eloquent implements UserInterface, RemindableInterface {
     		$campo = str_replace('__', '.', $campo);
 
 	    	if (!empty($valor)) {
-	    		if($campo === 'created_at_desde'){
+	    		if($campo === 'pagos.created_at_desde'){
 					$query->where(str_replace('_desde', '', $campo), '>=', $valor);
 	    		}
-	    		elseif($campo === 'created_at_hasta'){
+	    		elseif($campo === 'pagos.created_at_hasta'){
 					$query->where(str_replace('_hasta', '', $campo), '<=', $valor);
 	    		}
-	    		if($campo === 'monto_desde'){
+	    		elseif($campo === 'monto_desde'){
 					$query->where(str_replace('_desde', '', $campo), '>=', $valor);
 	    		}
 	    		elseif($campo === 'monto_hasta'){
