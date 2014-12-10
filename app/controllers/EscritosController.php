@@ -279,44 +279,6 @@ class EscritosController extends BaseController {
     }
   }
   
-  private function validateForms($inputs = array(), $is_insert = true){
-
-    if($is_insert) {
-      $rules = array(
-        'expediente_id' => 'required',
-        'titulo'        => 'required',
-        'cuerpo'        => 'required'
-      );
-    }
-    else {
-
-      /* Hacer verificación de Email y DNI contra el resto de clientes... */
-
-      $rules = array(
-        'expediente_id' => 'required',
-        'titulo'        => 'required',
-        'cuerpo'        => 'required'
-      );
-    }
-
-    $messages = array(
-      'required'  => 'El campo :attribute es obligatorio.',
-      'min'       => 'El campo :attribute no puede tener menos de :min carácteres.',
-      'max'       => 'El campo :attribute no puede tener más de :min carácteres.'
-    );
-
-
-    $validation = Validator::make($inputs, $rules, $messages);
-
-    if($validation->fails()){
-
-      return $validation;
-    }
-    else{
-      return true;
-    }
-  }
-
   /**
    * Display a listing of the resource.
    *
@@ -334,54 +296,6 @@ class EscritosController extends BaseController {
     else{
       return Redirect::route('index')
             ->withErrors(array('error' => 'Debe loguearse para poder usar la aplicación.'));
-    }
-  }
-
-  //método privado para obtener los inputs del formulario
-  private function getInputs($inputs = array()){
-    foreach($inputs as $key => $val){
-        $inputs[$key] = $val;
-    }
-
-    return $inputs;
-  }
-
-  private function convertir_fecha_us($fecha_es = '00-00-0000'){
-
-    if(substr($fecha_es, 2, 1) === '-') {
-      $ano = substr($fecha_es, 6, 4);
-      $mes = substr($fecha_es, 3, 2);
-      $dia = substr($fecha_es, 0, 2);
-
-      $fecha_en = $ano . "-" . $mes . "-" .$dia; 
-
-      return  $fecha_en;
-    }
-    else {
-      return $fecha_es;
-    }
-  }
-
-  private function convertir_fecha_es($fecha_en = '0000-00-00'){
-
-    if(substr($fecha_en, 4, 1) === '-') {
-      $ano = substr($fecha_en, 0, 4);
-      $mes = substr($fecha_en, 5, 2);
-      $dia = substr($fecha_en, 8, 2);
-
-      if(strpos($fecha_en, ':') > 0){
-        $hora = substr($fecha_en, 11, 8);
-      }
-      else{
-        $hora = '';
-      }
-
-      $fecha_es = trim($dia . "-" . $mes . "-" .$ano . " " . $hora);
-
-      return  $fecha_es;
-    }
-    else {
-      return $fecha_en;
     }
   }
 
@@ -501,6 +415,31 @@ class EscritosController extends BaseController {
     return Response::json($salida);
   }
 
+  /**
+   * Display a listing of the resource.
+   *
+   * @return Response
+   */
+  public function importar()
+  {
+
+    $salida = "<form method='POST' action='/escritos/importar_generar' accept-charset='UTF-8' class='form-horizontal' role='form'>";
+    $salida = "<div class='form-group' style='margin-top:20px;'>
+        <div class='col-sm-10 col-sm-10-30' style='margin-left:80px;'>
+            <input type='file' name='archivo' id='archivo' accept='image/*' class='btn btn-default'>
+        </div>
+    </div>";
+    $salida .= "<br /><br />
+      <div class='form-group'>
+          <div class='col-sm-offset-2 col-sm-offset-2-40'>
+              <input class='btn btn-default' type='submit' value='Confirmar'>
+          </div>
+      </div>";
+    $salida .= "</form>";
+
+    return Response::json($salida);
+  }
+
   public function reemplazar_caracteres_especiales($texto){
 
     $salida = str_replace('%E1','á',$texto);
@@ -539,5 +478,92 @@ class EscritosController extends BaseController {
     $salida = str_replace('%7E','~',$salida);
 
     return $salida;
+  }
+
+  private function validateForms($inputs = array(), $is_insert = true){
+
+    if($is_insert) {
+      $rules = array(
+        'expediente_id' => 'required',
+        'titulo'        => 'required',
+        'cuerpo'        => 'required'
+      );
+    }
+    else {
+
+      /* Hacer verificación de Email y DNI contra el resto de clientes... */
+
+      $rules = array(
+        'expediente_id' => 'required',
+        'titulo'        => 'required',
+        'cuerpo'        => 'required'
+      );
+    }
+
+    $messages = array(
+      'required'  => 'El campo :attribute es obligatorio.',
+      'min'       => 'El campo :attribute no puede tener menos de :min carácteres.',
+      'max'       => 'El campo :attribute no puede tener más de :min carácteres.'
+    );
+
+
+    $validation = Validator::make($inputs, $rules, $messages);
+
+    if($validation->fails()){
+
+      return $validation;
+    }
+    else{
+      return true;
+    }
+  }
+
+
+  //método privado para obtener los inputs del formulario
+  private function getInputs($inputs = array()){
+    foreach($inputs as $key => $val){
+        $inputs[$key] = $val;
+    }
+
+    return $inputs;
+  }
+
+  private function convertir_fecha_us($fecha_es = '00-00-0000'){
+
+    if(substr($fecha_es, 2, 1) === '-') {
+      $ano = substr($fecha_es, 6, 4);
+      $mes = substr($fecha_es, 3, 2);
+      $dia = substr($fecha_es, 0, 2);
+
+      $fecha_en = $ano . "-" . $mes . "-" .$dia; 
+
+      return  $fecha_en;
+    }
+    else {
+      return $fecha_es;
+    }
+  }
+
+  private function convertir_fecha_es($fecha_en = '0000-00-00'){
+
+    if(substr($fecha_en, 4, 1) === '-') {
+      $ano = substr($fecha_en, 0, 4);
+      $mes = substr($fecha_en, 5, 2);
+      $dia = substr($fecha_en, 8, 2);
+
+      if(strpos($fecha_en, ':') > 0){
+        $hora = substr($fecha_en, 11, 8);
+      }
+      else{
+        $hora = '';
+      }
+
+      $fecha_es = trim($dia . "-" . $mes . "-" .$ano . " " . $hora);
+
+      return  $fecha_es;
+    }
+    else {
+      return $fecha_en;
+    }
   }
 }

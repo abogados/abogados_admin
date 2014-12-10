@@ -150,12 +150,39 @@ function generar_escrito_onclick(){
     return false;
 }
 
+// Cargar Pantalla Importacion de Escritos
+function importacion_cargar(){
+    var expediente_id_input = $('#expediente_id').val();
+
+    $.ajax({
+        url: '/escritos/importar',
+        type: 'POST',
+        data: {expediente_id:expediente_id_input},
+        dataType: 'JSON',
+        beforeSend: function() {
+           $("#importaciones").html('Cargando Form de Importación...');
+        },
+        error: function() {
+           $("#importaciones").html('<div> Ha surgido un error al intentar cargar el Form de Importación. </div>');
+        },
+        success: function(respuesta) {
+           if (respuesta) {
+              $("#importaciones").html(respuesta);
+           } else {
+              $("#importaciones").html('<div> No hay ningún Form de Importación para cargar. </div>');
+           }
+        }
+     });
+
+    return false;   
+}
+
 //Capa Flotante
 $(document).ready(function(){
     $("#btnImportar").click(function() {
         $("#importaciones").dialog({
             width: 590,
-            height: 350,
+            height: 250,
             show: "scale",
             hide: "scale",
             resizable: "false",
@@ -164,31 +191,6 @@ $(document).ready(function(){
         });
     });
 });
-
-// Select Tipo Proceso
-function importacion_cargar(id){
-    $.ajax({
-        url: '/escritos/importar',
-        type: 'POST',
-        data: {escrito_id:id},
-        dataType: 'JSON',
-        beforeSend: function() {
-           $("#tipos_procesos_contenedor").html('Buscando Tipos de Procesos...');
-        },
-        error: function() {
-           $("#tipos_procesos_contenedor").html('<div> Ha surgido un error al intentar obtener los Tipos de Procesos. </div>');
-        },
-        success: function(respuesta) {
-           if (respuesta) {
-              $("#tipos_procesos_contenedor").html(respuesta);
-           } else {
-              $("#tipos_procesos_contenedor").html('<div> No hay ningún Tipo de Proceso. </div>');
-           }
-        }
-     });
-
-    return false;   
-}
 
 function init() {
   $("#btnConfirmar").attr('disabled', true);

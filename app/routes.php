@@ -337,6 +337,11 @@ Route::group(array('before'=>'auth'), function(){
       'as' => 'escritos.generar_escrito_reemplazo_codigos',
       'uses' => 'EscritosController@generar_escrito_reemplazo_codigos'
     ));
+
+  Route::post('escritos/importar', array(
+      'as' => 'escritos.importar',
+      'uses' => 'EscritosController@importar'
+    ));
   /* FIN Rutas Ajax para la generación de Escrito desde Modelo */
 
   Route::group(array('before'=>'csrf'),function()

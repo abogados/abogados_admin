@@ -14,6 +14,7 @@
         Car&aacute;tula: <b>{{ $expediente_datos->caratula }}</b>
         | N&uacute;mero: <b>{{ $expediente_datos->numero==''?'-':$expediente_datos->numero }}</b>
         | Juzgado: <b>{{ $expediente_datos->juzgado==''?'-':$expediente_datos->juzgado }}</b></h5>
+        {{ Form::hidden('expediente_id', Session::get('expediente_id'), array('id' => 'expediente_id', 'class' => 'form-control')) }}
     </div>
 
     @endif
@@ -21,7 +22,7 @@
     {{ Form::button('Volver a Expedientes', array('class'=>'btn btn-default', 
             'onClick' => "location.href='/expedientes/index'")) }}
     {{ Form::button('Importar Escrito', array('class'=>'btn btn-default',
-            'onClick' => 'importar_escrito();', 'id' => 'btnImportar')) }}
+            'onClick' => 'importacion_cargar();', 'id' => 'btnImportar')) }}
     {{ Form::button('Nuevo desde Modelo', array('class'=>'btn btn-default',
             'onClick' => "location.href='/escritos/crear_desde_modelo'")) }}
     {{ Form::button('Nuevo', array('class'=>'btn btn-default',
