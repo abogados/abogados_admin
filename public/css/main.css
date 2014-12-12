@@ -42,6 +42,10 @@
     width: 50.666667%;
   }
 
+  .col-sm-2-99 {
+    width: 99.666667%;
+  }
+
   .col-sm-10-1 {
     width: 73.333333%;
   }
@@ -118,6 +122,13 @@
       padding-top: 7px;
       margin-bottom: 0;
     }
+
+    .control_form_label_text_center {
+      padding-top: 7px;
+      margin-bottom: 0;
+      text-align: center;
+    }
+
 
   .contenedor_azul_centro {
     background-color: #045FB4;

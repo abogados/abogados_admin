@@ -21,12 +21,15 @@
 
     {{ Form::button('Volver a Expedientes', array('class'=>'btn btn-default', 
             'onClick' => "location.href='/expedientes/index'")) }}
-    {{ Form::button('Importar Escrito', array('class'=>'btn btn-default',
-            'onClick' => 'importacion_cargar();', 'id' => 'btnImportar')) }}
     {{ Form::button('Nuevo desde Modelo', array('class'=>'btn btn-default',
             'onClick' => "location.href='/escritos/crear_desde_modelo'")) }}
     {{ Form::button('Nuevo', array('class'=>'btn btn-default',
             'onClick' => "location.href='/escritos/crear'")) }}
+    <br /><br />
+    {{ Form::button('Importar Escrito', array('class'=>'btn btn-default',
+            'onClick' => 'importacion_cargar();', 'id' => 'btnImportar')) }}
+    <!-- {{ Form::button('Ver Escritos Importados', array('class'=>'btn btn-default',
+            'onClick' => 'importacion_cargar_escritos_importados();', 'id' => 'btnEscritosImportados')) }} -->
 
   </div>
   <br />

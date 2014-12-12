@@ -177,9 +177,84 @@ function importacion_cargar(){
     return false;   
 }
 
+// Cargar Pantalla Importacion de Escritos
+function importacion_subir_archivo(){
+    var formData = new FormData($("#formulario_importacion")[0]);
+    //var archivo = $('#archivo').val();
+    $.ajax({
+        url: '/escritos/importar_subir_archivo_windows',
+        type: 'POST',
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: 'JSON',
+        beforeSend: function() {
+           $("#importaciones").html('Importando el Archivo...');
+        },
+        error: function() {
+           $("#importaciones").html('<div> Ha surgido un error al intentar Subir el Archivo. </div>');
+        },
+        success: function(respuesta) {
+           if (respuesta) {
+              $("#importaciones").html(respuesta);
+           } else {
+              $("#importaciones").html('<div> No hay ningún Archivo para Subir. </div>');
+           }
+        }
+     });
+
+    return false;   
+}
+
+// Cargar Pantalla Importacion de Escritos
+function importacion_cargar_escritos_importados(){
+    var expediente_id_input = $('#expediente_id').val();
+
+    $.ajax({
+        url: '/escritos/importar_escritos_listado',
+        type: 'POST',
+        data: {expediente_id:expediente_id_input},
+        dataType: 'JSON',
+        beforeSend: function() {
+           $("#importaciones").html('Cargando Listado de Importaciones...');
+        },
+        error: function() {
+           $("#importaciones").html('<div> Ha surgido un error al intentar cargar el Listado de importaciones. </div>');
+        },
+        success: function(respuesta) {
+           if (respuesta) {
+              $("#importaciones").html(respuesta);
+           } else {
+              $("#importaciones").html('<div> No hay ningún Listado de Importaciones para cargar. </div>');
+           }
+        }
+     });
+
+    return false;   
+}
+
+function importacion_cerrar_popup(){
+  $(".ui-dialog-titlebar-close").click();
+}
+
 //Capa Flotante
 $(document).ready(function(){
     $("#btnImportar").click(function() {
+        $("#importaciones").dialog({
+            width: 590,
+            height: 250,
+            show: "scale",
+            hide: "scale",
+            resizable: "false",
+            position: "center",
+            modal: "true"
+        });
+    });
+});
+
+$(document).ready(function(){
+    $("#btnEscritosImportados").click(function() {
         $("#importaciones").dialog({
             width: 590,
             height: 250,

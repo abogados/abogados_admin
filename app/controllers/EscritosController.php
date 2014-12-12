@@ -422,17 +422,19 @@ class EscritosController extends BaseController {
    */
   public function importar()
   {
+    $expediente_id = Input::get('expediente_id');
 
-    $salida = "<form method='POST' action='/escritos/importar_generar' accept-charset='UTF-8' class='form-horizontal' role='form'>";
-    $salida = "<div class='form-group' style='margin-top:20px;'>
+    $salida = "<form class='form-horizontal' role='form' enctype='multipart/form-data' id='formulario_importacion'>";
+    $salida .= "<input type='hidden' id='exped_id' name='exped_id' value='".$expediente_id."' />";
+    $salida .= "<div class='form-group' style='margin-top:20px;'>
         <div class='col-sm-10 col-sm-10-30' style='margin-left:80px;'>
-            <input type='file' name='archivo' id='archivo' accept='image/*' class='btn btn-default'>
+            <input type='file' name='archivo' id='archivo' class='btn btn-default' accept='.doc,.rtf,.jpg,.png,.docx'>
         </div>
     </div>";
     $salida .= "<br /><br />
       <div class='form-group'>
           <div class='col-sm-offset-2 col-sm-offset-2-40'>
-              <input class='btn btn-default' type='submit' value='Confirmar'>
+              <input class='btn btn-default' type='button' value='Confirmar' onClick='importacion_subir_archivo()'>
           </div>
       </div>";
     $salida .= "</form>";
@@ -440,7 +442,88 @@ class EscritosController extends BaseController {
     return Response::json($salida);
   }
 
-  public function reemplazar_caracteres_especiales($texto){
+  /**
+   * Display a listing of the resource.
+   *
+   * @return Response
+   */
+  public function importar_subir_archivo_windows()
+  {
+    
+    //comprobamos que sea una petición ajax
+    if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') 
+    {
+   
+      //obtenemos el archivo a subir
+      $file = utf8_decode($_FILES['archivo']['name']);
+      $file_db = $_FILES['archivo']['name'];
+      
+      $control_extension = substr($file, -4);
+
+      if(strtolower($control_extension) == ".rtf" || strtolower($control_extension) == ".doc" 
+        || strtolower($control_extension) == "docx") {
+
+        $backupPath = app_path() . "\storage\backup\\";
+        $escritosPath = $backupPath."escritos\\";
+
+        //comprobamos si existe un directorio para subir el archivo
+        //si no es así, lo creamos
+        if(!is_dir($escritosPath)) 
+            mkdir($escritosPath, 0777);
+         
+        //comprobamos si el archivo ha subido
+        if ($file && move_uploaded_file($_FILES['archivo']['tmp_name'],$escritosPath.$file))
+        {
+           sleep(3);//retrasamos la petición 3 segundos
+
+            //Hacer el insert en la base de datos.
+            $expediente_id = $_POST['exped_id'];
+
+            $importacion = new EscritoImportacion;
+
+            $importacion->expediente_id = $expediente_id;
+            $importacion->nombre_archivo = $file_db;
+
+            if($importacion->save()){
+              $mensaje = "El archivo ".$file_db." fue subido en forma correcta.";
+            }
+            else{
+              $mensaje = "Ocurrió un error al intentar subir el archivo ".$file_db.".<br />
+                      Intente nuevamente. Si el error persiste comuníquese con el Administrador.";
+            }
+        }
+      }
+      else{
+        $mensaje = "Ocurrió un error al intentar subir el archivo ".$file_db.".<br />
+                    El tipo de archivo que está intentando subir no es de extensión válida.";
+      }
+    }
+    else{
+      $mensaje = "Ocurrió un error al intentar subir el archivo ".$file_db.".<br />
+                Intente nuevamente. Si el error persiste comuníquese con el Administrador.";
+    }
+
+    $salida = "<div class='form-group' style='margin-top:20px;'>
+        <label class='col-sm-2 col-sm-2-99 control_form_label_text_center'>".$mensaje."</label>
+      </div>";
+    $salida .= "<br /><br /><br />
+      <div class='form-group'>
+          <div class='col-sm-offset-2 col-sm-offset-2-40'>
+              <input class='btn btn-default' type='button' value='Cerrar' onClick='importacion_cerrar_popup()'>
+          </div>
+      </div>";
+
+
+    return Response::json($salida);
+  }
+
+  public function importar_escritos_listado() {
+    $salida .= "<div>HOLAAAAA</div>";
+
+    return Response::json($salida);
+  }
+
+  public function reemplazar_caracteres_especiales($texto) {
 
     $salida = str_replace('%E1','á',$texto);
     $salida = str_replace('%E9','é',$salida);
