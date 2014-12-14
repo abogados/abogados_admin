@@ -54,7 +54,7 @@
         {{ Form::label('hora_alarma', 'Hora Alarma', array('class' => 'col-sm-2 col-sm-2-10 control_form_label')) }}
         <div class="col-sm-10 col-sm-10-30">
             {{ Form::text('hora_alarma', Input::old('hora_alarma'), 
-                array('class' => 'form-control', 'size' => '10', 'maxlength' => '5', 'placeholder' => 'HH:mm')) }}
+                array('class' => 'form-control', 'size' => '10', 'maxlength' => '5', 'placeholder' => 'HH:mm (Ej. 23:35)')) }}
         </div>
     </div>
 

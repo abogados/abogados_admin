@@ -2,6 +2,34 @@
 
 class AgendasController extends BaseController {
 
+  public function conectar(){
+    setlocale(LC_NUMERIC,"es_ES");
+    $host_name = "localhost"; 
+    $host_port = 3306;
+    $username = "root";
+    $password = "1234";
+
+    $mysqli = mysqli_init();
+    if (!$mysqli) {
+        die('Falló mysqli_init');
+    }
+
+    $link = $mysqli->real_connect($host_name , $username, $password, "abogados");
+
+    if (!$link) {
+        die('Error de conexión (' . mysqli_connect_errno() . ') '. mysqli_connect_error());
+    }
+
+
+    /*$link = mysqli::real_connect($host_name , $username, $password, "abogados", MYSQL_CLIENT_COMPRESS);
+    if(!$link){
+        die("No pudo conectarse. ".mysql_error());
+    }*/
+
+    //$mysqli->close();
+
+    return $mysqli; 
+  }
 
   /**
    * Display a listing of the resource.
@@ -11,7 +39,7 @@ class AgendasController extends BaseController {
   public function index()
   {
     if(Auth::user()){
-      $agendas = Agenda::orderBy('created_at','desc')->get();
+      $agendas = Agenda::where('usuario_id',Auth::user()->id)->orderBy('created_at','desc')->get();
 
       foreach($agendas->all() as $dato) {
         $dato->fecha = $this->convertir_fecha_es($dato->fecha);
@@ -68,6 +96,7 @@ class AgendasController extends BaseController {
     }
 
     $agendas  = Agenda::BuscarFiltros($param)
+        ->where('usuario_id',Auth::user()->id)
         ->orderBy('created_at','desc')->paginate(10);
 
     foreach($agendas->all() as $dato) {
@@ -92,6 +121,7 @@ class AgendasController extends BaseController {
 
         $agenda->fecha        = $this->convertir_fecha_us($agenda->fecha);
         $agenda->fecha_alarma = $this->convertir_fecha_us($agenda->fecha_alarma);
+        $agenda->usuario_id   = Auth::user()->id;
 
         if($agenda->save()){
           return Redirect::route('agendas.index')
@@ -126,10 +156,11 @@ class AgendasController extends BaseController {
          
            $agenda->descripcion   = Input::get("descripcion");
            $agenda->tipo_evento   = Input::get("tipo_evento");
-           $agenda->fecha         = Input::get("fecha");
-           $agenda->fecha_alarma  = Input::get("fecha_alarma");
+           $agenda->fecha         = $this->convertir_fecha_us(Input::get("fecha"));
+           $agenda->fecha_alarma  = $this->convertir_fecha_us(Input::get("fecha_alarma"));
            $agenda->hora_alarma   = Input::get("hora_alarma");
            $agenda->observaciones = Input::get("observaciones");
+           $agenda->usuario_id    = Auth::user()->id;
 
           if($agenda->save()){
             return Redirect::route('agendas.index')
@@ -173,6 +204,54 @@ class AgendasController extends BaseController {
       return Redirect::route('agendas.index')
               ->withErrors(array('mensaje' => 'El Recordatorio/Tarea con id $id que intentas eliminar no existe.'));
     }
+  }
+
+  /**
+   * Realiza el envío de una nueva contraseña (form olvidé mi contraseña)
+   *
+   * @return Response
+   */
+  public function alarma()
+  {
+    /*$validator = Validator::make(Input::all(),
+      array(
+        'email' => 'required|email'
+        ));
+
+    if($validator->fails()){
+      return Redirect::route('password.remind')
+        ->withErrors($validator)
+        ->withInput();
+    }
+    else{*/
+      $user = Usuario::where('email','=','estudio.aboga2@gmail.com');
+
+      if($user->count()){
+        $user = $user->first();
+
+        $codigo   = str_random(60);
+        $password = str_random(10);
+
+        //$user->codigo         = $codigo;
+        //$user->password_temp  = Hash::make($password);
+
+        //if($user->save()){
+          Mail::send('emails.auth.forgot', array('link' => URL::route('password.recover', $codigo), 'username' => $user->nombre, 'password' => $password, 'user' => $user->user), function($message) use ($user){
+            $message->to($user->email, $user->nombre)->subject('Tu nueva contraseña.');
+          });
+
+          return Redirect::route('index')
+            ->withErrors(array('error' => 'El nuevo Password fue enviado por email.'));
+        //}
+      }
+      /*else {
+        return Redirect::route('password.remind')
+          ->withErrors(array('error' => 'No se pudo enviar el nuevo Password. El E-mail ingresado no existe en la base de datos.'));        
+      }*/
+    //}
+
+    //return Redirect::route('password.remind')
+    //  ->withErrors(array('error' => 'No se pudo enviar el nuevo Password.'));
   }
   
   private function validateForms($inputs = array()){

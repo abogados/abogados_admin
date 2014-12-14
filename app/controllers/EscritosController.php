@@ -457,45 +457,53 @@ class EscritosController extends BaseController {
       //obtenemos el archivo a subir
       $file = utf8_decode($_FILES['archivo']['name']);
       $file_db = $_FILES['archivo']['name'];
-      
-      $control_extension = substr($file, -4);
 
-      if(strtolower($control_extension) == ".rtf" || strtolower($control_extension) == ".doc" 
-        || strtolower($control_extension) == "docx") {
+      if($this->controlar_caracteres_especiales($file_db)) {
+        $control_extension = substr($file, -4);
 
-        $backupPath = app_path() . "\storage\backup\\";
-        $escritosPath = $backupPath."escritos\\";
+        if(strtolower($control_extension) == ".rtf" || strtolower($control_extension) == ".doc" 
+          || strtolower($control_extension) == "docx") {
 
-        //comprobamos si existe un directorio para subir el archivo
-        //si no es así, lo creamos
-        if(!is_dir($escritosPath)) 
-            mkdir($escritosPath, 0777);
-         
-        //comprobamos si el archivo ha subido
-        if ($file && move_uploaded_file($_FILES['archivo']['tmp_name'],$escritosPath.$file))
-        {
-           sleep(3);//retrasamos la petición 3 segundos
+          $backupPath = app_path() . "\storage\backup\\";
+          $escritosPath = $backupPath."escritos\\";
 
-            //Hacer el insert en la base de datos.
-            $expediente_id = $_POST['exped_id'];
+          //comprobamos si existe un directorio para subir el archivo
+          //si no es así, lo creamos
+          if(!is_dir($escritosPath)) 
+              mkdir($escritosPath, 0777);
+           
+          $file_tmp_name = $_FILES['archivo']['tmp_name'];
 
-            $importacion = new EscritoImportacion;
+          //comprobamos si el archivo ha subido
+          if ($file && move_uploaded_file($file_tmp_name, $escritosPath.$file))
+          {
+             sleep(3);//retrasamos la petición 3 segundos
 
-            $importacion->expediente_id = $expediente_id;
-            $importacion->nombre_archivo = $file_db;
+              //Hacer el insert en la base de datos.
+              $expediente_id = $_POST['exped_id'];
 
-            if($importacion->save()){
-              $mensaje = "El archivo ".$file_db." fue subido en forma correcta.";
-            }
-            else{
-              $mensaje = "Ocurrió un error al intentar subir el archivo ".$file_db.".<br />
-                      Intente nuevamente. Si el error persiste comuníquese con el Administrador.";
-            }
+              $importacion = new EscritoImportacion;
+
+              $importacion->expediente_id = $expediente_id;
+              $importacion->nombre_archivo = $file_db;
+
+              if($importacion->save()){
+                $mensaje = "El archivo ".$file_db." fue subido en forma correcta.";
+              }
+              else{
+                $mensaje = "Ocurrió un error al intentar subir el archivo ".$file_db.".<br />
+                        Intente nuevamente. Si el error persiste comuníquese con el Administrador.";
+              }
+          }
+        }
+        else{
+          $mensaje = "Ocurrió un error al intentar subir el archivo ".$file_db.".<br />
+                      El tipo de archivo que está intentando subir no es de extensión válida.";
         }
       }
       else{
         $mensaje = "Ocurrió un error al intentar subir el archivo ".$file_db.".<br />
-                    El tipo de archivo que está intentando subir no es de extensión válida.";
+                El archivo no puede tener vocales acentuadas ni la letra ñ en su nombre. Verifique e intente nuevamete.";
       }
     }
     else{
@@ -518,9 +526,64 @@ class EscritosController extends BaseController {
   }
 
   public function importar_escritos_listado() {
-    $salida .= "<div>HOLAAAAA</div>";
+    $expediente_id = Input::get('expediente_id');
+
+    $importaciones = EscritoImportacion::where('expediente_id',$expediente_id)->orderBy('created_at','desc')->get();
+    $expediente = Expediente::find($expediente_id)->first();
+
+    $salida = "<div>Expediente: <b>".$expediente->caratula."</b></div>";
+    $salida .= "<div class='buscador_contenedor_chico buscador_contenedor_grilla'>";
+    if($importaciones->count() == 0){
+    $salida .= "<p>No se encontraron Archivos Importados.</p>";
+    }
+    else{
+    $salida .= "<div class='CSSTableGenerator'>
+        <table >
+            <tr>
+              <td> <b>Nombre</b> </td>
+              <td> <b>Operaci&oacute;n</b> </td>
+            </tr>";
+      foreach($importaciones as $dato){
+    $salida .= "<tr>";
+    $salida .= "<td>".$dato->nombre_archivo."</td>";
+    $salida .= "<td>
+                <input type='button' id='btnEliminar' name='btnEliminar' value='Eliminar' 
+                  onClick='importacion_eliminar($dato->id)' class='btn btn-default btn-default-azul' /> 
+              </td>";
+    $salida .= "</tr>";
+      }
+    $salida .= "</table>
+      </div>";
+    }
+    $salida .= "</div>";
 
     return Response::json($salida);
+  }
+
+  /**
+   * Remove the specified resource from storage.
+   *
+   * @param  int  $id
+   * @return Response
+   */
+  public function importar_escritos_eliminar()
+  {
+    $id = Input::get('importacion_id');
+    
+    $importacion  = EscritoImportacion::find($id);
+    
+    $backupPath = "app/storage/backup/";
+    $ruta_completa = $backupPath . 'escritos/' . $importacion->nombre_archivo;
+
+    if(unlink($ruta_completa)){
+      $importacion->delete();
+      $salida = $this->importar_escritos_listado();
+      return $salida;
+    }
+    else{
+      $salida = "<div>No se puedo Eliminar el Archivo ".$importacion->nombre_archivo."</div>"; 
+      return Response::json($salida);
+    }
   }
 
   public function reemplazar_caracteres_especiales($texto) {
@@ -561,6 +624,19 @@ class EscritosController extends BaseController {
     $salida = str_replace('%7E','~',$salida);
 
     return $salida;
+  }
+
+  public function controlar_caracteres_especiales($texto) {
+
+    if(strpos($texto,'á') > 0) return false;
+    elseif(strpos($texto,'é') > 0) return false;
+    elseif(strpos($texto,'í') > 0) return false;
+    elseif(strpos($texto,'ó') > 0) return false;
+    elseif(strpos($texto,'ú') > 0) return false;
+    elseif(strpos($texto,'ñ') > 0) return false;
+    elseif(strpos($texto,'Ñ') > 0) return false;
+    
+    return true;
   }
 
   private function validateForms($inputs = array(), $is_insert = true){

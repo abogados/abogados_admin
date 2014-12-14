@@ -234,6 +234,33 @@ function importacion_cargar_escritos_importados(){
     return false;   
 }
 
+// Cargar Pantalla Importacion de Escritos
+function importacion_eliminar(id){
+    var expediente_id_input = $('#expediente_id').val();
+
+    $.ajax({
+        url: '/escritos/importar_escritos_eliminar',
+        type: 'POST',
+        data: {importacion_id:id, expediente_id:expediente_id_input},
+        dataType: 'JSON',
+        beforeSend: function() {
+           $("#importaciones").html('Realizando la Eliminación del Archivo Importado...');
+        },
+        error: function() {
+           $("#importaciones").html('<div> Ha surgido un error al intentar Eliminar el Archivo Importado. </div>');
+        },
+        success: function(respuesta) {
+           if (respuesta) {
+              $("#importaciones").html(respuesta);
+           } else {
+              $("#importaciones").html('<div> No hay ningún Archivo Importado para Eliminar. </div>');
+           }
+        }
+     });
+
+    return false;   
+}
+
 function importacion_cerrar_popup(){
   $(".ui-dialog-titlebar-close").click();
 }
@@ -256,8 +283,8 @@ $(document).ready(function(){
 $(document).ready(function(){
     $("#btnEscritosImportados").click(function() {
         $("#importaciones").dialog({
-            width: 590,
-            height: 250,
+            width: 790,
+            height: 400,
             show: "scale",
             hide: "scale",
             resizable: "false",

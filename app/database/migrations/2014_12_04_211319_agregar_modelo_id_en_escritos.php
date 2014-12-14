@@ -30,6 +30,7 @@ class AgregarModeloIdEnEscritos extends Migration {
 	{
 		Schema::table('escritos', function(Blueprint $table)
 		{
+			$table->dropForeign('escritos_modelo_id_foreign');
 			$table->dropColumn('modelo_id');
 		});
 	}

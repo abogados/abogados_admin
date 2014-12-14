@@ -12,3 +12,4 @@
 */
 
 Artisan::add(new DatabaseBackup);
+Artisan::add(new AgendaAlarma);

@@ -43,13 +43,13 @@ $(function() {
 
 function validar_campos_form(){
     //Para escribir solo letras
-    if($('#nombre'))        $('#nombre').validCampoFranz(' abcdefghijklmnñopqrstuvwxyzáéiou');
-    if($('#apellido'))      $('#apellido').validCampoFranz(' abcdefghijklmnñopqrstuvwxyzáéiou');
-    if($('#profesion'))     $('#profesion').validCampoFranz(' abcdefghijklmnñopqrstuvwxyzáéiou');
-    if($('#localidad'))     $('#localidad').validCampoFranz(' abcdefghijklmnñopqrstuvwxyzáéiou');
+    if($('#nombre'))        $('#nombre').validCampoFranz(' abcdefghijklmnñopqrstuvwxyzáéáéíóú');
+    if($('#apellido'))      $('#apellido').validCampoFranz(' abcdefghijklmnñopqrstuvwxyzáéíóú');
+    if($('#profesion'))     $('#profesion').validCampoFranz(' abcdefghijklmnñopqrstuvwxyzáéíóú');
+    if($('#localidad'))     $('#localidad').validCampoFranz(' abcdefghijklmnñopqrstuvwxyzáéíóú');
+    if($('#apenom'))        $('#apenom').validCampoFranz(' abcdefghijklmnñopqrstuvwxyzáéíóú');
     if($('#caratula'))      $('#caratula').validCampoFranz(' abcdefghijklmnñopqrstuvwxyzáéiou-,.');
-    if($('#apenom'))        $('#apenom').validCampoFranz(' abcdefghijklmnñopqrstuvwxyzáéiou');
-    if($('#descripcion'))   $('#descripcion').validCampoFranz(' abcdefghijklmnñopqrstuvwxyzáéiou');
+    if($('#descripcion'))   $('#descripcion').validCampoFranz(' abcdefghijklmnñopqrstuvwxyzáéíóú-,.');
    
     //Para escribir solo numeros    
     if($('#dni'))           $('#dni').validCampoFranz('0123456789');

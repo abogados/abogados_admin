@@ -28,8 +28,8 @@
     <br /><br />
     {{ Form::button('Importar Escrito', array('class'=>'btn btn-default',
             'onClick' => 'importacion_cargar();', 'id' => 'btnImportar')) }}
-    <!-- {{ Form::button('Ver Escritos Importados', array('class'=>'btn btn-default',
-            'onClick' => 'importacion_cargar_escritos_importados();', 'id' => 'btnEscritosImportados')) }} -->
+    {{ Form::button('Ver Escritos Importados', array('class'=>'btn btn-default',
+            'onClick' => 'importacion_cargar_escritos_importados();', 'id' => 'btnEscritosImportados')) }}
 
   </div>
   <br />

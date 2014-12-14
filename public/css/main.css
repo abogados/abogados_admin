@@ -371,6 +371,18 @@
     border-radius: 10px;
   }
 
+  .buscador_contenedor_chico {
+    background-color: #FFFFFF;
+    width: 700px;
+    padding: 10px 10px 1px 10px;
+    margin-left: 10px;
+    margin-top: 10px;
+    color: #045FB4;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 10px;
+  }
+
     .codigos_contenedor {
       margin-left: 150px;
     }

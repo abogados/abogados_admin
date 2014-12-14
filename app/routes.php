@@ -352,6 +352,11 @@ Route::group(array('before'=>'auth'), function(){
       'as' => 'escritos.importar.importar_escritos_listado',
       'uses' => 'EscritosController@importar_escritos_listado'
     ));
+
+  Route::post('escritos/importar_escritos_eliminar', array(
+      'as' => 'escritos.importar_escritos_eliminar',
+      'uses' => 'EscritosController@importar_escritos_eliminar'
+    ));
   /* FIN Rutas Ajax para la generación de Escrito desde Modelo */
 
   Route::group(array('before'=>'csrf'),function()

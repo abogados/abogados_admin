@@ -57,14 +57,6 @@
             {{ Form::text('hora_alarma', Input::old('hora_alarma') ? Input::old('hora_alarma') : $agenda->hora_alarma, 
                 array('class' => 'form-control', 'size' => '10', 'maxlength' => '5')) }}
         </div>
-
-        {{ Form::label('estado', 'Estado', array('class' => 'col-sm-2 col-sm-2-10 control_form_label')) }}
-        <div class="col-sm-10 col-sm-10-30">
-            {{ Form::select('estado',
-                array(''=>'Seleccione...',
-                'Activo'=>'Activo',
-                'Inactivo'=>'Inactivo'), $agenda->estado, array('class' => 'form-control')) }}
-        </div>
     </div>
 
     <div class="form-group">
