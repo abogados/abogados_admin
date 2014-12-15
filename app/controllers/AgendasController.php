@@ -211,19 +211,8 @@ class AgendasController extends BaseController {
    *
    * @return Response
    */
-  public function alarma()
+  /*public function alarma()
   {
-    /*$validator = Validator::make(Input::all(),
-      array(
-        'email' => 'required|email'
-        ));
-
-    if($validator->fails()){
-      return Redirect::route('password.remind')
-        ->withErrors($validator)
-        ->withInput();
-    }
-    else{*/
       $user = Usuario::where('email','=','estudio.aboga2@gmail.com');
 
       if($user->count()){
@@ -232,27 +221,14 @@ class AgendasController extends BaseController {
         $codigo   = str_random(60);
         $password = str_random(10);
 
-        //$user->codigo         = $codigo;
-        //$user->password_temp  = Hash::make($password);
+        Mail::send('emails.auth.forgot', array('link' => URL::route('password.recover', $codigo), 'username' => $user->nombre, 'password' => $password, 'user' => $user->user), function($message) use ($user){
+          $message->to($user->email, $user->nombre)->subject('Tu nueva contraseña.');
+        });
 
-        //if($user->save()){
-          Mail::send('emails.auth.forgot', array('link' => URL::route('password.recover', $codigo), 'username' => $user->nombre, 'password' => $password, 'user' => $user->user), function($message) use ($user){
-            $message->to($user->email, $user->nombre)->subject('Tu nueva contraseña.');
-          });
-
-          return Redirect::route('index')
-            ->withErrors(array('error' => 'El nuevo Password fue enviado por email.'));
-        //}
+        return Redirect::route('index')
+          ->withErrors(array('error' => 'El nuevo Password fue enviado por email.'));
       }
-      /*else {
-        return Redirect::route('password.remind')
-          ->withErrors(array('error' => 'No se pudo enviar el nuevo Password. El E-mail ingresado no existe en la base de datos.'));        
-      }*/
-    //}
-
-    //return Redirect::route('password.remind')
-    //  ->withErrors(array('error' => 'No se pudo enviar el nuevo Password.'));
-  }
+  }*/
   
   private function validateForms($inputs = array()){
     $rules = array(

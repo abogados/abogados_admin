@@ -129,10 +129,11 @@ class ExpedientesController extends BaseController {
     $expediente = Expediente::find($id);
     $clientes   = Cliente::orderBy('apellido')->orderBy('nombre')->get();
 
-    foreach($clientes->all() as $dato) {
+    foreach($clientes as $dato) {
       $datos[$dato->id] = $dato->apellido." ".$dato->nombre;
+      
     }
-    
+
     if(Input::get()) {
       if($expediente) {
         $inputs = $this->getInputs(Input::all());
@@ -164,6 +165,10 @@ class ExpedientesController extends BaseController {
       }
     }
     else {
+      $expediente->fecha_inicio       = $this->convertir_fecha_es($expediente->fecha_inicio);
+      $expediente->fecha_presentacion = $this->convertir_fecha_es($expediente->fecha_presentacion);
+      $expediente->fecha_finalizacion = $this->convertir_fecha_es($expediente->fecha_finalizacion);
+      
       return View::make("expediente.modificar", array('expediente' => $expediente, 'clientes' => $datos));  
     }
   }

@@ -547,6 +547,9 @@ class EscritosController extends BaseController {
     $salida .= "<tr>";
     $salida .= "<td>".$dato->nombre_archivo."</td>";
     $salida .= "<td>
+                <input type='button' id='btnDescargar' name='btnDescargar' value='Descargar' 
+                  onClick=\"window.open('/escritos_importados/".$dato->nombre_archivo."')\" 
+                  class='btn btn-default btn-default-azul' /> 
                 <input type='button' id='btnEliminar' name='btnEliminar' value='Eliminar' 
                   onClick='importacion_eliminar($dato->id)' class='btn btn-default btn-default-azul' /> 
               </td>";
