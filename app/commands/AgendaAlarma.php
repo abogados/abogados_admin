@@ -40,7 +40,7 @@ class AgendaAlarma extends Command {
 		$fecha_actual = date('Y-m-d');
       	$hora_actual  = date('H:i');
       	$fecha = new DateTime($fecha_actual." ".$hora_actual);
-      	$fecha->add(new DateInterval('PT0H10M')); //P(obligatorio) T(time) 0H(0 horas) 10M(30 minutos)
+      	$fecha->add(new DateInterval('PT0H1M')); //P(obligatorio) T(time) 0H(0 horas) 10M(30 minutos)
       	$fecha_nueva = $fecha->format('Y-m-d');
       	$hora_nueva  = $fecha->format('H:i');
 
