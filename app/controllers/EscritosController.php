@@ -99,7 +99,14 @@ class EscritosController extends BaseController {
       $dato->creado_at = $this->convertir_fecha_es($dato->created_at);
     }
 
-    return View::make('escrito.index', array("datos" => $escritos));
+    if(Session::has('expediente_id')) {
+      $expediente  = Expediente::where('id',Session::get('expediente_id'))->first();
+    }
+    else {
+      $expediente  = array();
+    }
+
+    return View::make('escrito.index', array("datos" => $escritos, "exped_id" => Session::get('expediente_id'), 'expediente_datos' => $expediente));
   }
 
   /**
@@ -547,9 +554,6 @@ class EscritosController extends BaseController {
     $salida .= "<tr>";
     $salida .= "<td>".$dato->nombre_archivo."</td>";
     $salida .= "<td>
-                <input type='button' id='btnDescargar' name='btnDescargar' value='Descargar' 
-                  onClick=\"window.open('/escritos_importados/".$dato->nombre_archivo."')\" 
-                  class='btn btn-default btn-default-azul' /> 
                 <input type='button' id='btnEliminar' name='btnEliminar' value='Eliminar' 
                   onClick='importacion_eliminar($dato->id)' class='btn btn-default btn-default-azul' /> 
               </td>";

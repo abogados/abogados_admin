@@ -39,9 +39,7 @@
 
   <div>
 
-    <div id="importaciones" class="ventana" title="Importar Escrito">
-      <p>En desarrollo...</p>
-    </div>
+    <div id="importaciones" class="ventana" title="Importar Escrito"></div>
 
     {{ Form::open(array('url' => 'escritos/buscar', 'class' => 'form-horizontal', 'role' => 'form')) }}
 

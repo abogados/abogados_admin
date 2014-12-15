@@ -43,11 +43,13 @@ $(function() {
 
 function validar_campos_form(){
     //Para escribir solo letras
-    if($('#nombre'))        $('#nombre').validCampoFranz(' abcdefghijklmnñopqrstuvwxyzáéáéíóú');
-    if($('#apellido'))      $('#apellido').validCampoFranz(' abcdefghijklmnñopqrstuvwxyzáéíóú');
-    if($('#profesion'))     $('#profesion').validCampoFranz(' abcdefghijklmnñopqrstuvwxyzáéíóú');
-    if($('#localidad'))     $('#localidad').validCampoFranz(' abcdefghijklmnñopqrstuvwxyzáéíóú');
-    if($('#apenom'))        $('#apenom').validCampoFranz(' abcdefghijklmnñopqrstuvwxyzáéíóú');
+    if($('#nombre'))            $('#nombre').validCampoFranz(' abcdefghijklmnñopqrstuvwxyzáéáéíóú');
+    if($('#apellido'))          $('#apellido').validCampoFranz(' abcdefghijklmnñopqrstuvwxyzáéíóú');
+    if($('#profesion'))         $('#profesion').validCampoFranz(' abcdefghijklmnñopqrstuvwxyzáéíóú');
+    if($('#localidad'))         $('#localidad').validCampoFranz(' abcdefghijklmnñopqrstuvwxyzáéíóú');
+    if($('#apenom'))            $('#apenom').validCampoFranz(' abcdefghijklmnñopqrstuvwxyzáéíóú');
+    if($('#modelos__nombre'))   $('#modelos__nombre').validCampoFranz(' abcdefghijklmnñopqrstuvwxyzáéíóú');
+
     if($('#caratula'))      $('#caratula').validCampoFranz(' abcdefghijklmnñopqrstuvwxyzáéiou-,.');
     if($('#descripcion'))   $('#descripcion').validCampoFranz(' abcdefghijklmnñopqrstuvwxyzáéíóú-,.');
    

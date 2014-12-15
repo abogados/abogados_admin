@@ -2,7 +2,7 @@
   <div class="buscador_form_group">
       {{ Form::label('nombre', 'Nombre', array('class' => 'col-sm-2 buscador_col_label control-label')) }}
       <div class="col-sm-10 buscador_col_input">
-          {{ Form::text('modelos__nombre', Input::old('modelos_procesos__nombre'), array('class' => 'buscador_control')) }}
+          {{ Form::text('modelos__nombre', Input::old('modelos_procesos__nombre'), array('class' => 'buscador_control', 'id' => 'modelos__nombre')) }}
       </div>
   </div>
   <div class="buscador_form_group">

@@ -15,7 +15,7 @@ class Escrito extends Eloquent implements UserInterface, RemindableInterface {
 	 * @var string
 	 */
 	protected $table = 'escritos';
-	protected $fillable = array('titulo','descripcion','expediente_id','cuerpo');
+	protected $fillable = array('titulo','descripcion','expediente_id','cuerpo', 'modelo_id');
 
 	public function scopeBuscarFiltros($query, $datos, $operador = 'LIKE')
     {

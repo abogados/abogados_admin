@@ -65,4 +65,8 @@
 
 </div>    
 
+<script type="text/javascript">
+    validar_campos_form();
+</script>
+
 @stop
