@@ -11,7 +11,8 @@
     @include('includes.usuario_logueado')
 
     <div class='titulo_home_dashboard'>
-        <h5>LawSie</h5>
+        <div class='logo'><img src="/images/logo.png" height="55" /></div>
+        <h4>LawSie</h4>
         @yield('titulo')
     </div>
 

@@ -156,16 +156,25 @@
 
     .titulo_home_index{
       width: 98%;
-      margin-left: 10px; 
-      text-align: center;
+      margin-left: 454px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+      .logo {
+        float:left;
+        margin:0px 10px 0px 0px;
+      }
+
+    .titulo_home_remind_password {
+      width: 98%;
+      margin-left: 523px;
       font-size: 18px;
       font-weight: bold;
     }
 
     .titulo_home_dashboard{
-      width: 200px;
-      margin-left: 10px; 
-      text-align: center;
+      width: 300px;
+      margin-left: 50px;
       font-size: 18px;
       font-weight: bold;
     }
@@ -182,12 +191,8 @@
     width: 98%;
     height: 5px;
     padding-left: 50px;
-    /*padding-top: 5px;*/
     padding-bottom: 5px;
-    /*margin-left: 10px;*/
-    /*text-align: center;*/
     color:#FFFFFF;
-    /*text-align: center;*/
   }
 
   .navbar_estilos {
@@ -266,7 +271,6 @@
   .CSSTableGenerator {
     margin:0px;padding:0px;
     width:100%;
-    /*box-shadow: 10px 10px 5px #888888;*/
     border:1px solid #000000;
     
     -moz-border-radius-bottomleft:0px;

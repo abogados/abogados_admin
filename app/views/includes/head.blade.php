@@ -3,6 +3,7 @@
 <meta name="description" content="Sistema para Estudio Juridico">
 <meta name="LawSie" content="LawSie">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/ico" href="/images/logo.ico"></link> 
 
 {{ HTML::style('packages/bootstrap/dist/css/bootstrap.min.css') }}
 {{ HTML::style('packages/jquery-ui/jquery-ui.min.css') }}

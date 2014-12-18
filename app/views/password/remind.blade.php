@@ -1,8 +1,9 @@
 @extends('layout.base_index')
  
 @section('titulo')
-    <div class='titulo_home_index'>
-        <h5>LawSie</h5>
+    <div class='titulo_home_remind_password'>
+        <div class='logo'><img src="/images/logo.png" height="55" /></div>
+        <h4>LawSie</h4>
         <h4>Olvid&eacute; mi contrase&ntilde;a</h4>
     </div>
 @stop

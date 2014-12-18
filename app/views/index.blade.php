@@ -2,8 +2,9 @@
  
 @section('titulo')
     <div class='titulo_home_index'>
+        <div class='logo'><img src="images/logo.png" height="75" /></div>
         <h1>LawSie</h1>
-        <p>Sistema de Gesti&oacute;n de Expedientes para Estudios Jur&iacute;dicos.</p>
+        <p>Sistema de Gesti&oacute;n de Expedientes</p>
     </div>
 @stop
 
