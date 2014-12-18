@@ -171,6 +171,9 @@ class ModelosController extends BaseController {
           $relacion->modelo_id = $modelo->id;
 
           if($relacion->save()){
+
+            $this->encontrar_y_grabar_codigos(Input::get("texto"),$modelo->id);
+
             return Redirect::to('modelos/index')
               ->with(array('mensaje' => 'El Modelo ha sido creado correctamente.'));
           }
@@ -208,6 +211,7 @@ class ModelosController extends BaseController {
           $modelo->texto  = Input::get("texto");
 
           if($modelo->save()){
+
             $nombre_tipo_proceso = Input::get("tipo_proceso");
             $tipo_proceso = ModeloTipoProceso::where('nombre',$nombre_tipo_proceso)->first();
 
@@ -215,6 +219,10 @@ class ModelosController extends BaseController {
             $relacion->modelos_proceso_id = $tipo_proceso->id;
 
             if($relacion->save()){
+
+              $this->encontrar_y_grabar_codigos($modelo->texto, $modelo_id);
+
+
               return Redirect::to('modelos/index')->with(array('mensaje' => 'El Modelo se ha actualizado correctamente.'));
             }
           }
@@ -262,6 +270,22 @@ class ModelosController extends BaseController {
       return Redirect::route('modelos.index')
         ->with(array('mensaje' => "El Modelo con id $id que intentas eliminar no existe."));
     }
+  }
+
+  public function encontrar_y_grabar_codigos($texto, $modelo_id){
+    $codigos = ModeloCodigo::orderBy('codigo')->get();
+
+    foreach($codigos as $dato){
+      if(strpos($texto, $dato->codigo)){
+        $codigo = '';
+        $codigo = new ModeloCodigoRelacionado;
+        $codigo->modelo_id = $modelo_id;
+        $codigo->modelos_codigo_id = $dato->id;
+        $codigo->save();
+      }
+    }
+
+    return true;
   }
   
   private function validateForms($inputs = array(), $is_insert = true){
