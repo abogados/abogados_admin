@@ -40,12 +40,12 @@ class AgendaAlarma extends Command {
 		$fecha_actual = date('Y-m-d');
       	$hora_actual  = date('H:i');
       	$fecha = new DateTime($fecha_actual." ".$hora_actual);
-      	$fecha->add(new DateInterval('PT0H1M')); //P(obligatorio) T(time) 0H(0 horas) 10M(30 minutos)
+      	//$fecha->add(new DateInterval('PT0H1M')); //P(obligatorio) T(time) 0H(0 horas) 10M(30 minutos)
       	$fecha_nueva = $fecha->format('Y-m-d');
-      	$hora_nueva  = $fecha->format('H:i');
+      	//$hora_nueva  = $fecha->format('H:i');
 
       	$agendas = Agenda::wherebetween('fecha_alarma', array($fecha_actual, $fecha_nueva))
-        	->wherebetween('hora_alarma',array($hora_actual, $hora_nueva))->get();
+        	->where('hora_alarma',$hora_actual)->get();
         
         if($agendas->count() > 0) {
         	print "Se encontraron ".$agendas->count()." Eventos disponibles entre ".$fecha_actual." ".$hora_actual." y ".$fecha_nueva." ".$hora_nueva;

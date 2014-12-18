@@ -205,30 +205,6 @@ class AgendasController extends BaseController {
               ->withErrors(array('mensaje' => 'El Recordatorio/Tarea con id $id que intentas eliminar no existe.'));
     }
   }
-
-  /**
-   * Realiza el envío de una nueva contraseña (form olvidé mi contraseña)
-   *
-   * @return Response
-   */
-  /*public function alarma()
-  {
-      $user = Usuario::where('email','=','estudio.aboga2@gmail.com');
-
-      if($user->count()){
-        $user = $user->first();
-
-        $codigo   = str_random(60);
-        $password = str_random(10);
-
-        Mail::send('emails.auth.forgot', array('link' => URL::route('password.recover', $codigo), 'username' => $user->nombre, 'password' => $password, 'user' => $user->user), function($message) use ($user){
-          $message->to($user->email, $user->nombre)->subject('Tu nueva contraseña.');
-        });
-
-        return Redirect::route('index')
-          ->withErrors(array('error' => 'El nuevo Password fue enviado por email.'));
-      }
-  }*/
   
   private function validateForms($inputs = array()){
     $rules = array(
