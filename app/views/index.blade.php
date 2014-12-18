@@ -2,7 +2,7 @@
  
 @section('titulo')
     <div class='titulo_home_index'>
-        <h1>:: Estudio Abogados ::</h1>
+        <h1>LawSie</h1>
         <p>Sistema de Gesti&oacute;n de Expedientes para Estudios Jur&iacute;dicos.</p>
     </div>
 @stop

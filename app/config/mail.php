@@ -56,7 +56,7 @@ return array(
 	|
 	*/
 
-	'from' => array('address' => 'estudio.aboga2@gmail.com', 'name' => 'Estudio de Abogados'),
+	'from' => array('address' => 'estudio.aboga2@gmail.com', 'name' => 'LawSys'),
 
 	/*
 	|--------------------------------------------------------------------------

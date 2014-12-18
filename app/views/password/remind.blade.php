@@ -2,7 +2,7 @@
  
 @section('titulo')
     <div class='titulo_home_index'>
-        <h5>:: Estudio Abogados ::</h5>
+        <h5>LawSie</h5>
         <h4>Olvid&eacute; mi contrase&ntilde;a</h4>
     </div>
 @stop

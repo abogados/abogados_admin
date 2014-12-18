@@ -11,7 +11,7 @@
     @include('includes.usuario_logueado')
 
     <div class='titulo_home_dashboard'>
-        <h5>:: Estudio Abogados ::</h5>
+        <h5>LawSie</h5>
         @yield('titulo')
     </div>
 

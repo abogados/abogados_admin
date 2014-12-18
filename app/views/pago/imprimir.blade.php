@@ -3,7 +3,7 @@
     <table border="1" width="800px;" cellpadding="5" style="border:black;">
       <tr>
         <td rowspan="2" style="text-align:center;" width="500px">
-          Estudio Abogados <br />
+          LawSie <br />
           CUIT: 30-28542875-8 - Av. Salta 345 - Tel: (0381) 4225912
         </td>
         <td>Fecha</td>
