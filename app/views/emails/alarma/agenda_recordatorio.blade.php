@@ -1,4 +1,4 @@
-Hi {{ $username }},
+Hola {{ $nombre }},
 <br /><br />
 Queremos recordarle que en el dia de la fecha Ud. tiene el siguiente evento en su Agenda:<br />
 <br /><br />

@@ -54,7 +54,7 @@ class AgendaAlarma extends Command {
         		$user = '';
 	       		$user = Usuario::where('id',$dato->usuario_id)->first();
 
-	       		Mail::send('emails.alarma.agenda_recordatorio', array('dato' => $dato, 'username' => $user->user), function($message) use ($user){
+	       		Mail::send('emails.alarma.agenda_recordatorio', array('dato' => $dato, 'nombre' => $user->nombre), function($message) use ($user){
 					$message->to($user->email, $user->nombre)->subject('Recordatorio de su Agenda.');
 					});
 
